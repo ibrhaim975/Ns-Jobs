@@ -21,6 +21,7 @@ import { MainModule } from './Modules/Diwan-Main/main.module';
         RouterModule.forRoot([
             {
                 path: 'controlPanel', component: AppMainComponent,
+                canActivate: [AuthGuard],
                 children: [
                     { path: '', loadChildren: () => DashboardModule },
                     { path: 'modules', loadChildren: () => CustomModulesModule },

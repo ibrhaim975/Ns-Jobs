@@ -72,7 +72,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
       this.authService.authData.next(authData)
       this.coreService?.getAccessibilities()
       // this.router?.navigate(['/'], { relativeTo: this.route });
-      window.location.href = '/contorlPanal/' + 'dashboard'
+      window.location.href = '/controlPanel' 
 
 
 
