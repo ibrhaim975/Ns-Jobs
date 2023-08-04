@@ -1,0 +1,19 @@
+<p-toast position="top-right"></p-toast>
+<p-multiSelect *ngIf="!loading" #multiSelect (onFilter)="onFilter($event)" 
+[options]="tags" [(ngModel)]="selectedTags" optionLabel="tagName" name="tags" [filter]="true" placeholder="{{'Select'|translate}} {{'Tag'|translate}} " 
+    display="chip">
+
+    <ng-template let-tag pTemplate="emptyfilter">
+        <a class="mx-2 font-semibold" (click)="showAddTag()" translate>Add New Tag</a>
+    </ng-template>
+</p-multiSelect>
+<app-modal [(display)]="showAddTags" [title]="'Add New Tag'|translate" class="modal-sm">
+    <div body>
+        <input type="text" [(ngModel)]="newTag" placeholder="{{'Enter'|translate}} {{'Tag Name'|translate}}" pInputText />
+    </div>
+    <div footer>
+        <button (click)="showAddTags=false" pButton pRipple type="button" label="Cancel"icon='pi pi-times {{"css.mr-2"|translate}}' class="p-button-secondary p-button-outlined"></button>
+        <button  (click)="addTag()"  pButton pRipple type="button" label="Save" icon='pi pi-check {{"css.mr-2"|translate}}' ></button>
+        
+    </div>
+</app-modal>

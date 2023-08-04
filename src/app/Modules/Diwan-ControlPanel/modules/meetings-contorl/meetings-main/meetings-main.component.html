@@ -1,0 +1,15 @@
+<p-tabView class="tabViewCard" (onChange)="navRouter($event)" [(activeIndex)]="activeIndex">
+
+    <p-tabPanel header="{{'Meeting Attributes'|translate}}">
+            <router-outlet *ngIf="activeIndex==0"></router-outlet>
+
+
+    </p-tabPanel>
+
+    <p-tabPanel header="{{'Agenda'|translate}}">
+
+            <router-outlet *ngIf="activeIndex==1"></router-outlet>
+
+    </p-tabPanel>
+
+</p-tabView>

@@ -1,0 +1,78 @@
+<app-card-colored colorDir="top" [color]="meet?.priority?.details?.color" class="border-noround" height="430px"
+    width="500px">
+    <div body>
+        <div class="card-header">
+
+            <div class="card-title flex align-items-center">
+                <div class="text-2xl font-semibold">{{meet?.title}}
+                </div>
+            </div>
+            <div>
+                <button pButton pRipple type="button" icon="icon-business-meeting text-lg"
+                    class="p-button-rounded p-button-outlined p-button-secondary2 "></button>
+            </div>
+        </div>
+        <div class="m-3">
+            <div class="flex justify-content-between flex-wrap ">
+                <div class="flex align-items-center justify-content-center  ">
+                    <entity-viewer [entity]="{type:'text',title:'Date'|translate,value:meet?.dateDiff}"></entity-viewer>
+                </div>
+                <div class="flex align-items-center justify-content-center  ">
+
+                    <entity-viewer [entity]="{type:'text',title:'Time'|translate,value:meet?.timeDiff}"></entity-viewer>
+
+                </div>
+
+
+            </div>
+
+            <div class="flex justify-content-between flex-wrap mt-6">
+
+
+                <div class="flex align-items-center justify-content-center  ">
+
+                    <entity-viewer
+                        [entity]="{type:'status',title:'Priority'|translate,value:meet?.priority}"></entity-viewer>
+
+                </div>
+                <div class="flex align-items-center justify-content-center  ">
+
+                    <entity-viewer
+                        [entity]="{type:'user',title:'Organizer'|translate,value:meet?.organizer}"></entity-viewer>
+
+                </div>
+            </div>
+
+            <div class="flex justify-content-between flex-wrap mt-6">
+        
+
+                <div class="flex align-items-center justify-content-center  ">
+
+                    <entity-viewer [entity]="{type:'users',title:'Invited'|translate,value:meet?.invited}" [showAll]="true"></entity-viewer>
+
+                </div>
+                <!-- <div class="flex align-items-center justify-content-center  ">
+
+                    <entity-viewer
+                        [entity]="{type:'user',title:'Created By'|translate,value:meet?.organizer}"></entity-viewer>
+
+                </div> -->
+
+            </div>
+        </div>
+
+
+
+
+        <div class="card-footer flex mt-7 ">
+            <div>
+                <i class="pi pi-comment text-xl "></i>
+                <span class=" font-semibold mx-2">{{meet?.commentsCount}}</span>
+            </div>
+            <div class="mx-3">
+                <i class="pi pi-paperclip text-xl "></i>
+                <span class=" font-semibold mx-2">{{meet?.filesCount}}</span>
+            </div>
+        </div>
+    </div>
+</app-card-colored>

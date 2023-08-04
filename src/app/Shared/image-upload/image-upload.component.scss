@@ -1,0 +1,19 @@
+::ng-deep .customUpload .p-fileupload-buttonbar{
+    display: none !important;
+}
+
+::ng-deep .customUpload .p-fileupload-content .p-progressbar{
+    display: none !important;
+}
+
+::ng-deep .customUpload  .p-fileupload-content{
+padding: 0px !important;
+}
+
+::ng-deep .hide-Content .p-fileupload-row{
+display: none;
+}
+
+::ng-deep .fit-content .p-fileupload-content{
+    width: fit-content !important;
+}

@@ -1,0 +1,26 @@
+<div class="block">
+
+    <div class="text-lg font-semibold mb-2" translate>Icon
+        <span *ngIf="required && !selectedStatus" style="color: var(--danger) !important">*</span>
+    </div>
+    <p-dropdown #dropdown [options]="selectedIcons? selectedIcons:icons" [filter]="true" [name]="title" appendTo="body" [required]="required" [(ngModel)]="selectedStatus"
+    [virtualScroll]="true" [virtualScrollItemSize]="38" [lazy]="true"  
+         placeholder="{{'Enter'|translate}} {{title}}" styleClass="dropdown-select">
+        <ng-template pTemplate="selectedItem">
+            
+            <div *ngIf="selectedStatus">
+                <i [class]="selectedStatus"></i>
+                <span  class="mx-1 " > {{selectedStatus}}</span>
+                
+            </div>
+        </ng-template>
+        <ng-template let-icon pTemplate="item">
+            <div class="my-2">
+           <i [class]="icon"></i>
+                <span  [style.color]="icon== selectedStatus ?'#fff':null" class="mx-1"> {{icon}}</span>
+
+            </div>
+
+        </ng-template>
+    </p-dropdown>
+</div>

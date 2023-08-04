@@ -1,0 +1,56 @@
+<p-toast position="top-right"></p-toast>
+
+
+<div class="grid mt-2">
+    <div class="lg:col-8  sm:col-12">
+
+        <ng-container *ngIf="!loading">
+
+            <app-new-card *ngFor="let item of news?.items" [new]="item"
+                (click)="showNewDetails(item?.id)"></app-new-card>
+
+            <div *ngIf="!news?.items?.length" class="font-semibold text-xl text-center mt-2">
+                <i class="pi pi-exclamation-circle text-xl mx-2"></i>
+                No news to preview
+            </div>
+
+        </ng-container>
+        <app-loading *ngIf="loading"></app-loading>
+    </div>
+
+    <div class="lg:col-4 sm:col-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title flex align-items-center">
+                    <div class="text-2xl font-semibold">{{newsSentiment?.title}}
+                    </div>
+                </div>
+            </div>
+            <!-- legend: { position: currentLang=='en'?'right':'left', -->
+            <div *ngIf="!loading && newsSentiment?.chart" class="w-12 relative">
+                <p-chart type="doughnut" responsive="true"  [height]="280"
+                    [options]="{  plugins: { labels:{ boxWidth: 10,color:textSecondaryColor}}}"
+                    (onDataSelect)="onDataSelect({type:'Committees',filed:'statues'},dashboard?.doughnutCommitteesStatus?.datasets[0]?.data[$event.element.index]?.id)"
+                    [data]="newsSentiment?.chart"></p-chart>
+                <div class="absolute text-center w-full textCenter-doughnut " style=" top: 45%;">
+                    <div class="font-semibold  text-3xl ">
+                        {{newsSentiment?.totalNews?.value}}</div>
+                    <div class="font-semibold text-500 text-lg ">
+                        {{newsSentiment?.totalNews?.details?.name}}</div>
+                </div>
+
+            </div>
+            <div *ngIf="!loading && !newsSentiment?.chart" class="font-semibold text-xl text-center my-8">
+                <i class="pi pi-exclamation-circle text-xl mx-2"></i>
+                No data to preview
+            </div>
+            <app-loading *ngIf="loading"></app-loading>
+
+        </div>
+
+    </div>
+</div>
+
+<app-add-edit-news *ngIf="displayaddEdit" [(display)]="displayaddEdit"></app-add-edit-news>
+
+<app-new-details *ngIf="displayNewDetails" [(display)]="displayNewDetails"></app-new-details>

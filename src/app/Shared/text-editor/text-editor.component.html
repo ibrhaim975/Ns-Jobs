@@ -1,0 +1,11 @@
+
+
+<div class="block">
+    <div class="text-lg font-semibold mb-2" >{{title}}
+        <span *ngIf="required && !value" style="color: var(--danger) !important">*</span>
+    </div>
+    <p-editor [(ngModel)]="value" [name]="title" [required]="required" [style]="{'height':height}">
+
+    </p-editor>
+
+</div>

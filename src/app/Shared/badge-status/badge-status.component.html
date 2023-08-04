@@ -1,0 +1,4 @@
+<span class="status-badge" [class]="class" 
+[style]="{'background-color':status?.details?.color?hexToRGB(status?.details?.color,0.1):'var(--primary-color-text)', 
+'color': status?.details?.color?status?.details?.color:'var(--text-color)' }">
+{{status?.name}}</span>

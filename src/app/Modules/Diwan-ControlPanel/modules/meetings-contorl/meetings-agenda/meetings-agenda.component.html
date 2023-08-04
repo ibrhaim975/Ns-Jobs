@@ -1,0 +1,16 @@
+<app-table [caption]="caption" [data]="data" [columns]="columns" [actionsColumns]="actionsColumns"
+    [reorderableColumns]="true" [actionsTemplate]="{required:required,action:action}" [lodaing]="loadingTable">
+    <div toolBarBtns>
+        <button pButton pRipple type="button" label="Add New Field" icon="pi pi-plus " [class]="'css.pl-2'|translate"
+            class="p-button-raised p-button-secondary mx-2"></button>
+    </div>
+    <ng-template #required>
+        <p-inputSwitch></p-inputSwitch>
+
+    </ng-template>
+    <ng-template #action>
+        <button (click)="menu.toggle($event)" pButton pRipple type="button" icon="pi pi-ellipsis-v font-semibold"
+            class="p-button-rounded p-button-secondary p-button-text  "></button>
+        <p-menu #menu [popup]="true" appendTo="body" [model]="taskAttributesActions"></p-menu>
+    </ng-template>
+</app-table>

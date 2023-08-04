@@ -1,0 +1,22 @@
+<p-tabView class="tabViewCard" (onChange)="navRouter($event)" [(activeIndex)]="activeIndex">
+
+    <p-tabPanel header="{{'Users List'|translate}}">
+            <router-outlet *ngIf="activeIndex==0"></router-outlet>
+
+
+    </p-tabPanel>
+
+    <p-tabPanel header="{{'Groups List'|translate}}">
+
+            <router-outlet *ngIf="activeIndex==1"></router-outlet>
+
+    </p-tabPanel>
+
+    <p-tabPanel header="{{'Accessibility'|translate}}">
+
+        <router-outlet *ngIf="activeIndex==2"></router-outlet>
+
+</p-tabPanel>
+
+
+</p-tabView>

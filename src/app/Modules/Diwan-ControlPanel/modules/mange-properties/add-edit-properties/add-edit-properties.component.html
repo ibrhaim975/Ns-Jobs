@@ -1,0 +1,278 @@
+<app-modal [display]="display" (displayChange)="onHide()" [title]="header|translate" class="modal-md">
+    <div class="block" body>
+        <form #form="ngForm" body>
+            <app-loading *ngIf="loading"></app-loading>
+
+            <div *ngIf="!loading" class="grid ">
+                <div class=" lg:col-6  sm:col-12">
+                    <app-input [(ngModel)]="property.name.en" name="titleEn" [title]="'English Title'|translate"
+                        [required]="true"></app-input>
+                </div>
+                <div class=" lg:col-6  sm:col-12">
+                    <app-input [(ngModel)]="property.name.ar" name="titleAr" [title]="'Arabic Title'|translate"
+                        [required]="true"></app-input>
+                </div>
+                <div class=" lg:col-6  sm:col-12">
+                    <app-select-status name="viewType" [(ngModel)]="property.viewType" [disabled]="property?.id"
+                        (ngModelChange)="onChangeViewType()" [title]="'Type'|translate" [statues]="types"
+                        [showColor]="false"></app-select-status>
+                </div>
+      
+                <div class=" lg:col-6  sm:col-12">
+                    <div class="grid">
+                        <div *ngIf="property?.isCalculated!=true" class="col-4">
+                            <div class="text-lg font-semibold mb-2" translate>Required
+                            </div>
+                            <p-inputSwitch [(ngModel)]="property.isRequired" [disabled]="property?.id"
+                                name="required"></p-inputSwitch>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-lg font-semibold mb-2" translate> Summary
+                            </div>
+                            <p-inputSwitch [(ngModel)]="property.isIncludeSummary"
+                                name="isIncludeSummary"></p-inputSwitch>
+                        </div>
+                        <div class="col-4">
+                            <div class="text-lg font-semibold mb-2" translate> Workflow Include
+                            </div>
+                            <p-inputSwitch [(ngModel)]="property.isIncludeWorkflow"
+                                name="isIncludeWorkflow"></p-inputSwitch>
+                        </div>
+                        <div *ngIf="property?.viewType?.key=='text'||property?.viewType?.key=='longtext'" class="col-4">
+                            <div class="text-lg font-semibold mb-2" translate>Translatable
+                            </div>
+                            <p-inputSwitch [(ngModel)]="property.isTranslatable" [disabled]="property?.id"
+                                name="isTranslatable"></p-inputSwitch>
+                        </div>
+
+                        <div *ngIf="property?.viewType?.key=='number'|| property?.viewType?.key=='percentage' ||property?.viewType?.key=='date'||property?.viewType?.key=='currency'"
+                            class="col-4">
+                            <div class="text-lg font-semibold mb-2" translate> Calculated
+                            </div>
+                            <p-inputSwitch [(ngModel)]="property.isCalculated" [disabled]="property?.id"
+                                name="isCalculated"></p-inputSwitch>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- <div class=" lg:col-6  sm:col-12">
+                    <app-input-number [(ngModel)]="property.order" [disabled]="property?.id" [max]="this.order" name="order"
+                        [title]="'Order'|translate"></app-input-number>
+                
+                </div> -->
+                <ng-container *ngIf="property?.isCalculated==true">
+                    <div class="col-12 ">
+                        <div class="flex justify-content-between flex-wrap mb-2">
+                            <div class="flex align-items-center justify-content-center  ">
+
+                                <div class="text-xl font-semibold " translate>Formula Builder</div>
+                            </div>
+                            <div *ngIf="!property?.id" class="flex align-items-center justify-content-center  ">
+
+                                <button pButton (click)="checkFormula()" pRipple type="button"
+                                    icon='pi pi-check-circle {{"css.mr-2"|translate}}' [label]="'Validate'|translate"
+                                    class="p-button-outlined "></button>
+
+                            </div>
+                        </div>
+
+                        <div *ngIf="!property?.id" class=" mb-3">
+                            <div class="grid m-0 ">
+                                <div class="lg:col-3 sm:col-12">
+                                    <app-select-status name="Fields" [(ngModel)]="formulaBuilder.porp"
+                                        (ngModelChange)="onAddFormula(formulaBuilder.porp,'field')"
+                                        [disabled]="property?.id" [placeholder]="'Field'|translate"
+                                        [title]="'Add Field'|translate" [statues]="properties"
+                                        [showColor]="false"></app-select-status>
+
+                                        <div class="mt-4">
+                                    
+
+                                            <div  class="text-lg font-semibold mb-2">
+                                                {{'Custom Value'|translate}}
+                                            </div>
+                                            <div class="p-inputgroup">
+                                                <input type="text" pInputText [placeholder]="'Custom Value'|translate" [(ngModel)]="formulaBuilder.value" 
+                                                name="CustomValue">   
+                                                <button type="button"(click)="onAddFormula({key:formulaBuilder.value,name:formulaBuilder.value},'value')" pButton pRipple icon="pi pi-check" styleClass="p-button-success"></button>    
+
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="lg:col-3 sm:col-12">
+                                    <app-select-status name="Functions" [(ngModel)]="formulaBuilder.function"
+                                        (ngModelChange)="onAddFormula(formulaBuilder.function,'function')"
+                                        [disabled]="property?.id" [title]="'Add Function'|translate"
+                                        [statues]="functions" [placeholder]="'Function'|translate"
+                                        [showColor]="false"></app-select-status>
+                                </div>
+                                <div class="lg:col-3 sm:col-12">
+                                    <div class="text-lg font-semibold mb-2" translate>Operators</div>
+
+                                    <div class="flex flex-wrap card-container blue-container">
+                                        <div *ngFor="let item of operators"
+                                            class="flex align-items-center justify-content-center m-1">
+                                            <button pButton pRipple type="button" [icon]="item?.name?item?.name:null"
+                                                (click)="onAddFormula(item,'operator')"
+                                                class="p-button-rounded p-button-outlined p-button-sm p-1">
+                                                <span *ngIf="!item?.name"
+                                                    class=" mx-1 px-1 text-lg text-primary font-semibold">{{item?.key}}</span>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="lg:col-3 sm:col-12">
+
+                                    <div class="text-lg font-semibold mb-2" translate>Condition Statments </div>
+                                    <button pButton pRipple type="button" label="And"
+                                        (click)="onAddFormula({key:'and',name:'And'},'condition')"
+                                        class="p-button-rounded p-button-outlined p-button-sm ">
+                                    </button>
+
+                                    <button pButton pRipple type="button" label="Or"
+                                        (click)="onAddFormula({key:'or',name:'Or'},'condition')"
+                                        class="p-button-rounded p-button-outlined p-button-sm mx-2">
+                                    </button>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div *ngIf="property?.formulaRaw?.length" class="input-items mt-3 p-2"
+                            [style.borderColor]="formulaCheck==true|| property?.id ?null:'var(--danger)'">
+                            <div class="flex flex-wrap card-container blue-container">
+                                <div *ngFor="let item of property?.formulaRaw;let i =index"
+                                    class="flex align-items-center justify-content-center m-1">
+
+                                    <ng-container
+                                        *ngIf="item?.type=='field' || item?.type=='function' || item?.type=='condition' || item?.type=='value'">
+                                        <p-chip styleClass="font-semibold" [label]="item?.name"
+                                            [removable]="!property?.id" (onRemove)="onRemoveFormula(i)"></p-chip>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="item?.type=='operator'">
+                                        <p-chip [styleClass]=" !item?.name?'font-semibold': 'p-1' "
+                                            [icon]="item?.name?item?.name:null" [label]="!item?.name?item?.key:null"
+                                            [removable]="!property?.id" (onRemove)="onRemoveFormula(i)"></p-chip>
+                                    </ng-container>
+
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="property?.viewType?.key=='api'">
+
+
+                    <div class="col-12 ">
+                        <div class="flex justify-content-between flex-wrap mb-2">
+                            <div class="flex align-items-center justify-content-center  ">
+
+                                <div class="text-xl font-semibold " translate>API Builder</div>
+                            </div>
+                            <div *ngIf="!property?.id" class="flex align-items-center justify-content-center  ">
+                                <div [class]="'css.mr-2'|translate">
+                                    <button pButton pRipple type="button" [disabled]="!property.configuration.endpoint"
+                                        icon='pi pi-check-circle {{"css.mr-2"|translate}}' (click)="checkApi()"
+                                        [label]="'Check Api'|translate" class="p-button-outlined "></button>
+                                </div>
+                                <button pButton pRipple type="button" (click)="addHeader()"
+                                    icon='pi pi-plus {{"css.mr-2"|translate}}' [label]="'Add Header'|translate"
+                                    class="p-button-outlined p-button-secondary"></button>
+
+
+                            </div>
+                        </div>
+
+                        <div class=" mt-3 ">
+                            <div class="grid m-0 ">
+                                <div class="col-12 input-items">
+                                    <app-input [(ngModel)]="property.configuration.endpoint" name="Endpoint"
+                                        [disabled]="property?.id" [title]="'Endpoint'|translate"
+                                        [required]="true"></app-input>
+                                </div>
+
+                                <div class="col-12">
+                                    <div class="text-lg font-semibold mb-1" translate>Headers</div>
+                                    <div class="grid input-items mb-2"
+                                        *ngFor="let header of property?.configuration?.headers; let i =index">
+                                        <div *ngIf="property.configuration?.headers?.length>1" style=" height: 0px;"
+                                            class="col-12  p-0" [class]="'css.text-right'|translate">
+                                            <button pButton (click)="removeHeader(i)" pRipple type="button"
+                                                icon='pi pi-trash '
+                                                class=" p-button-text p-button-danger p-button-sm"></button>
+                                        </div>
+
+                                        <div class="col-6 ">
+                                            <app-input [(ngModel)]="header.key" [name]="'headerKey'+i"
+                                                [disabled]="property?.id" [title]="'Key'|translate"></app-input>
+                                        </div>
+                                        <div class="col-6 ">
+                                            <app-input [(ngModel)]="header.value" [name]="'headerValue'+i"
+                                                [disabled]="property?.id" [title]="'Value'|translate"></app-input>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ng-container *ngIf="property?.propertiesApi || property?.id">
+                                    <div class="col-12 pt-0">
+                                        <div class="text-lg font-semibold mb-1" translate>Properties</div>
+                                        <div class="grid  input-items">
+                                            <div class="col-6 " [class]="'css.pr-3'|translate">
+                                                <app-select-status *ngIf="!property?.id" name="jsonType"
+                                                    [(ngModel)]="property.configuration.key" [disabled]="property?.id"
+                                                    [title]="'Key'|translate" [statues]="property.propertiesApi"
+                                                    [showColor]="false"></app-select-status>
+
+                                                <app-input *ngIf="property?.id" [(ngModel)]="property.configuration.key"
+                                                    name="KeyEndpoint" [disabled]="property?.id"
+                                                    [title]="'Key'|translate"></app-input>
+
+                                            </div>
+
+                                            <div class="col-6 " [class]="'css.pl-3'|translate">
+                                                <app-select-status *ngIf="!property?.id" name="jsonType"
+                                                    [(ngModel)]="property.configuration.value" [disabled]="property?.id"
+                                                    [title]="'Value'|translate" [statues]="property.propertiesApi"
+                                                    [showColor]="false"></app-select-status>
+
+                                                <app-input *ngIf="property?.id"
+                                                    [(ngModel)]="property.configuration.value" name="valueEndpoint"
+                                                    [disabled]="property?.id" [title]="'Value'|translate"></app-input>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </ng-container>
+                
+                <ng-container *ngIf="property?.viewType?.key=='lookup' || property?.viewType?.key=='lookupmultiselect'">
+                    <div class=" lg:col-6  sm:col-12">
+
+                        <app-select-status name="lookups" [(ngModel)]="property.configuration" [disabled]="property?.id"
+                            [title]="'Lookups'|translate" [required]="true" [statues]="lookups"
+                            optionLabel="displayName" [showColor]="false"></app-select-status>
+                    </div>
+                </ng-container>
+            </div>
+
+        </form>
+
+    </div>
+    <div footer>
+        <button pButton pRipple type="button" label="{{'Cancel'|translate}}" icon='pi pi-times {{"css.mr-2"|translate}}'
+            (click)="onHide()" class="p-button-secondary p-button-outlined {{'css.pl-2'|translate}}"></button>
+
+        <button pButton pRipple type="button" label="{{'Save'|translate}}" [disabled]="form?.invalid"
+            (click)="addEditProperty()" icon='pi pi-check {{"css.mr-2"|translate}}' class="{{'css.pl-2'|translate}}"></button>
+
+    </div>
+</app-modal>

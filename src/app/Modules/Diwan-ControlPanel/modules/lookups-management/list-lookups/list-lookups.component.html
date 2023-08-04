@@ -1,0 +1,60 @@
+<p-confirmDialog appendTo="body"></p-confirmDialog>
+
+<div class="p-3" >
+
+    <div class="flex justify-content-between flex-wrap mb-2 custom-header">
+        <div class="flex align-items-center justify-content-center  ">
+            <div class=" flex-wrap ">
+                <span class="text-xl font-semibold" translate>
+                    Lookups Management
+                </span>
+                <div class="text-500 text-lg font-semibold">
+                    {{'In total there are'|translate}} <label class="text-primary font-bold ">{{lookups.length}}</label>
+                    Lookups.
+                </div>
+            </div>
+        </div>
+        <div class="flex align-items-center justify-content-center  ">
+
+            <button pButton pRipple type="button" label="{{'New lookup'|translate}}" icon="pi pi-plus "
+                (click)="showAddLookup()" [class]="'css.pl-2'|translate"
+                class="p-button-raised p-button-secondary mx-2"></button>
+
+        </div>
+    </div>
+    <div class="grid mt-2" style="max-height: calc( 82vh - 110px);overflow-y: auto;">
+        <ng-container *ngFor="let lookup of lookups">
+            <div class="lg:col-3 md:col-6 sm-col-12">
+                <div class="card p-0 border-all">
+                    <div class=" font-semibold text-lg p-1  bg-primary ">
+                        <div class="flex justify-content-between flex-wrap  ">
+                            <div class="flex align-items-center justify-content-center  ">
+                                <span class="mx-1 text-white">{{lookup?.displayName}} </span>
+                            </div>
+
+                            <div class="flex align-items-center justify-content-center  ">
+
+                                <a *ngIf="lookup?.allowEdit" class=" text-lg text-100  cursor-pointer mx-1" (click)="showEditLookup(lookup)"> <i class="pi pi-pencil"></i></a>
+
+                                <a *ngIf="lookup?.allowDelete" [style.color]="'var(--danger)'" (click)="deleteLookup(lookup)"
+                                    class=" text-lg cursor-pointer mx-1"> <i class="pi pi-trash"></i></a>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-3 h-12rem max-h-12rem overflow-y-auto">
+                        <div *ngFor="let item of lookup?.items;let i =index" class="mb-2">
+                            <div class="font-semibold text-500">{{i+1}}- {{item?.name}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+</div>
+<div *ngIf="displayAddEditLookup">
+
+    <app-add-edit-lookup [(display)]="displayAddEditLookup" [lookup]="selectedLookup"></app-add-edit-lookup>
+</div>

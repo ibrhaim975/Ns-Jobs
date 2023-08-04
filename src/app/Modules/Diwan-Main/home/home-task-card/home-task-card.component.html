@@ -1,0 +1,64 @@
+<app-card-colored colorDir="top" [color]="task?.status?.details?.color" class="border-noround" height="430px"
+    width="500px">
+    <div body>
+        <div class="card-header">
+
+            <div class="card-title flex align-items-center">
+                <div class="text-2xl font-semibold" [pTooltip]="task?.title" tooltipPosition="bottom"> {{minString(task?.title,45)}} </div>
+            </div>
+            <div>
+                <button pButton pRipple type="button" icon="icon-tasks text-lg"
+                    class="p-button-rounded p-button-outlined p-button-secondary2 "></button>
+            </div>
+        </div>
+        <div class="m-3">
+            <div class="flex justify-content-between flex-wrap ">
+                <div class="flex align-items-center justify-content-center  ">
+                    <entity-viewer [entity]="{type:'text',title:' Creation Date',value:task.createdAt.label}"></entity-viewer>
+                </div>
+                <div class="flex align-items-center justify-content-center  ">
+
+                    <entity-viewer
+                        [entity]="{type:'status',title:'Status'|translate,value:task?.status}"></entity-viewer>
+
+                </div>
+
+            </div>
+
+            <div class="flex justify-content-between flex-wrap mt-7">
+                <div class="flex align-items-center justify-content-center  ">
+                    <entity-viewer
+                        [entity]="{type:'text',title:' Due Date'|translate,value:task.dueDate.label}"></entity-viewer>
+                </div>
+                <div class="flex align-items-center justify-content-center  ">
+
+                    <entity-viewer [entity]="{type:'user',title:'Created By',value:task?.createdBy}"></entity-viewer>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="flex align-items-center justify-content-center mx-6 mt-7 ">
+
+
+
+            <app-prgoress style=" width:-webkit-fill-available;" [(value)]="task.progress"
+                [color]="task?.status?.details?.color"></app-prgoress>
+
+        </div>
+
+
+        <div class="card-footer flex mt-8 ">
+            <div>
+                <i class="pi pi-comment text-xl "></i>
+                <span class=" font-semibold mx-2">{{task?.commentsCount}}</span>
+            </div>
+            <div class="mx-3">
+                <i class="pi pi-paperclip text-xl "></i>
+                <span class=" font-semibold mx-2">{{task?.filesCount}}</span>
+            </div>
+        </div>
+    </div>
+</app-card-colored>

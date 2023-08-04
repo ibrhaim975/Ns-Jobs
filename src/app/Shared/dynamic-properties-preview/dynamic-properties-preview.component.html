@@ -1,0 +1,53 @@
+<!-- <div class="border-round surface-50 px-3">
+
+</div> -->
+<div class="grid ">
+
+    <ng-container *ngFor="let item of props">
+        <div *ngIf="item?.viewType=='number'||item?.viewType=='text'||item?.viewType=='checkbox'" [class]="colClass">
+            <entity-viewer [entity]="{type:'text',title:item?.name,value:item?.value}"></entity-viewer>
+        </div>
+
+        <div *ngIf="item?.viewType=='longtext' " class="col-12 my-2">
+            <entity-viewer [entity]="{type:'text',title:item?.name,value:item?.value}"></entity-viewer>
+        </div>
+        <div *ngIf="item?.viewType=='lookup'" [class]="colClass">
+            <entity-viewer [entity]="{type:'status',title:item?.name,value:item?.value}"></entity-viewer>
+        </div>
+
+
+        <div *ngIf="item?.viewType=='lookupmultiselect'" class="col-12 my-2">
+            <entity-viewer [entity]="{type:'multiStatus',title:item?.name,value:item?.value}"></entity-viewer>
+        </div>
+
+        <div *ngIf="item?.viewType=='user'" [class]="colClass">
+            <entity-viewer [entity]="{type:'user',title:item?.name,value:item?.value}"></entity-viewer>
+        </div>
+
+        <div *ngIf="item?.viewType=='date'" [class]="colClass">
+            <entity-viewer [entity]="{type:'text',title:item?.name,value:item?.value?.label}"></entity-viewer>
+        </div>
+
+        <div *ngIf="item?.viewType=='currency'" [class]="colClass">
+            <entity-viewer [entity]="{type:'text',title:item?.name,value:item?.value?.display}"></entity-viewer>
+        </div>
+
+        <div *ngIf="item?.viewType=='percentage'" [class]="colClass">
+            <entity-viewer [entity]="{type:'progress',title:item?.name,value:item?.value?.value}"></entity-viewer>
+        </div>
+
+        <div *ngIf="item?.viewType=='api'" [class]="colClass">
+            <entity-viewer [entity]="{type:'text',title:item?.name,value:item?.value?.value}"></entity-viewer>
+        </div>
+
+        <div *ngIf="item?.viewType=='multiuser'" [class]="colClass">
+            <entity-viewer [entity]="{type:'users',title:item?.name,value:item?.value}"></entity-viewer>
+            
+        </div>
+        
+
+        <ng-content select="[custom]"></ng-content>
+
+    </ng-container>
+
+</div>

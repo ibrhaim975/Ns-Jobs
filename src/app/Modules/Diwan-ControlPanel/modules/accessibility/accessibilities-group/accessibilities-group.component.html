@@ -1,0 +1,8 @@
+<app-table #table [data]="accessibilitiey?.groups" [columns]="columns" [rowClass]="'surface-50'" [scrollable]="true"
+    scrollHeight="37.5vh" [paginator]="false"  [lodaing]="loading" [actionsColumns]="actionsColumns" [actionsTemplate]="{action:action}">
+
+    <ng-template #action>
+        <button (mouseenter)="setSelectedGroup(table.selectedItem)" pButton pRipple type="button" (click)="deleteGroup()"
+            icon="pi pi-trash font-semibold" class="p-button-rounded p-button-danger p-button-text  "></button>
+    </ng-template>
+</app-table>

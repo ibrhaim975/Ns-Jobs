@@ -1,0 +1,113 @@
+<app-loading *ngIf="loading" display="full"></app-loading>
+
+<app-sidebar [display]="display" (displayChange)="onHide()">
+    <div header>
+        <div class="flex justify-content-between flex-wrap ">
+            <div class="flex align-items-center justify-content-center   ">
+                <div class="flex-initial flex align-items-center justify-content-center mx-2">
+                    <button pButton (click)="display=false;onHide()" pRipple type="button" icon="pi pi-times"
+                        class="p-button-rounded p-button-secondary p-button-lg p-button-text btn-white "></button>
+                </div>
+                <div class="flex align-items-center justify-content-center border-break"></div>
+
+                <div class="flex-initial flex align-items-center justify-content-center px-3">
+                    <span class="text-3xl text-white ">{{title|translate}} </span>
+                    <!-- <span *ngIf="task?.id">({{ task?.title }})</span> -->
+
+                </div>
+
+            </div>
+            <div class="flex align-items-center justify-content-center  ">
+
+                <button *ngIf="!loading" pButton pRipple type="button" (click)="taskEditAdd()"
+                    [label]="'Save'|translate" icon="pi pi-check "
+                    [disabled]="form?.invalid || task.props.Invalid"
+                    class="p-button-rounded p-button-outlined p-button-secondary2  p-button-lg text-btn text-btn"></button>
+            </div>
+        </div>
+    </div>
+
+    <form #form="ngForm" body class="px-5 pb-2">
+        <div *ngIf="!loading && display" class="grid ">
+            <div class=" lg:col-6  sm:col-12">
+                <app-input [(ngModel)]="task.title.en" name="titleEn" [title]="'English Title'|translate"
+                    [required]="true"></app-input>
+                    
+            </div>
+            <div class=" lg:col-6 sm:col-12">
+
+                <app-input [(ngModel)]="task.title.ar" name="titleAr" [title]="'Arabic Title'|translate"
+                    [required]="true"></app-input>
+
+            </div>
+            <div class=" lg:col-6  sm:col-12">
+                <app-text-area [(ngModel)]="task.description.en" name="descriptionEn"
+                    [title]="'English Description'|translate" [required]="true"></app-text-area>
+
+            </div>
+            <div class=" lg:col-6  sm:col-12">
+
+                <app-text-area [(ngModel)]="task.description.ar" name="descriptionAr"
+                    [title]="'Arabic Description'|translate" [required]="true"></app-text-area>
+            </div>
+            <div class=" lg:col-6  sm:col-12">
+                <app-find-user [(ngModel)]="task.responsible" name="responsible" [required]="true"
+                    [title]="'Responsible'|translate"></app-find-user>
+            </div>
+            <div class=" lg:col-6  sm:col-12">
+                <app-find-user [(ngModel)]="task.accountable" name="accountable" [required]="true"
+                    [title]="'Accountable'|translate"></app-find-user>
+            </div>
+            <div class=" lg:col-6  sm:col-12">
+
+                <app-find-user multiple="true" [(ngModel)]="task.informative" name="Informed"
+                    [title]="'Informed'|translate"></app-find-user>
+            </div>
+            <div class=" lg:col-6  sm:col-12">
+
+                <app-find-user multiple="true" [(ngModel)]="task.consult" name="consult" 
+                    [title]="'Consult'|translate"></app-find-user>
+            </div>
+
+
+            <div class=" lg:col-6  sm:col-12">
+
+                <app-select-status [(ngModel)]="task.priority" [required]="true" name="priority"
+                    [title]="'Priority'|translate" [statues]="priorities"></app-select-status>
+            </div>
+            <div class=" lg:col-6  sm:col-12">
+                <app-calendar [(ngModel)]="task.dueDate" [required]="true" name="dueDate" showIcon="true"
+                    [title]="'Due Date'|translate"></app-calendar>
+            </div>
+
+            <div class=" lg:col-6  sm:col-12">
+                <div class="block">
+                    <div class="text-lg font-semibold mb-2" translate>Tags</div>
+
+                    <app-find-tags [(ngModel)]="task.tags" name="tags"></app-find-tags>
+
+
+                </div>
+
+            </div>
+            <div *ngIf="task?.id" class=" lg:col-6  sm:col-12">
+
+                <app-input [(ngModel)]="task.updatedReason" name="UpdateReasons" [title]="'Update Reasons'|translate"
+                    [required]="true"></app-input>
+
+            </div>
+            <div *ngIf="task?.props" class=" col-12">
+                <app-dynamic-properties #dynamicProperties [(props)]="task.props"
+                    (formInvalid)="task.props.Invalid=$event"></app-dynamic-properties>
+            </div>
+
+            <div class="col-12 pb-7">
+
+                <app-attachment [(attachments)]="task.attachments"></app-attachment>
+
+            </div>
+        </div>
+
+    </form>
+
+</app-sidebar>

@@ -1,0 +1,22 @@
+
+
+  .pure-icon {
+    width: 2rem;
+    height: 2rem;
+    color:  #64748b;
+    border: 0 none;
+    background: transparent;
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+  }
+  .pure-icon:enabled:hover {
+    color: #64748b;
+    border-color: transparent;
+    background: rgba(139, 128, 128, 0.03);
+  }
+  .pure-icon:focus {
+    outline: 0 none;
+    outline-offset: 0;
+    box-shadow: 0 0 0 0.2rem rgba(147, 197, 253, 0.5);
+  }

@@ -1,0 +1,30 @@
+::ng-deep .activities-timeline {
+    max-height: 30vh !important;
+    overflow-y: auto !important;
+        .p-timeline-event-opposite{
+            display:none !important
+          }
+    
+    }
+.activities-timelineInput-container {
+    position: relative;
+
+    ::ng-deep input.activities-timelineInput {
+        border-left: none !important;
+        border-right: none !important;
+        border-bottom: none !important;
+        border-radius: 0px !important;
+    }
+
+    ::ng-deep input.activities-timelineInput:focus {
+        box-shadow: none !important;
+    }
+
+
+    ::ng-deep .activities-timelineInput-send {
+        position: absolute !important;
+        top: 0px !important;
+    }
+
+
+}

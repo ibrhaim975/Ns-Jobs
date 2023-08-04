@@ -1,0 +1,167 @@
+<app-breadcrumb [data]="breadcrumb"></app-breadcrumb>
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog appendTo="body"></p-confirmDialog>
+<div class="flex justify-content-between flex-wrap mb-2">
+    <div class="flex align-items-center justify-content-center  ">
+
+        <i class="icon-tasks text-primary text-3xl"></i>
+        <span class="mx-2 font-semibold text-3xl" translate>Tasks</span>
+    </div>
+    <div class="flex align-items-center justify-content-center  ">
+
+        <div class="flex align-items-center justify-content-center m-2 dir-int">
+            <p-selectButton [options]="[{label: 'Me', value: 'off'}, {label: 'Ceo', value: 'on'}]" optionLabel="label"
+                optionValue="value"></p-selectButton>
+        </div>
+        <div class="flex align-items-center justify-content-center m-2 border-break">
+
+        </div>
+        <div class="flex align-items-center justify-content-center m-2 ">
+            <button pButton pRipple type="button" icon="pi pi pi-users text-lg"
+                class="p-button-rounded p-button-outlined p-button-secondary2 "></button>
+        </div>
+        <div class="flex align-items-center justify-content-center m-2 ">
+            <button pButton pRipple type="button" icon="pi pi pi-bars "
+                class="p-button-rounded p-button-outlined p-button-secondary2 "></button>
+
+        </div>
+
+        <div class="flex align-items-center justify-content-center m-2">
+            <button pButton pRipple type="button" icon="pi pi pi-th-large "
+                class="p-button-rounded p-button-outlined p-button-secondary2 "></button>
+        </div>
+        <div class="flex align-items-center justify-content-center  m-2 ">
+            <button pButton pRipple type="button" icon="pi pi-filter-fill "
+                class="p-button-rounded p-button-outlined p-button-secondary2 "></button>
+
+        </div>
+
+        <div *ngIf="accessibility?.hasPermission==true" class="flex align-items-center justify-content-center m-2 ">
+            <button pButton pRipple (click)="showAddEditTask()" type="button" icon="pi pi pi-plus "
+                [label]="'New Task'| translate"
+                class="p-button-rounded p-button-outlined p-button-secondary2 text-btn"></button>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="grid mt-2">
+    <div *ngIf="!loadingTasksStatistics" class="col-12">
+        <div class="grid">
+            <div *ngFor="let status of tasksStatistics?.statueses" class="lg:col-2card sm:col-6">
+               
+                <app-card-colored  class="cursor-pointer"
+                [backgroundColor]=" status?.id==selectedStatusCard?' var(--surface-50)':null"
+                    [color]='status?.details?.color'>
+                    <div body>
+                        <div class="absolute top-0 z-auto" [class]="'css.right-0'|translate">
+                            <button *ngIf="status?.id==selectedStatusCard" (click)="getTasks(null);selectedStatusCard=null" pButton pRipple type="button" icon="pi pi-times text-lg"
+                                class="p-button-rounded p-button-text p-button-secondary"></button>
+                        </div>
+                        <div (click)="getTasks(status?.id);selectedStatusCard=status?.id" style="justify-content: unset !important;" class="flex ">
+                            <div style="min-width: 50px;" class="relative text-3xl"
+                                [style.background-color]="hexToRGB(status?.details?.color,0.1)"
+                                [style.color]="hexToRGB(status?.details?.color,0.8)">
+                                <i class="m-3" [class]="'fas   '+status?.details?.icon"></i>
+                            </div>
+                            <div>
+                                <div class="mx-4 text-3xl font-bold">{{status?.value}}</div>
+                                <div class="mx-4 text-lg text-500 font-bold" translate>{{status?.name}}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </app-card-colored>
+            </div>
+
+        </div>
+    </div>
+    <div class="lg:col-7  sm:col-12">
+        <ng-container *ngIf="!loadingTasks">
+            <app-task-card *ngFor="let task of tasks" (click)="showTaskDetails(task?.id)" [task]="task"></app-task-card>
+            <div *ngIf="!tasks?.length" class="font-semibold text-xl text-center mt-2" translate>
+                <i class="pi pi-exclamation-circle text-xl mx-2"></i>
+                No tasks to preview
+            </div>
+        </ng-container>
+        <app-loading *ngIf="loadingTasks"></app-loading>
+
+    </div>
+    <div class="lg:col-5 sm:col-12">
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title flex align-items-center">
+                    <div class="text-xl font-semibold" translate>RACI Matrix
+
+                    </div>
+
+                </div>
+            </div>
+            <ng-container *ngIf="!loadingTasksStatistics">
+                <div class="card-body ">
+                    <p-carousel *ngIf="tasksStatistics?.raci" [value]="tasksStatistics?.raci"
+                        [showIndicators]="tasksStatistics?.raci?.length>4?true:false"
+                        [showNavigators]="tasksStatistics?.raci?.length>4?true:false" [numVisible]="4" [numScroll]="4"
+                        [responsiveOptions]="raciResponsiveOptions()">
+                        <ng-template let-item pTemplate="item">
+                            <div class="flex flex-wrap justify-content-center card-container ">
+                                <div class=" flex align-items-center justify-content-center  my-4"
+                                    [class]="'css.ml-6'| translate">
+                                    <app-progress [color]="item?.details?.color" [value]="item?.value"
+                                        [name]="item?.name" [progress]="item?.value/raciMatrixLength"></app-progress>
+
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-carousel>
+                    <div *ngIf="!tasksStatistics?.raci" class="font-semibold text-xl text-center my-4" translate>
+                        <i class="pi pi-exclamation-circle text-xl mx-2"></i>
+                        No data to preview
+                    </div>
+                </div>
+            </ng-container>
+            <app-loading *ngIf="loadingTasksStatistics"></app-loading>
+
+        </div>
+        <div class="card">
+
+            <div class="card-header">
+                <div class="card-title flex align-items-center">
+                    <div class="text-xl font-semibold" translate>Tasks per Months</div>
+                </div>
+                <div>
+
+                    <p-dropdown *ngIf="!loadingTasksStatistics&&tasksCharts?.years?.length"
+                        [options]="tasksCharts.years" [(ngModel)]="tasksCharts.currentYear"></p-dropdown>
+                </div>
+            </div>
+            <ng-container *ngIf="!loadingTasksStatistics&&tasksCharts?.years?.length">
+                <div class="card-body pt-4">
+                    <app-bar-chart [value]="tasksCharts.data"></app-bar-chart>
+                </div>
+            </ng-container>
+
+            <div *ngIf="!loadingTasksStatistics&&!tasksCharts?.data?.labels?.length"
+                class="font-semibold text-xl text-center my-4" translate>
+                <i class="pi pi-exclamation-circle text-xl mx-2"></i>
+                No data to preview
+            </div>
+            <app-loading *ngIf="loadingTasksStatistics"></app-loading>
+
+        </div>
+    </div>
+</div>
+
+
+<ng-container *ngIf="displayAddEditTask">
+    <app-task-EditAdd [(display)]="displayAddEditTask"></app-task-EditAdd>
+</ng-container>
+
+
+
+<ng-container *ngIf="displayTaskDetails">
+    <app-task-form [(display)]="displayTaskDetails"></app-task-form>
+</ng-container>

@@ -1,0 +1,48 @@
+<p-confirmDialog appendTo="body"></p-confirmDialog>
+
+<app-table #table [caption]="caption" [data]="module?.properties" [columns]="columns" [reorderableColumns]="true"
+    (reorderColumn)="updateOrderProperty($event)" (inputSwitchChange)="activeDeactivatProperty($event)"
+    [actionsColumns]="actionsColumns" [actionsTemplate]="{action:action}" [lodaing]="loading">
+
+    <div toolBarBtns>
+        <!-- <button pButton pRipple type="button" label="{{'Delete Module'|translate}}" icon="pi pi-trash "
+            (click)="initSelectedProperty();showAddEditProptry()" [ngClass]="['css.pl-3'|translate , 'css.mr-2'|translate]"
+            class="p-button-raised p-button-danger "></button>
+
+        <button pButton pRipple type="button" label="{{'Edit Module'|translate}}" icon="pi pi-pencil "
+            (click)="initSelectedProperty();showAddEditModule()" [ngClass]="['css.pl-3'|translate , 'css.mr-2'|translate]"
+            class="p-button-raised p-button-secondary "></button> -->
+        <button (click)="menu.toggle($event)" pButton pRipple type="button"
+            icon="pi pi-ellipsis-v font-semibold text-lg"
+            class="p-button-rounded p-button-secondary p-button-text  "></button>
+        <p-menu #menu [popup]="true" appendTo="body" [model]="modulesActions"></p-menu>
+
+        <span class="mx-2">
+            <button pButton pRipple type="button" label="{{'New Property'|translate}}" icon="pi pi-plus "
+                (click)="initSelectedProperty();showAddEditProptry()"
+                [ngClass]="['css.pl-3'|translate , 'css.mr-2'|translate]"
+                class="p-button-raised p-button-secondary "></button>
+        </span>
+
+
+    </div>
+
+    <ng-template #action>
+        <button (mouseenter)="setSelectedPropertry(table.selectedItem)" (click)="menu.toggle($event)" pButton pRipple
+            type="button" icon="pi pi-ellipsis-v font-semibold"
+            class="p-button-rounded p-button-secondary p-button-text  "></button>
+        <p-menu #menu [popup]="true" appendTo="body" [model]="propertiesActions"></p-menu>
+    </ng-template>
+</app-table>
+
+<div *ngIf="displayAddEditProptry">
+    <app-add-edit-properties [(display)]="displayAddEditProptry" [order]="module?.properties?.length+1"
+        [properties]="module?.properties" [property]="module.selectedProperty"></app-add-edit-properties>
+
+</div>
+
+
+
+<div *ngIf="displayAddEditModule">
+    <app-add-edit-module [(display)]="displayAddEditModule" [module]="module"></app-add-edit-module>
+</div>

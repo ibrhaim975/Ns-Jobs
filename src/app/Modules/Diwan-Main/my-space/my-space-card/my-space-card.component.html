@@ -1,0 +1,60 @@
+<div class="card  mb-5">
+    <div class="card-header">
+        <div class="card-title flex align-items-center ">
+            <div class="text-xl font-semibold">{{data?.header}}
+                <div class="flex">
+                    <div class="surface-100 px-2 my-1 border-round-md w-max text-base text-color"
+                        pTooltip="{{'Moudle'|translate}}" tooltipPosition="bottom">{{data?.moduleName}}</div>
+
+                    <div class="surface-100 px-2 my-1 border-round-md w-max text-base text-color mx-2"
+                        pTooltip="{{'Prosses'|translate}}" tooltipPosition="bottom">{{data?.workflowRegistryName}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-wrap mt-1">
+
+            <badge-status [status]="data?.approvalStatus" class="mx-1"></badge-status>
+
+
+            <button (click)="menu.toggle($event)" pButton pRipple type="button"
+                icon="pi pi-ellipsis-v font-semibold text-lg"
+                class="p-button-rounded p-button-secondary p-button-text  p-button-lg mb-2 "></button>
+            <p-menu #menu [popup]="true" appendTo="body" [model]="data?.actions"></p-menu>
+
+        </div>
+    </div>
+    <div class="card-body cursor-pointer" (click)="onCardClick()">
+        <ng-container *ngIf="data?.data?.length">
+            <app-dynamic-properties-preview [props]="data?.data" [colClass]="'col-3 py-4'">
+                <ng-container custom>
+                    <div class="col-3">
+                        <entity-viewer
+                            [entity]="{type:'user',title:'Created By',value:data?.createdBy}"></entity-viewer>
+                    </div>
+                    <!-- <div class="col-3">
+                        <entity-viewer
+                        [entity]="{type:'text',title:'Creation Date',value:data?.createdAt?.label}"></entity-viewer>
+                    </div> -->
+
+
+
+                </ng-container>
+
+            </app-dynamic-properties-preview>
+
+        </ng-container>
+    </div>
+    <div class="card-footer flex ">
+        <div>
+            <i class="pi pi-comment text-xl "></i>
+            <span class=" font-semibold mx-2">
+                {{data?.commentsCount}}
+            </span>
+        </div>
+        <div class="mx-3">
+            <i class="pi pi-paperclip text-xl "></i>
+            <span class=" font-semibold mx-2"> {{data?.filesCount}}
+            </span>
+        </div>
+    </div>
+</div>

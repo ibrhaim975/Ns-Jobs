@@ -1,0 +1,55 @@
+<div #card class="card cursor-pointer mb-5 p-0">
+    <div class="flex justify-content-between flex-wrap pb-2" >
+            <div class="flex-initial flex align-items-center justify-content-center ">
+                <img *ngIf="new?.isSync" [src]="new?.image||'./assets/images/news.jpg'" class="border-round mx-3 mt-2" width="180"
+                    height="160px">
+
+                    <img *ngIf="!new?.isSync" [src]="new?.view||'./assets/images/news.jpg'" class="border-round mx-3 mt-2" width="180"
+                    height="160px">
+
+                <div #content class="pt-3 px-2" [style.width.px]="card.offsetWidth-210">
+                    <div class="grid pb-0" >
+                        <div class="col-9 ">
+                            <span class="text-xl font-semibold "> {{minString(new?.title,200)}} </span>
+                        </div>
+                        <div class="col-3"  [class]="'css.text-right'|translate">
+                            <badge-status [status]="new?.sentiment" pTooltip="{{'Status'|translate}}" tooltipPosition="top"></badge-status>
+                        </div>
+                    </div>
+
+
+                    <div class="block sm:mt-2 lg:mt-0 w-10" >
+                        <p class="text-500 font-semibold line-height-3 h-6rem m" >{{minString(new?.details,300)}}
+                            <span class="flex">
+                                <div class="surface-100 px-2  mt-2 border-round-md w-max text-base text-color"
+                                pTooltip="{{'Date'|translate}}" tooltipPosition="bottom">{{new?.date?.label}}</div>
+                                
+                                <div class="surface-100 px-2 mx-2 mt-2 border-round-md w-max text-base text-color"
+                                    pTooltip="{{'Source'|translate}}" tooltipPosition="bottom">{{new?.source?.title}}</div>
+
+                                    <!-- <div class="surface-100 px-2 mt-2 border-round-md w-max text-base text-color"
+                                    pTooltip="{{'Keyword'|translate}}" tooltipPosition="bottom">{{new?.keyword?.keyword}}</div> -->
+                          
+                            </span>
+                        </p>
+
+                        <div class="flex text-500 pt-3">
+                            <div>
+                                <i class="pi pi-comment  "></i>
+                                <span class=" font-semibold mx-2">{{new?.comments?.length || 0}}</span>
+                            </div>
+                        
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+    </div>
+
+
+</div>

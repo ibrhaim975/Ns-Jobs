@@ -1,0 +1,131 @@
+<form #form="ngForm">
+    <div class="grid">
+        <ng-container *ngFor="let item of props">
+            <ng-container *ngIf="item?.isCalculated==false">
+
+                <ng-container *ngIf="item?.viewType=='text'">
+                    <ng-container *ngIf="item?.isTranslatable==true">
+                        <div class="lg:col-6 sm:col-12">
+                            <app-input [(ngModel)]="item.value.en" (ngModelChange)="onChangeData(item)"
+                                [name]="item?.key" title="{{'English'|translate}} {{item?.name}}"
+                                [required]="item?.isRequired"></app-input>
+                        </div>
+                        <div class="lg:col-6 sm:col-12">
+                            <app-input [(ngModel)]="item.value.ar" (ngModelChange)="onChangeData(item)"
+                                [name]="item?.key+'ar'" title="{{'Arabic'|translate}} {{item?.name}}"
+                                [required]="item?.isRequired"></app-input>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="item?.isTranslatable==false">
+                        <div class="lg:col-6 sm:col-12">
+                            <app-input [(ngModel)]="item.value" (ngModelChange)="onChangeData(item)"
+                                [name]="item?.key+'en'" [title]="item?.name" [required]="item?.isRequired"></app-input>
+                        </div>
+
+                    </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="item?.viewType=='longtext'">
+                    <ng-container *ngIf="item?.isTranslatable==true">
+                        <div class="lg:col-6 sm:col-12">
+                            <app-text-area [(ngModel)]="item.value.en" (ngModelChange)="onChangeData(item)"
+                                [name]="item?.key" title="{{'English'|translate}} {{item?.name}}"
+                                [required]="item?.isRequired"></app-text-area>
+                        </div>
+                        <div class="lg:col-6 sm:col-12">
+                            <app-text-area [(ngModel)]="item.value.ar" (ngModelChange)="onChangeData(item)"
+                                [name]="item?.key+'ar'" title="{{'Arabic'|translate}} {{item?.name}}"
+                                [required]="item?.isRequired"></app-text-area>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="item?.isTranslatable==false">
+                        <div class="lg:col-6 sm:col-12">
+                            <app-text-area [(ngModel)]="item.value" (ngModelChange)="onChangeData(item)"
+                                [name]="item?.key+'en'" [title]="item?.name"
+                                [required]="item?.isRequired"></app-text-area>
+                        </div>
+
+                    </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="item?.viewType=='number'">
+                    <div class="lg:col-6 sm:col-12">
+
+                        <app-input-number [(ngModel)]="item.value" (ngModelChange)="onChangeData(item)"
+                            [name]="item?.key" [useGrouping]="false" [title]="item?.name"
+                            [required]="item?.isRequired"></app-input-number>
+
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="item?.viewType=='currency'">
+                    <div class="lg:col-6 sm:col-12">
+
+                        <app-input-number [(ngModel)]="item.value" (ngModelChange)="onChangeData(item)"
+                            [name]="item?.key" [title]="item?.name" [required]="item?.isRequired"></app-input-number>
+
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="item?.viewType=='percentage'">
+                    <div class="lg:col-6 sm:col-12">
+
+                        <app-input-Percentage [(ngModel)]="item.value" (ngModelChange)="onChangeData(item)"
+                            [name]="item?.key" [title]="item?.name"
+                            [required]="item?.isRequired"></app-input-Percentage>
+
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="item?.viewType=='date'">
+                    <div class="lg:col-6 sm:col-12">
+                        <app-calendar [(ngModel)]="item.value" (ngModelChange)="onChangeData(item)"
+                            [required]="item?.isRequired" [name]="item?.key" [title]="item?.name"
+                            showIcon="true"></app-calendar>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="item?.viewType=='checkbox'">
+                    <div class="lg:col-6 sm:col-6">
+                        <app-input-check-box [(ngModel)]="item.value" (ngModelChange)="onChangeData(item)"
+                            [required]="item?.isRequired" [name]="item?.key" [title]="item?.name"
+                            showIcon="true"></app-input-check-box>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="item?.viewType=='user'">
+                    <div class="lg:col-6 sm:col-12">
+
+                        <app-find-user [(ngModel)]="item.value" (ngModelChange)="onChangeData(item)" [name]="item?.key"
+                            [required]="item?.isRequired" [title]="item?.name"></app-find-user>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="item?.viewType=='api'">
+                    <div class="lg:col-6 sm:col-12">
+                        <app-select-status [(ngModel)]="item.value" (ngModelChange)="onChangeData(item)"
+                            [name]="item?.key" optionLabel="value" [title]="item?.name"
+                            [statues]="item?.reference?.props" [required]="item?.isRequired"></app-select-status>
+                    </div>
+                </ng-container>
+
+
+                <ng-container *ngIf="item?.viewType=='lookup' ">
+                    <div class="lg:col-6 sm:col-12">
+                        <app-select-status [(ngModel)]="item.value" (ngModelChange)="onChangeData(item)"
+                            [name]="item?.key" [title]="item?.name" [statues]="item?.reference?.items"
+                            [required]="item?.isRequired"></app-select-status>
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="item?.viewType=='lookupmultiselect'">
+                    <div class="lg:col-6 sm:col-12">
+                        <app-multi-select [(ngModel)]="item.value" (ngModelChange)="onChangeData(item)"
+                            [name]="item?.key" [title]="item?.name" optionLabel="name" [statues]="item?.reference?.items"
+                            [required]="item?.isRequired"></app-multi-select>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </div>
+</form>

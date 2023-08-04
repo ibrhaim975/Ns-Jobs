@@ -1,0 +1,33 @@
+<div class="text-lg font-semibold mb-2" translate>{{title}}
+    <span *ngIf="required&&!image" style="color: var(--danger) !important">*</span>
+
+</div>
+
+<p-fileUpload #fileUpload class="customUpload " [class.fit-content]="fileUpload?.files?.length && !loading"
+    [class.hide-Content]="loading" (onSelect)="onSelect($event)" [files]="imageBlob" [showUploadButton]="false" accept="image/*"
+    [showCancelButton]="false">
+    <ng-template let-file pTemplate='file'>
+        <div *ngIf="!loading" class="flex m-2">
+            <img [src]="imageView?imageView : sanitize(file)" [width]="width">
+            <div class="">
+                <button pButton pRipple (click)="removeFile(file, fileUpload)" class="p-button-danger "
+                    icon="pi pi-trash text-0"></button>
+
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="content">
+        <ng-container *ngIf="loading==false">
+            <div *ngIf="!fileUpload?.files?.length" class=" font-semibold text-center p-4" >
+                <i class="fas fa-cloud-upload-alt mx-1 text-3xl"></i>
+                {{"Drop files here to attach or"|translate}}
+
+                <button pButton pRipple type="button" (click)="fileUpload?.choose()" [label]="'Browse'|translate"
+                    class="p-button-text py-0  px-0 font-semibold"></button>
+            </div>
+        </ng-container>
+        <div *ngIf="loading">
+            <app-loading></app-loading>
+        </div>
+    </ng-template>
+</p-fileUpload>

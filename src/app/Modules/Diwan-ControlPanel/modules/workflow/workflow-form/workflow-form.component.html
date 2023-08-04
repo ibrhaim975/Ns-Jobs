@@ -1,0 +1,233 @@
+<app-modal [display]="display" (displayChange)="onHide()" [title]="title|translate" class="modal-md ">
+    <div body>
+        <!-- <p-tabView [(activeIndex)]="activeIndex" >
+            <p-tabPanel header="{{'Activity'|translate}}">
+                <div class="p-2">
+             
+                </div>
+            </p-tabPanel>
+
+            <p-tabPanel header="{{'Action'|translate}}">
+            </p-tabPanel>
+        </p-tabView> -->
+        <form   #form="ngForm">
+            <div class="grid">
+                <div class="col-6">
+                    <app-input [(ngModel)]="activity.name" name="name" [title]="'Name'|translate"
+                        [required]="true"></app-input>
+                </div>
+                <div class="col-6">
+                    <app-select-status name="type" [(ngModel)]="activity.type" [disabled]="activity?.id"
+                        [title]="'Type'|translate" [required]="true" [statues]="activityTypes"
+                        [showColor]="false"></app-select-status>
+                </div>
+                <div *ngIf="activity.previousWorkflowActivityId!=0" class="col-6">
+                    <app-input [(ngModel)]="activity.previousWorkflowActivityId" [disabled]="true"
+                        name="previousWorkflowActivityId" [title]="'Previous Activity'|translate"
+                        [required]="true"></app-input>
+                </div>
+
+                <div *ngIf="activity?.type?.name=='Condition'" class="col-12">
+                    <ng-container #FormulaRaw>
+                        <div class="flex justify-content-between flex-wrap mb-2">
+                            <div class="flex align-items-center justify-content-center  ">
+
+                                <div class="text-xl font-semibold pt-2" translate>Formula</div>
+                            </div>
+                            <div *ngIf="!activity?.id" class="flex align-items-center justify-content-center  ">
+
+                                <button pButton (click)="checkFormula()" pRipple type="button"
+                                    icon='pi pi-check-circle {{"css.mr-2"|translate}}' [label]="'Validate'|translate"
+                                    class="p-button-outlined "></button>
+
+                            </div>
+                        </div>
+
+                        <div *ngIf="!activity?.id" class="grid input-items">
+                            <div class="lg:col-3 sm:col-12">
+                                <app-select-status name="Fields" [(ngModel)]="formulaBuilder.porp"
+                                    (ngModelChange)="onAddFormula(formulaBuilder.porp,'field')"
+                                    [disabled]="property?.id" [placeholder]="'Field'|translate"
+                                    [title]="'Add Field'|translate" [statues]="properties"
+                                    [showColor]="false"></app-select-status>
+
+                                <div class="mt-4">
+                                    <div class="text-lg font-semibold mb-2">
+                                        {{'Custom Value'|translate}}
+                                    </div>
+                                    <div class="p-inputgroup">
+                                        <input type="text" pInputText [placeholder]="'Custom Value'|translate"
+                                            [(ngModel)]="formulaBuilder.value" name="CustomValue">
+                                        <button type="button"
+                                            (click)="onAddFormula({key:formulaBuilder.value,name:formulaBuilder.value},'value')"
+                                            pButton pRipple icon="pi pi-check " styleClass="p-button-success"></button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="lg:col-3 sm:col-12">
+                                <app-select-status name="Functions" [(ngModel)]="formulaBuilder.function"
+                                    (ngModelChange)="onAddFormula(formulaBuilder.function,'function')"
+                                    [title]="'Add Function'|translate" [statues]="functions"
+                                    [placeholder]="'Function'|translate" [showColor]="false"></app-select-status>
+                            </div>
+                            <div class="lg:col-3 sm:col-12">
+                                <div class="text-lg font-semibold mb-2" translate>Operators</div>
+
+                                <div class="flex flex-wrap card-container blue-container">
+                                    <div *ngFor="let item of operators"
+                                        class="flex align-items-center justify-content-center m-1">
+                                        <button pButton pRipple type="button" [icon]="item?.name?item?.name:null"
+                                            (click)="onAddFormula(item,'operator')"
+                                            class="p-button-rounded p-button-outlined p-button-sm p-1">
+                                            <span *ngIf="!item?.name"
+                                                class=" mx-1 px-1 text-lg text-primary font-semibold">{{item?.key}}</span>
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="lg:col-3 sm:col-12">
+
+                                <div class="text-lg font-semibold mb-2" translate>Condition Statments </div>
+                                <button pButton pRipple type="button" label="And"
+                                    (click)="onAddFormula({key:'and',name:'And'},'condition')"
+                                    class="p-button-rounded p-button-outlined p-button-sm ">
+                                </button>
+
+                                <button pButton pRipple type="button" label="Or"
+                                    (click)="onAddFormula({key:'or',name:'Or'},'condition')"
+                                    class="p-button-rounded p-button-outlined p-button-sm mx-2">
+                                </button>
+                            </div>
+
+
+                        </div>
+
+
+                        <div *ngIf="formulaRaw?.length" class="input-items mt-3 p-2"
+                            [style.borderColor]="formulaCheck==true ?null:'var(--danger)'">
+                            <div class="flex flex-wrap card-container blue-container">
+                                <div *ngFor="let item of formulaRaw;let i =index"
+                                    class="flex align-items-center justify-content-center m-1">
+
+                                    <ng-container
+                                        *ngIf="item?.type=='field' || item?.type=='function' || item?.type=='condition' || item?.type=='value'">
+                                        <p-chip styleClass="font-semibold" [label]="item?.name" [removable]="activity?.id?false:true"
+                                            (onRemove)="onRemoveFormula(i)"></p-chip>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="item?.type=='operator'">
+                                        <p-chip [styleClass]=" !item?.name?'font-semibold': 'p-1' "
+                                            [icon]="item?.name?item?.name:null" [label]="!item?.name?item?.key:null"
+                                            [removable]="activity?.id?false:true" (onRemove)="onRemoveFormula(i)"></p-chip>
+                                    </ng-container>
+
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container #TrueFalseValue>
+                        <div #TrueValue class="block mt-3">
+                            <div class="text-xl font-semibold p-2">True Value</div>
+                            <div class="grid input-items">
+                                <div class="col-6">
+                                    <app-input [(ngModel)]="activity.trueActivity.name" name="trueActivityname"
+                                        [disabled]="activity?.id" [title]="'Name'|translate"
+                                        [required]="true"></app-input>
+                                </div>
+                                <div class="col-6">
+                                    <app-select-status name="trueActivitytype" [(ngModel)]="activity.trueActivity.type"
+                                        [disabled]="activity?.id" [title]="'Type'|translate" [required]="true"
+                                        [statues]="activityTypes2" [showColor]="false"></app-select-status>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div #FalseValue class="block mt-3">
+                            <div class="text-xl font-semibold p-2" translate>False Value</div>
+                            <div class="grid input-items">
+                                <div class="col-6">
+                                    <app-input [(ngModel)]="activity.falseActivity.name" name="falseActivityname"
+                                        [disabled]="activity?.id" [title]="'Name'|translate"
+                                        [required]="true"></app-input>
+                                </div>
+                                <div class="col-6">
+                                    <app-select-status name="falseActivitytype"
+                                        [(ngModel)]="activity.falseActivity.type" [title]="'Type'|translate"
+                                        [disabled]="activity?.id" [required]="true" [statues]="activityTypes2"
+                                        [showColor]="false"></app-select-status>
+                                </div>
+
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </form>
+        <form #formActions="ngForm">
+            <ng-container *ngIf="activity?.id && activity?.type?.name!='Condition' ">
+                <div class="flex justify-content-between flex-wrap my-2">
+                    <div class="flex align-items-center justify-content-center  ">
+
+                        <div class="text-xl font-semibold pt-2" translate>Approvals <label *ngIf="activity?.actions?.length>1" class="text-primary">({{activity?.actions?.length}})</label> </div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center  ">
+                        
+
+                        <button pButton (click)="addAction()" pRipple type="button"
+                            icon='pi pi-plus {{"css.mr-2"|translate}}' [label]="'Add'|translate"
+                            class="p-button-outlined "></button>
+
+                    </div>
+                </div>
+                <div *ngFor="let item of activity?.actions;let i=index" class="grid input-items mb-3">
+                    <div *ngIf="activity?.actions?.length>1" style=" height: 0px;" class="col-12  p-0"
+                        [class]="'css.text-right'|translate">
+                        <button pButton pRipple type="button" icon='pi pi-trash ' (click)="removeAction(i)"
+                            class=" p-button-text p-button-danger p-button-sm"></button>
+                    </div>
+                    <div class="col-6">
+                        <app-select-status name="actionType{{i}}" [(ngModel)]="item.targetType"
+                        (ngModelChange)="onEditAction(item);item.targetValue=null"[required]="true" [title]="'Type'|translate" [statues]="actionsTypes"
+                            [showColor]="false"></app-select-status>
+                    </div>
+                    <div *ngIf="item?.targetType?.value=='Group'" class="col-6">
+                        <app-select-status name="GroupValue{{i}}" [(ngModel)]="item.targetValue" (ngModelChange)="onEditAction(item)" [required]="true"
+                            [title]="'Value'|translate" [disabled]="!item.targetType" [statues]="groups"
+                            [showColor]="false"></app-select-status>
+                    </div>
+                    <div *ngIf="item?.targetType?.value=='Role'" class="col-6">
+                        <app-select-status name="RoleValue{{i}}" [(ngModel)]="item.targetValue"(ngModelChange)="onEditAction(item)" [required]="true"
+                            [title]="'Value'|translate" [disabled]="!item.targetType" [statues]="roles"
+                            [showColor]="false"></app-select-status>
+                    </div>
+                    <div *ngIf="item?.targetType?.value=='Group'" class="col-6">
+                        <app-select-status name="GroupSelection{{i}}" [(ngModel)]="item.groupSelection"(ngModelChange)="onEditAction(item)"
+                            [title]="'Selection'|translate" [statues]="actionGroupSelection"
+                            [showColor]="false"></app-select-status>
+                    </div>
+                    <div class="col-6">
+                        <app-input-number name="sla{{i}}" [(ngModel)]="item.sla" (ngModelChange)="onEditAction(item)"
+                            [title]="'SLA'|translate"></app-input-number>
+                    </div>
+                </div>
+            </ng-container>
+     
+        </form>
+
+    </div>
+
+    <div footer>
+        <button pButton pRipple type="button" label="{{'Cancel'|translate}}" icon='pi pi-times {{"css.mr-2"|translate}}'
+            (click)="onHide()" class="p-button-secondary p-button-outlined"></button>
+
+        <button *ngIf="activity?.id" pButton pRipple type="button" [label]="'Delete'|translate" icon="pi pi-trash "
+            class="p-button-danger" (click)="onDelete()"></button>
+
+        <button pButton pRipple type="button" [label]="'Save'|translate" icon="pi pi-check "
+            [disabled]="(form?.invalid || !form.dirty ) && (formActions?.invalid || !formActions?.dirty) && (actionsRemove?.length==0) " (click)="onSubmit({formActions:formActions?.dirty,form:form?.dirty})"></button>
+
+
+    </div>
+</app-modal>

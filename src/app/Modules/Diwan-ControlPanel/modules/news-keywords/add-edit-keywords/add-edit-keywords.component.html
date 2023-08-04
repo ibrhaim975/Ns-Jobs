@@ -1,0 +1,27 @@
+<app-modal [display]="display" (displayChange)="onHide()" [title]="header|translate" class="modal-sm">
+    <div class="block" body>
+        <form #form="ngForm" >
+            <app-loading *ngIf="loading"></app-loading>
+
+            <div *ngIf="!loading">
+                    <app-input [(ngModel)]="selectedKeyWord.keyword" name="keyword" [title]="'Keyword'|translate"
+                        [required]="true"></app-input>
+     
+            </div>
+
+        </form>
+      
+    </div>
+    <div footer>
+        <button pButton pRipple type="button" label="{{'Cancel'|translate}}" icon='pi pi-times {{"css.mr-2"|translate}}'
+            (click)="onHide()" class="p-button-secondary p-button-outlined"></button>
+
+        <button pButton pRipple type="button" label="{{'Save'|translate}}" [disabled]="!selectedKeyWord?.keyword"
+            (click)="submitKeyWord()" icon='pi pi-check {{"css.mr-2"|translate}}'></button>
+
+    </div>
+</app-modal>
+
+
+
+

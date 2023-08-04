@@ -1,0 +1,33 @@
+<p-confirmDialog appendTo="body"></p-confirmDialog>
+<p-toast position="top-right"></p-toast>
+
+<app-table #table [caption]="caption" [data]="keywords" [columns]="columns" [lodaing]="loading"
+   [actionsColumns]="actionsColumns" [actionsTemplate]="{action:action}">
+
+    <div toolBarBtns>
+        <button pButton pRipple type="button" label="{{'Fetch News'|translate}}" icon="pi pi-sync "
+            (click)="syncNews()" [ngClass]="['css.pl-3'|translate , 'css.mr-2'|translate]"
+            class="p-button-raised p-button-success "></button>
+
+            <button pButton pRipple type="button" label="{{'New Keyword'|translate}}" icon="pi pi-plus "
+            (click)="showAddKeyWords()" [ngClass]="['css.pl-3'|translate , 'css.mr-2'|translate]"
+            class="p-button-raised p-button-secondary "></button>
+    </div>
+
+    <ng-template #action>
+        
+        <button (mouseenter)="setSelectedKeyWord(table.selectedItem)" (click)="menu.toggle($event)" pButton pRipple
+            type="button" icon="pi pi-ellipsis-v font-semibold"
+            class="p-button-rounded p-button-secondary p-button-text  "></button>
+        <p-menu #menu [popup]="true" appendTo="body" [model]="keywordsActions"></p-menu>
+    </ng-template>
+
+
+
+
+</app-table>
+
+
+<div *ngIf="displayAddEditKeywords">
+    <app-add-edit-keywords [(display)]="displayAddEditKeywords" [keyWord]="selectedKeyword"></app-add-edit-keywords>
+</div>

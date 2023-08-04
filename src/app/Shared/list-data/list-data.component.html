@@ -1,0 +1,50 @@
+<div class="flex justify-content-between flex-wrap ">
+    <div class="flex align-items-center justify-content-center  ">
+
+        <div class="text-lg font-semibold ">
+            {{title}}
+            <span *ngIf=" required && !value" style="color: var(--danger) !important">*</span>
+        </div>
+
+    </div>
+    <div class="flex align-items-center justify-content-center  ">
+
+        <button pButton pRipple type="button" icon="pi pi pi-plus " label=" {{title2}}"
+            (click)="showAddNew()" class="p-button-rounded p-button-outlined text-btn"></button>
+
+    </div>
+</div>
+<!-- *ngFor="let item of value;let i =index"  -->
+<div *ngIf="value" class="mt-3 mx-1">
+    <div *ngFor="let item of value;let i =index" class="flex justify-content-between flex-wrap mb-2">
+
+        <div class="flex align-items-center justify-content-center  ">
+            <div class="pi pi-circle-fill text-primary text-xs pt-2"></div>
+            <div class=" text-base font-semibold mx-2">
+                {{item}}
+            </div>
+        </div>
+        <div class="flex align-items-center justify-content-center  ">
+            <button pButton pRipple type="button" (click)="deleteValue(i)"
+            icon="pi pi-trash " class="p-button-rounded p-button-danger p-button-text  "></button>
+        </div>
+    </div>
+
+
+
+</div>
+
+
+<app-modal [(display)]="showAddValue" title="{{title2}}" class="modal-sm">
+    <div body>
+        <app-input [(ngModel)]="newValue" name="newValue" title="{{title2}}"
+            [required]="true"></app-input>
+    </div>
+    <div footer>
+        <button (click)="showAddValue=false" pButton pRipple type="button" label=" {{'Cancel' |translate}}"
+            icon='pi pi-times {{"css.mr-2"|translate}}' class="p-button-secondary p-button-outlined"></button>
+        <button (click)="addNewValue()" pButton pRipple type="button" [disabled]="!newValue" label=" {{'Save' |translate}}"
+            icon='pi pi-check {{"css.mr-2"|translate}}'></button>
+
+    </div>
+</app-modal>

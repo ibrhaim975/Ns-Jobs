@@ -1,0 +1,26 @@
+<app-table #table [caption]="caption" [data]="registries" [columns]="columns"  (inputSwitchChange)="activeDeactivatProperty($event)"
+    [actionsColumns]="actionsColumns" [actionsTemplate]="{action:action}" [lodaing]="loading">
+
+    <div toolBarBtns>
+ 
+        <!-- <button (click)="menu.toggle($event)" pButton pRipple type="button"
+            icon="pi pi-ellipsis-v font-semibold text-lg"
+            class="p-button-rounded p-button-secondary p-button-text  "></button>
+
+        <span class="mx-2">
+            <p-menu #menu [popup]="true" appendTo="body" [model]="modulesActions"></p-menu>
+            <button pButton pRipple type="button" label="{{'New Porptry'|translate}}" icon="pi pi-plus "
+                [ngClass]="['css.pl-3'|translate , 'css.mr-2'|translate]"
+                class="p-button-raised p-button-secondary "></button>
+        </span> -->
+
+
+    </div>
+
+    <ng-template #action>
+        <button (mouseenter)="seletctedRegistry=table.selectedItem" (click)="menu.toggle($event)" pButton pRipple
+            type="button" icon="pi pi-ellipsis-v font-semibold"
+            class="p-button-rounded p-button-secondary p-button-text  "></button>
+        <p-menu #menu [popup]="true" appendTo="body" [model]="registriesActions"></p-menu>
+    </ng-template>
+</app-table>

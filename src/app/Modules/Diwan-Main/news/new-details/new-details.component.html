@@ -1,0 +1,106 @@
+<app-loading *ngIf="loading" display="full"></app-loading>
+
+<app-sidebar [display]="display" (displayChange)="onHide()">
+    <div header>
+        <div class="flex justify-content-between flex-wrap ">
+            <div class="flex align-items-center justify-content-center   ">
+                <div class="flex-initial flex align-items-center justify-content-center mx-2">
+                    <button pButton pRipple type="button" icon="pi pi-times" (click)="onHide()"
+                        class="p-button-rounded p-button-secondary p-button-lg p-button-text btn-white "></button>
+                </div>
+                <div class="flex align-items-center justify-content-center border-break"></div>
+
+                <div class="flex-initial flex align-items-center justify-content-center px-3">
+                    <i class="pi pi-calendar text-100 text-3xl " [class]="'css.mr-2'|translate"></i>
+                    <entity-viewer [entity]="{type:'text',title:'Date' | translate,value:new?.date?.label}"
+                        [darkMode]="true"></entity-viewer>
+                </div>
+
+
+                <div class="flex align-items-center justify-content-center border-break"></div>
+
+
+                <div class="flex-initial flex align-items-center justify-content-center px-3">
+                    <i class="pi pi-flag text-100 text-3xl " [class]="'css.mr-2'|translate"></i>
+                    <entity-viewer [entity]="{type:'text',title:'Keyword' | translate,value:new?.keyword?.keyword }"
+                        [darkMode]="true"></entity-viewer>
+                </div>
+
+                <div class="flex align-items-center justify-content-center border-break"></div>
+
+
+                <div class="flex-initial flex align-items-center justify-content-center px-3">
+                    <i class="pi pi-globe text-100 text-3xl " [class]="'css.mr-2'|translate"></i>
+                    <entity-viewer [entity]="{type:'url',title:'Source' | translate,value:new?.source?.title,url:new?.source?.sourceUrl  }"
+                        [darkMode]="true"></entity-viewer>
+                </div>
+
+              
+
+            </div>
+       
+
+            <div class="flex align-items-center justify-content-center  ">
+
+                <div class="flex-initial flex align-items-center justify-content-center mx-2">
+                    <button (click)="menu.toggle($event)" pButton pRipple type="button" icon="pi pi-ellipsis-v"
+                        class="p-button-rounded p-button-secondary p-button-lg p-button-text btn-white "></button>
+                    <p-menu #menu id="newActinos" styleClass="newActinos" [popup]="true" appendTo="body"
+                        [model]="newActinos"></p-menu>
+
+                </div>
+
+                <div style="width:max-content;height: 65px;" [style.background]="new?.sentiment?.details?.color"
+                    class="flex-initial flex align-items-center justify-content-center px-3">
+                    <div class="text-center">
+                        <span class="text-xl text-white font-semibold"> {{new?.sentiment?.name}}</span>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div *ngIf="!loading" body>
+
+        <div class="grid 2">
+            <div #detial class="lg:col-7 sm:col-12 pt-3 overflow-y-auto  " style="height:calc(100vh - 100px)"
+                [class]="'css.border-right'|translate">
+                <div class="grid pb-3">
+                
+                    <div class="col-12 mt-3">
+                      <div class="px-4">
+                        <div class="text-3xl font-semibold ">
+                            <i class="pi pi-bookmark-fill text-primary "></i>
+                            {{new?.title}}
+                        </div>
+                      </div>
+
+                    </div>
+                    <div class="col-12 text-center">
+                  
+                            <img *ngIf="new?.isSync" [src]="new?.image||'./assets/images/news.jpg'" style="border-radius: 1.8%;"
+                            [style.width.px]="600">
+        
+                            <img *ngIf="!new?.isSync" [src]="new?.view||'./assets/images/news.jpg'"  style="border-radius: 1.8%;"
+                            [style.width.px]="600">
+
+                    </div>
+                    <div class="col-12">
+
+                        <p [innerHTML]="new?.details" class="text-500 font-semibold text-xl line-height-4 px-5 text-justify"></p>
+
+                    </div>
+               
+                </div>
+            </div>
+            <div class="lg:col-5 sm:col-12 pt-1 p-0">
+                <app-comments [height]="'calc(100vh - 320px)'" [comments]="new?.comments"
+                    [sourse]="{module:'New',id:new?.id}"></app-comments>
+
+            </div>
+        </div>
+    </div>
+
+</app-sidebar>
+<p-confirmDialog appendTo="body"></p-confirmDialog>

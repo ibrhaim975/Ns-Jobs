@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="barcontainer">
+    <span class="text-lg label-bar font-bold" [style.color]="color">{{value}} 
+    </span>
+    <div class="bar" [style.background-color]="hexToRGB(color,0.4)" [style.height]="(progress*100)+'%'"></div>
+    <div class="background-avater">
+      <div class="avater_" [style.padding-right]="'18px'" >
+        <p-avatar [label]="name?.charAt(0)" [style]="{'background-color': color,color: '#ffffff'}" shape="circle"
+          styleClass="avatar-lg font-semibold text-lg text-white"></p-avatar>
+        <div>
+          <span class="text-lg font-semibold pt-4 "> {{name}}</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

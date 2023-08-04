@@ -1,0 +1,29 @@
+<div class="block">
+
+    <div *ngIf="hideTitle==false" class="text-lg font-semibold mb-2">{{title}}
+        <span *ngIf="required && !selectedStatus" style="color: var(--danger) !important">*</span>
+    </div>
+    <p-dropdown [options]="statues" [filter]="filter" [name]="title" appendTo="body" [required]="required"
+        [(ngModel)]="selectedStatus" [disabled]="disabled" [optionLabel]="optionLabel" [filterBy]="optionLabel"
+        placeholder="{{'Enter'|translate}} {{placeholder?placeholder:title}}" styleClass="dropdown-select">
+        <ng-template pTemplate="selectedItem">
+            <div  >
+                <span *ngIf="showColor==true" class="p-1 mx-2 border-round"
+                    [style.background-color]="selectedStatus?.details?.color"></span>
+                {{selectedStatus[optionLabel] |translate}}
+            </div>
+        </ng-template>
+        <ng-template let-statue pTemplate="item">
+            <div class="my-2">
+                <span *ngIf="showColor==true" class="p-1 mx-2 border-round"
+                    [style.background-color]="statue?.details?.color"></span>
+                <span [style.color]="statue== selectedStatus ?'#fff':null" translate> {{statue[optionLabel]}} 
+
+
+                </span>
+
+            </div>
+
+        </ng-template>
+    </p-dropdown>
+</div>

@@ -1,0 +1,12 @@
+<div class=" flex font-semibold  pb-3">
+    <div class="text-lg " (click)="navigate('/',0)"  translate>
+        <i  class="fas fa-home mx-2 "></i>
+        Home
+        <i [class]="lang=='ar'?'fa-angle-left':'fa-angle-right'" class="mx-2 fas"></i> 
+    </div>
+    <div *ngFor="let item of data; let i =index" [class]="data.length-1 == i ? 'font-bold':null"  class="text-lg" (click)="navigate('/',0)"  translate>
+        {{item?.label}} 
+        <i *ngIf="data.length-1 != i" [class]="lang=='ar'?'fa-angle-left':'fa-angle-right'" (click)="navigate(item?.url,i)" class=" sign mx-2 fas"></i> 
+    </div>
+  
+</div>

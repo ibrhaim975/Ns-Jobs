@@ -1,0 +1,21 @@
+<div class="flex justify-content-between flex-wrap bg-white border py-2 border-calender">
+    <div class="flex align-items-center justify-content-center  ">
+     
+        <div class="flex align-items-center justify-content-center mx-3 font-semibold text-700">
+            <span class="text-2xl">{{currentDate| date : 'EEE, MMM d'}}</span>
+        </div>
+        <div style="direction: initial;" class="flex align-items-center justify-content-center  ">
+            <button pButton pRipple type="button" icon="pi pi-chevron-left "  (click)="getPrev()"
+                class=" p-button-text p-button-secondary"></button>
+            <button pButton pRipple type="button" icon="pi pi-chevron-right"(click)="getNext()"
+                class=" p-button-text p-button-secondary"></button>
+
+        </div>
+        <div (click)="getCurrentDay()" class="flex align-items-center justify-content-center  ">
+            <button pButton pRipple type="button" [label]="'Today'|translate"
+                class=" p-button-outlined p-button-secondary2 mx-1"></button>
+        </div>
+    </div>
+
+</div>
+<full-calendar #calendar [options]="calendarOptions"></full-calendar>

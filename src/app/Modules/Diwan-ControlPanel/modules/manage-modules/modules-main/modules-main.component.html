@@ -1,0 +1,14 @@
+<p-tabView class="tabViewCard" (onChange)="navRouter($event)" [(activeIndex)]="activeIndex">
+
+        
+        <ng-container *ngFor="let item of tabPanels;let i =index">
+                <p-tabPanel header="{{item?.label|translate}}">
+                        <div style="max-height:calc( 82vh - 100px);">
+                                <router-outlet *ngIf="activeIndex==i"></router-outlet>
+                        </div>
+                </p-tabPanel>
+        </ng-container>
+  
+
+
+</p-tabView>

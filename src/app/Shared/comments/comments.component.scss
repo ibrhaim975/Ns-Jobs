@@ -1,0 +1,22 @@
+.comments-input {
+    border-radius: 0px !important;
+    border-color: transparent;
+}
+.comments-input-contanier{
+    width: -webkit-fill-available;
+    margin-bottom: 50px;
+}
+.comments-input:enabled:focus {
+    box-shadow: none !important;
+    border-color: transparent !important;
+}
+.comments-input:enabled:hover {
+    box-shadow: none !important;
+    border-color: transparent !important;
+}
+.comment-attachment:hover{
+background-color: var(--blue-100)
+}
+.comment-body{
+    min-height: calc(82vh - 148px);
+}

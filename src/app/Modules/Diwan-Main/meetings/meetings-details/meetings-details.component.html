@@ -1,0 +1,414 @@
+<app-loading *ngIf="loading" display="full"></app-loading>
+
+<app-sidebar [display]="display" (displayChange)="onHide()">
+    <div header>
+        <div class="flex justify-content-between flex-wrap ">
+            <div class="flex align-items-center justify-content-center   ">
+                <div class="flex-initial flex align-items-center justify-content-center mx-2">
+                    <button pButton pRipple type="button" icon="pi pi-times" (click)="onHide()"
+                        class="p-button-rounded p-button-secondary p-button-lg p-button-text btn-white "></button>
+                </div>
+                <div class="flex align-items-center justify-content-center border-break"></div>
+
+                <div class="flex-initial flex align-items-center justify-content-center px-3">
+                    <i class="pi pi-calendar text-100 text-3xl " [class]="'css.mr-2'|translate"></i>
+                    <entity-viewer
+                        [entity]="{type:'text',title:'CREATION DATE' | translate,value:meeting?.createdAt?.label}"
+                        [darkMode]="true"></entity-viewer>
+                </div>
+                <div class="flex align-items-center justify-content-center border-break"></div>
+
+                <div class="flex-initial flex align-items-center justify-content-center px-3">
+                    <span [class]="'css.mr-2'|translate">
+                        <i class="pi pi-calendar text-100 text-3xl "></i>
+                    </span>
+                    <entity-viewer [entity]="{type:'text',title:'DATE'| translate,value:meeting?.dateDiff}"
+                        [darkMode]="true"></entity-viewer>
+                </div>
+                <div class="flex align-items-center justify-content-center border-break"></div>
+
+                <div class="flex-initial flex align-items-center justify-content-center px-3">
+                    <span [class]="'css.mr-2'|translate">
+                        <i class="pi pi-clock text-100 text-3xl "></i>
+                    </span>
+                    <entity-viewer [entity]="{type:'text',title:'TIME'| translate,value:meeting.timeDiff}"
+                        [darkMode]="true"></entity-viewer>
+                </div>
+                <div class="flex align-items-center justify-content-center border-break"></div>
+
+                <div class="flex-initial flex align-items-center justify-content-center px-3">
+                    <entity-viewer [entity]="{type:'user',title:'CREATED BY'|translate,value:meeting?.createdBy}"
+                        [darkMode]="true"></entity-viewer>
+
+                </div>
+
+
+
+            </div>
+            <div class="flex align-items-center justify-content-center  ">
+                <div class="flex-initial flex align-items-center justify-content-center mx-2">
+                    <button *ngIf="meetingActinos.length" (click)="menu.toggle($event)" pButton pRipple type="button"
+                        icon="pi pi-ellipsis-v"
+                        class="p-button-rounded p-button-secondary p-button-lg p-button-text btn-white "></button>
+                    <p-menu #menu id="meetingActinos" styleClass="meetingActinos" [popup]="true" appendTo="body"
+                        [model]="meetingActinos"></p-menu>
+
+                </div>
+
+                <div style="width:max-content;height: 65px;" [style.background]="meeting?.priority?.details?.color"
+                    class="flex-initial flex align-items-center justify-content-center px-3">
+                    <div class="text-center">
+                        <div class="text-xl text-white font-semibold" translate>Priority</div>
+
+                        <span class="text-xl text-white "> {{meeting?.priority?.name}}</span>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div body>
+        <div *ngIf="!loading" class="grid pt-0 ">
+            <div class="lg:col-7 sm:col-12 pt-4 ">
+                <div #blockcol class="block">
+
+                    <ng-container #title>
+                        <div class="px-4">
+                            <div class="text-xl font-semibold mb-1">{{meeting?.title}}
+                            </div>
+                            <!-- <p class="text-lg">{{meeting?.notes}}</p> -->
+                        </div>
+                    </ng-container>
+
+                    <ng-container>
+                        <p-tabView (onChange)="onMinutesOfMeetingClick($event)">
+                            <p-tabPanel header="{{'Details'|translate}}">
+                                <div class="overflow-y-auto px-3 " style="max-height:calc(100vh - 250px)">
+
+                                    <div class="flex justify-content-between flex-wrap mt-2">
+                                        <div class=" flex align-items-center  ">
+                                            <span [class]="'css.mr-2'|translate">
+                                                <i class="pi pi-calendar text-3xl "></i>
+                                            </span>
+                                            <entity-viewer
+                                                [entity]="{type:'text',title:'Creation Date'| translate,value:meeting.createdAt?.label}"></entity-viewer>
+                                        </div>
+
+                                        <div class=" flex align-items-center  ">
+                                            <span [class]="'css.mr-2'|translate">
+                                                <i class="pi pi-clock text-3xl "></i>
+                                            </span>
+                                            <entity-viewer
+                                                [entity]="{type:'text',title:'TIME'| translate,value:meeting.timeDiff}"></entity-viewer>
+                                        </div>
+
+                                        <div class=" flex align-items-center ">
+                                            <span [class]="'css.mr-2'|translate">
+                                                <i class="pi pi-map-marker text-3xl "></i>
+                                            </span>
+                                            <entity-viewer
+                                                [entity]="{type:'text',title:'Location'| translate,value:meeting.location}"></entity-viewer>
+                                        </div>
+                                        <div class=" flex align-items-center ">
+                                            <span [class]="'css.mr-2'|translate">
+                                                <i class="pi pi-flag text-3xl "></i>
+                                            </span>
+                                            <entity-viewer
+                                                [entity]="{type:'text',title:'Status'| translate,value:meeting?.status?.name}"></entity-viewer>
+                                        </div>
+                                    </div>
+                                    <div class="flex mt-5">
+                                        <div [class]="'css.mr-2'|translate">
+                                            <i class="pi pi-users text-3xl "></i>
+                                        </div>
+                                        <div class="font-semibold text-500 text-lg" translate>
+                                            Invitees
+
+                                        </div>
+                                    </div>
+                                    <div class="p-2">
+                                        <div class="grid">
+                                            <div *ngFor="let item of meeting?.invited" class="col-4">
+                                                <div class=" flex align-items-center ">
+                                                    <entity-viewer [entity]="{
+                                                type:'user',
+                                                value:item?.user,
+                                                invert:true,
+                                                title:showInvitedTitle(item)}"></entity-viewer>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <ng-container #props *ngIf="meeting?.props?.length">
+                                        <app-dynamic-properties-preview
+                                            [props]="meeting?.props"></app-dynamic-properties-preview>
+                                    </ng-container>
+
+                                    <ng-container #notes *ngIf="meeting?.notes">
+                                        <div class="mt-6">
+                                            <div class="text-lg font-semibold mb-3 border-bottom pb-2 ">
+                                                {{'Notes'|translate}}: </div>
+                                            <div class="block">
+                                                {{meeting?.notes}}
+
+
+                                            </div>
+                                        </div>
+                                    </ng-container>
+
+                                    <div class="mt-6 ">
+                                        <app-attachment hideUpload="true"
+                                            [(attachments)]="meeting.attachments"></app-attachment>
+                                    </div>
+                                </div>
+                            </p-tabPanel>
+
+                            <p-tabPanel header="{{'Agenda'|translate}}">
+                                <div class="overflow-y-auto px-3" style="max-height:calc(100vh - 250px)">
+                                    <p [innerHTML]="meeting?.agenda" class="text-lg text-800 mt-2"></p>
+
+                                </div>
+                            </p-tabPanel>
+
+                            <p-tabPanel *ngIf="meeting?.hasMom" header="{{'Minutes of Meeting'|translate}}">
+
+                                <div *ngIf="currentMinutesofMeeting" class="block my-2 overflow-y-auto px-3"
+                                    style="max-height:calc(100vh - 270px)">
+
+                                    <p-fieldset legend="{{'Discussions'|translate}}">
+                                        <p [innerHTML]="currentMinutesofMeeting?.discussions" class="text-lg "></p>
+                                    </p-fieldset>
+                                    <div class="mt-3">
+
+                                        <p-fieldset legend="{{'Decisions'|translate}}">
+                                            <p [innerHTML]="currentMinutesofMeeting?.decisions" class="text-lg"></p>
+                                        </p-fieldset>
+
+                                    </div>
+                                    <div class="mt-3">
+                                        <div class="text-lg font-semibold mb-3 border-bottom pb-2 ">{{'Action
+                                            Items'|translate}}: </div>
+
+                                        <ng-container #summary>
+                                            <div class="flex">
+                                                <div [class]="'css.border-right'|translate" class="px-2">
+                                                    <div class="w-10rem relative ">
+                                                        <p-chart type="doughnut" height="150px"
+                                                            [options]="{plugins: {legend: { display: false}}}"
+                                                            [data]="currentMinutesofMeeting.chart"></p-chart>
+                                                        <div class="absolute text-center w-10rem  " style="top:45px">
+                                                            <div translate class="font-semibold  text-xl " translate>
+                                                                {{currentMinutesofMeeting?.actionItems?.length}}</div>
+                                                            <div translate class="font-semibold text-500 text-lg "
+                                                                translate>All
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="flex flex-wrap justify-content-center pt-4  gap-3"
+                                                    [class]="'css.ml-3'|translate">
+                                                    <div *ngFor="let item of currentMinutesofMeeting?.actionItemsSummary"
+                                                        class="card shadow-2 w-8rem h-6rem  p-0 text-center pt-3">
+                                                        <div class="font-semibold text-xl"
+                                                            [style.color]="item?.details?.color">
+                                                            {{item?.value}}</div>
+
+                                                        <div class=" mt-2" [style.color]="item?.details?.color">
+                                                            {{item?.name}}</div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                        <div *ngFor="let actionItems of currentMinutesofMeeting?.actionItems"
+                                            class="flex justify-content-between flex-wrap mt-3 surface-ground p-2 border-round">
+
+                                            <div class=" flex align-items-center ">
+                                                <span [class]="'css.mr-2'|translate">
+                                                    <i *ngIf=" actionItems?.statues?.key !='Completed'"
+                                                        class="pi pi-stop text-3xl "></i>
+                                                    <i *ngIf=" actionItems?.statues?.key =='Completed'"
+                                                        class="pi pi-check-square text-3xl text-primary"></i>
+
+                                                </span>
+                                                <entity-viewer
+                                                    [entity]="{type:'text',title:'Title'| translate,value:actionItems.title}"></entity-viewer>
+                                            </div>
+
+
+
+                                            <div class=" flex align-items-center ">
+                                                <span [class]="'css.mr-2'|translate">
+                                                    <i class="pi pi-clock text-3xl "></i>
+                                                </span>
+                                                <entity-viewer
+                                                    [entity]="{type:'text',title:'Due Date'| translate,value:actionItems?.dueDate?.label}"></entity-viewer>
+                                            </div>
+
+                                            <div class=" flex align-items-center ">
+
+                                                <entity-viewer
+                                                    [entity]="{type:'user',title:'Assigned To'|translate,value:actionItems?.assignedTo}"></entity-viewer>
+                                            </div>
+
+                                            <div class=" align-items-center mt-2" style="width: 200px">
+
+                                                <div class="text-base text-color-secondary font-semibold" translate>
+                                                    Progress</div>
+
+                                                <app-prgoress [(value)]="actionItems.progress"
+                                                    [color]="actionItems?.statues?.details?.color"></app-prgoress>
+                                            </div>
+
+
+                                            <div class=" align-items-center ">
+
+                                                <div class="text-base text-color-secondary font-semibold" translate>
+                                                    Actions</div>
+
+                                                <button pButton pRipple type="button"
+                                                    icon="pi pi-ellipsis-h font-semibold"
+                                                    (click)="selectedTask=actionItems;menu.toggle($event)"
+                                                    class="p-button-rounded p-button-text p-button-secondary p-0 m-0"></button>
+                                                <p-menu #menu [popup]="true" appendTo="body"
+                                                    [model]="currentMinutesofMeeting?.actions"></p-menu>
+
+                                            </div>
+
+                                            <!-- <div class=" flex align-items-center " style="width: 200px">
+                                                <span [class]="'css.mr-2'|translate">
+                                                    <i class="icon-tasks text-600 text-3xl mt-1"></i>
+                                                </span>
+
+                                                <entity-viewer
+                                                    [entity]="{type:'link',title:'Task'| translate,value:showTask(actionItems.taskId)}"></entity-viewer>
+                                            </div> -->
+                                        </div>
+
+                                    </div>
+                                    <div class="mt-6  ">
+                                        <app-attachment hideUpload="true"
+                                            [(attachments)]="currentMinutesofMeeting.attachments"></app-attachment>
+                                    </div>
+
+                                </div>
+
+                            </p-tabPanel>
+                        </p-tabView>
+
+                    </ng-container>
+
+
+                </div>
+            </div>
+            <div class=" lg:col-5  sm:col-12 pt-0">
+
+                <app-comments *ngIf="!loadComments" [height]="commentsHeight" [comments]="meeting?.comments"
+                    [sourse]="{module:'meeting',id:meeting?.id}"></app-comments>
+
+            </div>
+        </div>
+    </div>
+
+
+</app-sidebar>
+
+<app-modal *ngIf="showSuggestAnotherDate" [(display)]="showSuggestAnotherDate"
+    [title]="'Suggest Another Date'|translate" class="modal-sm">
+    <form body #form="ngForm">
+        <div class="grid">
+            <div class="lg:col-6 sm:col-12 ">
+                <app-calendar [(ngModel)]="anotherDate.startDateTime" (ngModelChange)="startDateChange()"
+                    [showTime]="true" [required]="true" name="startDateTime" showIcon="true"
+                    [title]="'Start Date'|translate"></app-calendar>
+            </div>
+            <div class="lg:col-6 sm:col-12 ">
+
+                <app-calendar [(ngModel)]="anotherDate.finishDateTime" (ngModelChange)="finishDateChange()"
+                    [showTime]="true" [timeOnly]="true" [required]="true" name="endDateTime" showIcon="true"
+                    [title]="'End Date'|translate"></app-calendar>
+            </div>
+        </div>
+    </form>
+    <div footer>
+        <button (click)="showSuggestAnotherDate=false" pButton pRipple type="button" label="{{'Cancel'|translate}}"
+            icon='pi pi-times {{"css.mr-2"|translate}}' class="p-button-secondary p-button-outlined"></button>
+        <button (click)="suggestAnotherDate()" [disabled]="form?.invalid" pButton pRipple type="button"
+            label="{{'Save'|translate}}" icon='pi pi-check {{"css.mr-2"|translate}}'></button>
+
+    </div>
+</app-modal>
+
+
+
+
+<app-modal *ngIf="showAddMinutesofMeeting" [(display)]="showAddMinutesofMeeting"
+    [title]="'Add Minutes of Meeting'|translate" class="modal-md">
+    <form body #form="ngForm">
+        <div class="grid">
+            <div class="col-12 py-0">
+                <app-text-editor height="120px" [(ngModel)]="newMinutesofMeeting.discussions" name="discussions"
+                    [required]="true" [title]="'Discussions'|translate"></app-text-editor>
+            </div>
+            <div class="col-12 pb-0">
+                <app-text-editor height="120px" [(ngModel)]="newMinutesofMeeting.decisions" name="discussions"
+                    [required]="true" [title]="'Decisions'|translate"></app-text-editor>
+            </div>
+            <div class="col-12 pb-0">
+                <div class="flex justify-content-between flex-wrap mb-2">
+                    <div class="flex align-items-center justify-content-center  ">
+
+                        <div class="text-xl font-semibold " translate>Action Items
+                        </div>
+                    </div>
+                    <div class="flex align-items-center justify-content-center  ">
+
+                        <button pButton (click)="newActionItems()" pRipple type="button"
+                            icon='pi pi-plus {{"css.mr-2"|translate}}' [label]="'New Item'|translate"
+                            class="p-button-outlined "></button>
+
+                    </div>
+                </div>
+
+                <div *ngFor="let actionItem of newMinutesofMeeting?.actionItems,let i=index" class="input-items mb-3">
+                    <div class="grid m-0 ">
+                        <div *ngIf="newMinutesofMeeting?.actionItems.length>1" style=" height: 0px;" class="col-12  p-0"
+                            [class]="'css.text-right'|translate">
+                            <button pButton (click)="removeActionItems(i)" pRipple type="button" icon='pi pi-trash '
+                                class=" p-button-text p-button-danger p-button-sm"></button>
+                        </div>
+                        <div class="lg:col-4 sm:col-12">
+                            <app-input [(ngModel)]="actionItem.details" [name]="'details'+i"
+                                [title]="'Details'|translate"></app-input>
+                        </div>
+                        <div class="lg:col-4 sm:col-12">
+                            <app-calendar [(ngModel)]="actionItem.dueDate" [showTime]="true" [name]="'DueDate'+i"
+                                showIcon="true" [title]="'Due Date'|translate"></app-calendar>
+                        </div>
+                        <div class="lg:col-4 sm:col-12">
+
+                            <app-find-user [(ngModel)]="actionItem.assignedTo" [name]="'assignedTo'+i"
+                                [title]="'Assigned To'|translate"></app-find-user>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-12 pb-0">
+
+                <app-attachment [(attachments)]="newMinutesofMeeting.attachments"></app-attachment>
+
+            </div>
+        </div>
+    </form>
+    <div footer>
+        <button (click)="showAddMinutesofMeeting=false" pButton pRipple type="button" label="{{'Cancel'|translate}}"
+            icon='pi pi-times {{"css.mr-2"|translate}}' class="p-button-secondary p-button-outlined"></button>
+        <button (click)="addMinutesOfMeeting()" [disabled]="form?.invalid" pButton pRipple type="button"
+            label="{{'Save'|translate}}" icon='pi pi-check {{"css.mr-2"|translate}}'></button>
+
+    </div>
+</app-modal>

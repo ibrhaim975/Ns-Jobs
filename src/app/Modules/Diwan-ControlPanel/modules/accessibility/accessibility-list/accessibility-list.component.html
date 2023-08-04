@@ -1,0 +1,27 @@
+<p-confirmDialog appendTo="body"></p-confirmDialog>
+
+<app-table #table [caption]="caption" [data]="accessibilities" [columns]="columns" (onExpanded)="onExpanded($event)"
+    [actionsColumns]="actionsColumns" [actionsTemplate]="{action:action}" [expandedTable]="true" [lodaing]="loading">
+
+
+    <div expandContent>
+        <div *ngIf="expanded==true">
+            <app-accessibilities-group [accessibilitiey]="selectedAccessibility"></app-accessibilities-group>
+        </div>
+    </div>
+
+
+
+    <ng-template #action>
+        <button (mouseenter)="setSelectedAccessibility(table.selectedItem)" (click)="menu.toggle($event)" pButton
+            pRipple type="button" icon="pi pi-ellipsis-v font-semibold"
+            class="p-button-rounded p-button-secondary p-button-text  "></button>
+        <p-menu #menu [popup]="true" appendTo="body" [model]="accessibilityActions"></p-menu>
+    </ng-template>
+
+
+</app-table>
+
+<div *ngIf="addAccessibility==true">
+<app-add-accessibility-group [(display)]="addAccessibility" [accessibilitiey]="selectedAccessibility"> </app-add-accessibility-group>
+</div>

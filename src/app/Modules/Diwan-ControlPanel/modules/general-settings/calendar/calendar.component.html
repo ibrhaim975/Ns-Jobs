@@ -1,0 +1,100 @@
+<app-loading *ngIf="loading" ></app-loading>
+
+<div class="px-3" *ngIf="!loading" >
+    <ng-container #Calendar >
+        <div class="block pb-4 border-bottom-0">
+            <div class="flex justify-content-between flex-wrap ">
+                <div class="flex align-items-center justify-content-center  ">
+                    <div class="text-xl font-semibold" translate> Calendar Management</div>
+                </div>
+                <div class="flex align-items-center justify-content-center  ">
+                    <button pButton pRipple type="button" icon="pi pi-plus {{'css.mr-2'|translate}}"
+                        label="{{'Add'|translate}}" class="p-button-rounded primary-btn">
+
+                    </button>
+                </div>
+            </div>
+
+
+            <div class=" flex align-items-center mt-2">
+                <span [class]="'css.mr-1'|translate">
+                    <i class="pi pi-calendar text-3xl "></i>
+                </span>
+                <div class=" font-semibold text-500" translate>No Calenders now. Please add a calender</div>
+            </div>
+        </div>
+    </ng-container>
+    <ng-container #startWeek>
+        <div class="block py-4 border-bottom-0">
+            <div class="text-xl font-semibold" translate> Start Week On</div>
+            <div class="font-semibold text-500" translate>Customize the start of week you would like to use</div>
+            <div class="mt-2 w-4">
+                <app-select-status [(ngModel)]="selectedStartWeek" [statues]="startWeeks"
+                    [showColor]="false"></app-select-status>
+            </div>
+
+        </div>
+    </ng-container>
+
+
+    <ng-container #startWeek>
+        <div class="block py-4 border-bottom-0">
+            <div class="text-xl font-semibold" translate> Enable Working Hours</div>
+            <div class="font-semibold text-500" translate>People will get a note when they try to invite you to events
+                outside of your working hours</div>
+
+            <div class="text-lg font-semibold mt-3" translate> Set Workdays</div>
+            <div class="flex mt-2">
+                <!-- findValue('BusinessName')?.value -->
+                <p-button *ngFor="let item of startWeeks" label="{{item.name|translate}}" (click)="updateWeekEnd(item) "
+                    styleClass="p-button-sm primary-btn  {{item.status==true ? 'p-button-outlined p-button-secondary':''}} {{'css.ml-2'|translate}}"></p-button>
+
+            </div>
+
+            <div class="text-lg font-semibold mt-4" translate> Set Working Hours</div>
+            <ng-container>
+                <div class="mt-2">
+                    <div *ngFor="let item of startWeeks;let i =index">
+                        <div *ngIf="item.status!=false" class="field grid">
+                            <label for="{{item?.name}}" class="col-fixed font-semibold mt-2"
+                                style="width: 90px;">{{item?.name}}</label>
+                            <div class="col ">
+                                <div class="flex">
+                                    <div class="w-8rem">
+                                        <p-inputMask (onFocus)='item.focus=true' (onBlur)='item.focus=false'
+                                            id="{{item?.name}}" [(ngModel)]="item.value" styleClass="p-inputtext-sm"
+                                            mask="99:99-99:99"></p-inputMask>
+                                    </div>
+                                    <a *ngIf="item.focus==true" class="mx-3 mt-1 font-semibold cursor-pointer" translate>Apply
+                                        time to all workdays</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </ng-container>
+
+
+        </div>
+    </ng-container>
+    <ng-container #viedoConf>
+        <div class="block py-4 border-bottom-0">
+
+        <div class="text-lg font-semibold " translate> Preferred Video Conferencing Provider</div>
+        <div class="mt-2 w-4">
+            <app-select-status [showColor]="false"></app-select-status>
+        </div>
+    </div>
+    </ng-container>
+
+    <ng-container #timeZone>
+   
+        <div class="text-lg font-semibold mt-4" translate> Current Device Time Zone</div>
+        <div class="mt-2 w-4">
+            <input type="text" pInputText [(ngModel)]="currentTimeZone" [disabled]="true">
+
+        </div>
+
+    </ng-container>
+</div>

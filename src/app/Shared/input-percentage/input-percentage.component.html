@@ -1,0 +1,14 @@
+
+
+<div class="block">
+
+    <div class="text-lg font-semibold mb-2" >{{title}}
+        <span *ngIf="required && !value" style="color: var(--danger) !important">*</span>
+    </div>
+
+    <div class="p-inputgroup">
+        <p-inputNumber [(ngModel)]="value" [max]="100" [class]="class" [required]="required" type="text" placeholder="{{'Enter'|translate}} {{title}}" [name]="title"></p-inputNumber>
+        <span class="p-inputgroup-addon font-semibold text-lg">%</span>
+
+    </div>
+</div>

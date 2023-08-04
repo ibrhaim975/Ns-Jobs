@@ -1,0 +1,78 @@
+<!-- <app-loading *ngIf="loading" display="full"></app-loading> -->
+
+
+<app-sidebar [display]="display" (displayChange)="onHide()">
+    <div header>
+        <div class="flex justify-content-between flex-wrap ">
+            <div class="flex align-items-center justify-content-center   ">
+                <div class="flex-initial flex align-items-center justify-content-center mx-2">
+                    <button pButton (click)="display=false;onHide()" pRipple type="button" icon="pi pi-times"
+                        class="p-button-rounded p-button-secondary p-button-lg p-button-text btn-white "></button>
+                </div>
+                <div class="flex align-items-center justify-content-center border-break"></div>
+
+                <div class="flex-initial flex align-items-center justify-content-center px-3">
+                    <span class="text-3xl text-white ">{{title|translate}} </span>
+                    <!-- <span *ngIf="task?.id">({{ task?.title }})</span> -->
+
+                </div>
+
+            </div>
+            <div class="flex align-items-center justify-content-center  ">
+
+                <button *ngIf="!loading" pButton pRipple (click)="newAddEdit()" type="button" [label]="'Save'|translate" icon="pi pi-check "
+                    [disabled]="form?.invalid "
+                    class="p-button-rounded p-button-outlined p-button-secondary2  p-button-lg text-btn text-btn"></button>
+            </div>
+        </div>
+    </div>
+
+    <form #form="ngForm" body class="px-5 pb-6">
+        <div *ngIf="!loading" class="grid ">
+            <div class="lg:col-6 sm:col-12 ">
+                <app-input [(ngModel)]="new.title" name="title" [title]="'Title'|translate"
+                    [required]="true"></app-input>
+            </div>
+            <div class="lg:col-6 sm:col-12 ">
+                <app-calendar [(ngModel)]="new.date" (ngModelChange)="finishDateChange()" [showTime]="true"
+                    [required]="true" name="newsDate" showIcon="true" [title]="'Date'|translate"></app-calendar>
+            </div>
+            <div class="lg:col-6 sm:col-12 ">
+
+                <app-select-status [(ngModel)]="new.source" [disabled]="new?.isSync" [required]="true" name="Source" [title]="'Source'|translate"
+                    [statues]="newsSource" optionLabel="title" [showColor]="false"></app-select-status>
+            </div>
+       
+            <div class="lg:col-6 sm:col-12 ">
+                <app-input [(ngModel)]="new.link" [disabled]="new?.isSync" name="sourceURL" [title]="'URL'|translate"
+                    [required]="true"></app-input>
+            </div>
+
+            <div class="lg:col-6 sm:col-12 ">
+
+                <app-select-status [(ngModel)]="new.sentiment" [disabled]="new?.isSync" [required]="true" name="sentiment" [title]="'Sentiment'|translate"
+                    [statues]="sentiments"  [showColor]="true"></app-select-status>
+            </div>
+
+            <div class="lg:col-6 sm:col-12 ">
+
+                <app-select-status [(ngModel)]="new.keyword" [disabled]="new?.isSync" [required]="true" name="KeyWord" [title]="'Keyword'|translate"
+                    [statues]="newsKeywords" optionLabel="keyword" [showColor]="false"></app-select-status>
+            </div>
+            <div class="col-12 ">
+
+                    <app-text-area [(ngModel)]="new.details" name="details" [required]="true"
+                    [title]="'Details'|translate"></app-text-area>
+
+            </div>
+          
+            <div *ngIf="!new?.isSync" class="col-12 mb-5">
+                <app-image-upload title="Image" [width]="400" [required]="true" [(image)]="new.image"></app-image-upload>
+
+            </div>
+
+       
+        </div>
+    </form>
+
+</app-sidebar>

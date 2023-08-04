@@ -1,0 +1,64 @@
+<app-breadcrumb [data]="breadcrumb"></app-breadcrumb>
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog appendTo="body"></p-confirmDialog>
+
+<div class="flex justify-content-between flex-wrap mb-2">
+    <div class="flex align-items-center justify-content-center  ">
+
+        <i class="icon-business-meeting text-primary text-3xl"></i>
+        <span class="mx-2 font-semibold text-3xl" translate>Meetings</span>
+    </div>
+    <div class="flex align-items-center justify-content-center  ">
+
+        <div class="flex align-items-center justify-content-center m-2 dir-int">
+            <p-selectButton #selectButtonTarget (click)="getMeetings(selectButtonTarget?.value)"
+                [options]="[{label: 'All'|translate, value: ''},{label: 'Organization'|translate, value: 'Organization'}, {label: 'Committees'|translate, value: 'Committee'}]"
+                optionLabel="label" optionValue="value"></p-selectButton>
+        </div>
+        <div class="flex align-items-center justify-content-center m-2 border-break">
+
+        </div>
+
+        <div class="flex align-items-center justify-content-center m-2 ">
+            <button pButton pRipple type="button" icon="pi pi-list " (click)="viewMode='list'"
+                [class]="viewMode=='list'?'p-button-secondary2-active':'p-button-secondary2'"
+                class="p-button-rounded p-button-outlined p-button-secondary2 "></button>
+
+        </div>
+
+        <div class="flex align-items-center justify-content-center m-2">
+            <button pButton pRipple type="button" icon="pi pi-calendar " (click)="viewMode='calendar'"
+                [class]="viewMode=='calendar'?'p-button-secondary2-active':'p-button-secondary2'"
+                class="p-button-rounded p-button-outlined p-button-secondary2 "></button>
+        </div>
+        <div class="flex align-items-center justify-content-center  m-2 ">
+            <button pButton pRipple type="button" icon="pi pi-filter-fill "
+                class="p-button-rounded p-button-outlined p-button-secondary2 "></button>
+
+        </div>
+
+        <div *ngIf="accessibility?.hasPermission==true" class="flex align-items-center justify-content-center m-2 ">
+            <button pButton pRipple type="button" icon="pi pi pi-plus " (click)="displayAddEdit=true"
+                [label]="'New Meet'| translate"
+                class="p-button-rounded p-button-outlined p-button-secondary2 text-btn"></button>
+
+        </div>
+    </div>
+</div>
+
+<ng-container *ngIf="!loading">
+    <app-full-calendar-meetings *ngIf="viewMode=='calendar'" [meetings]="meetings"
+        (meetClick)="showMeetingDetails($event)"></app-full-calendar-meetings>
+
+    <app-list-meetings *ngIf="viewMode=='list'" [meetings]="meetings"
+        (meetClick)="showMeetingDetails($event)"></app-list-meetings>
+</ng-container>
+
+<ng-container *ngIf="loading">
+    <div class="mt-8">
+        <app-loading></app-loading>
+
+    </div>
+</ng-container>
+<app-add-edit-meetings *ngIf="displayAddEdit" [(display)]="displayAddEdit"></app-add-edit-meetings>
+<app-meetings-details *ngIf="displayMeetingsDetails" [(display)]="displayMeetingsDetails"></app-meetings-details>

@@ -1,0 +1,18 @@
+<p-confirmDialog appendTo="body"></p-confirmDialog>
+
+<app-table #table [caption]="caption" [data]="roles" [columns]="columns" [expandedTable]="true"
+    (onExpanded)="onExpanded($event)" [lodaing]="loading">
+
+
+    <div expandContent>
+        <div *ngIf="selectedRole?.id">
+            <app-active-deactive-roles [data]="selectedRole" [moduleId]="moduleId"></app-active-deactive-roles>
+        </div>
+    </div>
+
+
+
+
+
+
+</app-table>

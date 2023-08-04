@@ -1,0 +1,53 @@
+<div #stepper>
+  <mat-stepper orientation="vertical" selectedIndex="1">
+
+    <ng-container *ngFor="let item of data;let i =index" >
+      <mat-step  [stepControl]="true">
+        <ng-template matStepLabel>
+          <div (click)="onSelect(i)">
+          <div  class="flex justify-content-between flex-wrap pt-3 " [style.width.px]="stepper?.offsetWidth-90">
+            <div class=" align-items-center justify-content-center ">
+              <div class="text-xl font-semibold text-color">{{item?.name}}</div>
+            </div>
+
+            <!-- <div class="flex align-items-center justify-content-center ">
+              <div class=" font-semibold text-400 ">{{item?.date}}</div>
+            </div> -->
+          </div>
+          <div [style.color]="item?.approvalStatus?.details?.color" class=" font-bold ">{{item?.approvalStatus?.name}}</div>
+        </div>
+        </ng-template>
+        <ng-container *ngIf="currentIndex==i">
+        <div *ngFor="let action of item?.workflowActions;let i=index"
+          class="flex justify-content-between flex-wrap  p-3 mt-2 w-7  input-items bg-white">
+          <div class="align-items-center justify-content-center  mx-2">
+            <span class=" font-semibold text-500">{{action?.targetType}}</span>
+
+          </div>
+          <div class="align-items-center justify-content-center mx-2">
+            <span class=" font-semibold text-primary">{{action?.targetValue}}</span>
+          </div>
+        </div>
+      </ng-container>
+
+      </mat-step>
+
+    </ng-container>
+
+
+
+
+
+    <ng-template matStepperIcon="number" let-index="index">
+      <div (click)="onSelect(index)" [style.backgroundColor]=" index==3 ? 'var(--orange-300)' :'var(--primary-color)'"
+        class="h-2rem w-2rem border-circle">
+        <i [class.block]="data[index]?.approvalStatus?.key=='Rejected'" class="pi pi-times hidden p-2 text-white"></i>
+        <i [class.block]="data[index]?.approvalStatus?.key=='Approved'"  class="pi pi-check hidden p-2 text-white"></i>
+        <i [class.block]="data[index]?.approvalStatus?.key=='Pending'" class="pi pi-ellipsis-h hidden p-2 text-white"></i>
+        <i [class.block]="data[index]?.approvalStatus?.key=='Returned'" class="pi pi-refresh hidden p-2 text-white"></i>
+
+      </div>
+
+    </ng-template>
+  </mat-stepper>
+</div>

@@ -1,0 +1,53 @@
+<div class="card cursor-pointer mb-5">
+    <div class="card-header">
+        <div class="card-title flex align-items-center">
+            <div class="text-xl font-semibold">{{task.title}}
+            </div>
+        </div>
+        <div>
+            <ng-container *ngFor="let item of task?.raci">
+                <p-avatar *ngIf="item?.value==true" [label]="item?.name?.charAt(0)"
+                    styleClass="mx-1 font-semibold  text-lg " [pTooltip]="item?.name" tooltipPosition="top"
+                    [style]="{'background-color':item?.details?.color,color: '#ffffff'}" shape="circle"></p-avatar>
+
+            </ng-container>
+            <badge-status [status]="task?.status" class="mx-1"></badge-status>
+        </div>
+    </div>
+    <div class="card-body pt-3">
+        <div class="grid ">
+            <div class="col-3 ">
+                <entity-viewer
+                    [entity]="{type:'text',title:'Creation Date',value:task?.createdAt?.label}"></entity-viewer>
+            </div>
+            <div class="col-3 ">
+                <entity-viewer
+                    [entity]="{type:'text',title:'Due Date',value:task?.dueDate?.label,color:task?.status?.details?.color}"></entity-viewer>
+            </div>
+
+            <div class="col-3 ">
+                <entity-viewer [entity]="{type:'user',title:'Created By',value:task?.createdBy}"></entity-viewer>
+            </div>
+            <div class="col-3 ">
+                <div class="text-base text-color-secondary mb-2 font-semibold" translate>Progress</div>
+                <app-prgoress [(value)]="task.progress" [color]="task?.status?.details?.color"></app-prgoress>
+            </div>
+        </div>
+        <ng-container *ngIf="task?.props?.length">
+            <div class="py-3">
+                <app-dynamic-properties-preview [props]="task?.props"
+                    [colClass]="'col-3 py-0'"></app-dynamic-properties-preview>
+            </div>
+        </ng-container>
+    </div>
+    <div class="card-footer flex ">
+        <div>
+            <i class="pi pi-comment text-xl "></i>
+            <span class=" font-semibold mx-2">{{task?.commentsCount }}</span>
+        </div>
+        <div class="mx-3">
+            <i class="pi pi-paperclip text-xl "></i>
+            <span class=" font-semibold mx-2">{{task?.filesCount }}</span>
+        </div>
+    </div>
+</div>

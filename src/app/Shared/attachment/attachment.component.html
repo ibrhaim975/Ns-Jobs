@@ -1,0 +1,74 @@
+<div *ngIf="hideTitle==false" class="text-lg font-semibold mb-2">{{'Attachments'|translate}}: </div>
+<div style="min-height: 130px ;">
+<p-table [value]="attachments" styleClass="p-datatable-striped" [rows]="10" [loading]="loading">
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th translate>Name</th>
+            <th translate>Modified</th>
+            <th translate>Created By</th>
+            <th translate>Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-attachment>
+        <tr>
+            <td>
+                <!-- <img src="./assets/iconsFiles/{{getFileType(attachment?.name)}}.png" width="25" alt=""> -->
+                {{attachment?.name}}
+            </td>
+            <td>{{attachment?.createdAt?.label }}
+                <span *ngIf="!attachment?.createdAt?.label">
+                    __
+                </span>
+
+            </td>
+            <td>
+                <div class="flex-initial flex align-items-center  ">
+                    <img [src]="attachment?.createdBy?.photo|| 'assets/images/user.png'" width="25" height="25"
+                   style="border-radius: 50%;" >
+
+                <span class="mx-2 mt-2"> {{attachment?.createdBy?.displayName}}</span>
+
+                </div>
+          
+            </td>
+            <td>
+
+                <button (click)="selecteAttachments=attachment;attachmentsActinos.toggle($event)" pButton pRipple
+                    type="button" icon="pi pi-ellipsis-v"
+                    class="p-button-rounded p-button-secondary p-button-lg p-button-text  "></button>
+                <p-menu #attachmentsActinos [popup]="true" appendTo="body" [model]="attachmentsAction"></p-menu>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td style="text-align: center !important;" colspan="6" class=" font-semibold" translate>
+
+                <i class="pi pi-info-circle mx-1"></i>
+                No Attachments found
+
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template *ngIf="hideUpload==false" pTemplate="summary">
+
+        <div *ngIf="hideUpload==false" draggable="true" class=" text-muted text-center">
+
+            <i class="fas fa-cloud-upload-alt mx-1 text-3xl"></i>
+            {{"Drop files here to attach or"|translate}}
+
+            <button pButton pRipple (click)="uploadfile?.click()" type="button" [label]="'Browse'|translate"
+                class="p-button-text py-0  px-0 font-semibold"></button>
+
+            <input #uploadfile multiple accept="{{fileTypes}}" name="attachments"
+                (change)="handleFileInput($event.target.files)" style="display:none" type="file" class="file-upload">
+
+
+        </div>
+
+
+
+    </ng-template>
+</p-table>
+</div>

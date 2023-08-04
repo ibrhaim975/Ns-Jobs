@@ -1,0 +1,25 @@
+::ng-deep .custom-tree .p-tree{
+    padding: 0px !important;
+    border-radius: 0px !important;
+border: none !important;
+}
+
+::ng-deep .custom-tree .p-tree .p-tree-container .p-treenode {
+    border-radius: 0px !important;
+}
+
+::ng-deep .custom-tree .p-treenode-label {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 5px;
+}
+
+::ng-deep .custom-tree  .p-treenode-icon {
+    padding: 6px;
+    border: solid var(--surface-200) 1px;
+    border-radius: 50%;
+}
+
+::ng-deep  .p-tree .p-tree-container .p-treenode .p-treenode-content .p-tree-toggler{
+    display: none;
+}

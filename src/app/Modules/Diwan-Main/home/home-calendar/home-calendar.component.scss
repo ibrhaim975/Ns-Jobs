@@ -1,0 +1,14 @@
+.border-calender{
+    border: 1px solid #cfcfcf;
+}
+ ::ng-deep  full-calendar.fc.fc-theme-standard .fc-view-harness td{
+    background: transparent !important;
+}
+
+
+::ng-deep  full-calendar.fc.fc-theme-standard .fc-view-harness .fc-cell-shaded{
+    display: none !important;
+}
+::ng-deep  full-calendar .fc-timegrid-event .fc-event-main{
+    cursor: pointer !important
+}

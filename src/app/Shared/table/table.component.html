@@ -1,0 +1,161 @@
+<p-table #dt [columns]="columns" [value]="data" styleClass="shadow-1 border-round p-datatable-striped " dataKey="id"
+    [reorderableColumns]="reorderableColumns" [scrollable]="scrollable" [scrollHeight]="scrollHeight"
+    (onRowReorder)="onChangeReorderColumn($event)" class="border-round" rowExpandMode="single" [rowHover]="true"
+    [rowsPerPageOptions]="[10,data?.length>10?data?.length:'']" [paginator]="paginator" [rows]="8" [loading]="lodaing">
+    <ng-container *ngIf="caption">
+        <ng-template pTemplate="caption">
+
+            <div class="flex justify-content-between flex-wrap ">
+                <div class=" justify-content-between flex-wrap ">
+                    <span class="text-xl font-semibold">
+                        <div class="flex">
+                            {{caption?.title |translate}}
+                            <div class="mx-2">
+                                <ng-content select="[captionTitle]"></ng-content>
+                            </div>
+                        </div>
+
+                        <span *ngIf="caption?.subTitle">
+                            : <label [style.color]="caption?.color">{{caption?.subTitle}}</label>
+                        </span>
+                    </span>
+                    <div class="text-500 text-lg font-semibold">
+                        {{'In total there are'|translate}} <label
+                            class="text-primary font-bold ">{{data?.length}}</label>
+                        <label *ngIf="caption?.title2;else titleDefult">
+                            {{ caption?.title2 |translate}}.
+
+                        </label>
+                        <ng-template #titleDefult>
+                            {{ caption?.title |translate}}.
+                        </ng-template>
+                    </div>
+                </div>
+
+                <div class="flex">
+                    <ng-content select="[toolBarBtns]"></ng-content>
+
+                    <div class="justify-content-between ">
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                placeholder="{{'Search'|translate}}" />
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+    </ng-container>
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngIf="expandedTable==true" style="width: 2rem" [class]="rowClass"></th>
+            <th *ngFor="let col of columns" [style.width]="col.width ?col.width:'20%' " [pSortableColumn]="col?.field"
+                [class.hidden]="col?.display=='none'" [class]="rowClass" pReorderableColumn>
+                {{col?.header|translate}}
+                <p-sortIcon *ngIf="col?.filter!=false" [field]="col?.field"></p-sortIcon>
+            </th>
+            <th *ngFor="let col of actionsColumns" [class]="rowClass">
+                {{col?.header|translate}}
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-item let-columns="columns" let-index="rowIndex" let-expanded="expanded">
+        <tr [pReorderableRow]="index">
+            <td *ngIf="expandedTable==true">
+                <button type="button" pButton pRipple [pRowToggler]="item" (click)="onExpandedColumn(item)"
+                    class="p-button-text p-button-rounded p-button-plain "
+                    [icon]="expanded ? 'pi pi-chevron-down' : currentLang=='en'?'pi pi-chevron-right':'pi pi-chevron-left'"></button>
+            </td>
+            <td *ngFor="let col of columns;let i =index" [class.hidden]="col?.display=='none'" [style.width]="col.width ?col.width:'70%' "  class="font-semibold text-500">
+                <div class="flex">
+                    <span *ngIf="i==0 && reorderableColumns==true" [class]="'css.mr-4'|translate"
+                        class="pi pi-bars mt-1 text-lg text-primary font-semibold"
+                        [pTooltip]="recoderDone==true?'':'Change Order'|translate" life="1500"
+                        pReorderableRowHandle></span>
+
+
+
+                    <div *ngIf="col.type=='date'">{{item[col.field]?.label}}</div>
+                    <div *ngIf="col.type=='user'">
+                        <div class="flex-initial flex align-items-center  ">
+                            <img [src]="item[col.field]?.photo|| 'assets/images/user.png'" width="25" height="25"
+                                style="border-radius: 50%;" [class]="'css.mr-2'|translate">
+                            <span> {{item[col.field]?.displayName}}</span>
+
+                        </div>
+                    </div>
+
+                    <div *ngIf="col.type=='progress'" style="width: 100%;">
+                        <app-prgoress [(value)]="item[col.field]"
+                            [color]="item[col.color].details?.color"></app-prgoress>
+
+                    </div>
+
+
+                    <div *ngIf="!col.type">{{item[col.field]||'__'}}</div>
+
+
+                    <div *ngIf="col.type=='switch'">
+                        <p-inputSwitch [disabled]="item[col.disabled]" [(ngModel)]="item[col.field]"
+                            (onChange)="onChangeInputSwitch(item)"></p-inputSwitch>
+
+                    </div>
+                    <div *ngIf="col.type=='boolean'">
+                        <i class="pi text-lg"
+                            [ngClass]="{'true-icon pi-check-circle': item[col.field], 'false-icon pi-times-circle': !item[col.field]}"></i>
+
+
+                    </div>
+                    <div *ngIf="col.type=='color'">
+                        <i class="pi  pi-circle-fill text-lg" [style.color]="item?.details?.color"></i>
+
+                    </div>
+                    <div *ngIf="col?.type=='translatable'">
+                        <div *ngIf="currentLang=='ar'">
+                            {{item[col.field].ar}}
+                        </div>
+                        <div *ngIf="currentLang=='en'">
+                            {{item[col.field].en}}
+                        </div>
+                    </div>
+
+                    <div *ngIf="col?.type=='status'" class="pb-3">
+                        <entity-viewer [entity]="{type:'status',title:null,value:item[col.field]}"></entity-viewer>
+                    </div>
+
+
+
+                </div>
+            </td>
+            <td *ngFor="let action of actionsColumns" (mouseenter)="selectedItem=item">
+                <ng-container *ngTemplateOutlet="actionsTemplate[action.key]"></ng-container>
+
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="rowexpansion" let-item>
+        <tr>
+            <td colspan="10">
+                <div class="w-12">
+                    <ng-content select="[expandContent]"></ng-content>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td colspan="6" class="text-center font-semibold">
+
+                <div class="text-center" translate>
+                    <i class="pi pi-info-circle mx-1"></i>
+                    No data to preview
+                </div>
+
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

@@ -1,0 +1,10 @@
+<div class="card p-3 relative"  [style.background]="backgroundColor"  [style.width]="width" [style.height]="height" [class]="class"
+[style.border-top]="colorDir=='top'?'solid 10px'+color:null"
+[style.border-left]="colorDir=='leftRight'&& lang=='en'?'solid 6px'+color:null" 
+[style.border-right]="colorDir=='leftRight'&& lang=='ar'?'solid 6px'+color:null"
+>
+
+<ng-content select="[body]"></ng-content>
+
+
+</div>

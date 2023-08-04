@@ -1,0 +1,33 @@
+<ng-container *ngIf="!loadingActivity && activitiesDispaly?.length">
+    <p-timeline [value]="activitiesDispaly" styleClass="activities-timeline">
+        <ng-template pTemplate="marker" let-event>
+            <div *ngIf="event?.time" class="surface-100  px-2 border-round-md w-max text-lg text-color">{{event?.time}}
+            </div>
+            <img style="margin: 0 22px;" *ngIf="!event?.time"
+                [src]="event?.createdBy?.photo?event?.createdBy?.photo:'assets/images/user.png'" class="avatar-lg">
+    
+    
+        </ng-template>
+        <ng-template pTemplate="content" let-event>
+            <div class="text-lg font-semibold">{{event?.createdBy?.displayName}}</div>
+            <span [innerHTML]="event.body" class="font-semibold text-base text-400"></span>
+        </ng-template>
+    </p-timeline>
+    <div class="activities-timelineInput-container mt-4">
+        <input  class="activities-timelineInput" [(ngModel)]="activitie"   type="text" placeholder="{{'Add new update'|translate}}" 
+        pInputText />
+        <button pButton pRipple type="button" icon="pi pi-send" [disabled]="activitie==null" (click)="addActivities()"
+            class="p-button-rounded p-button-text p-button-lg activities-timelineInput-send {{'css.right-0'|translate}}"></button>
+    
+    </div>
+</ng-container>
+
+<ng-container *ngIf="!loadingActivity && !activitiesDispaly?.length">
+    <div  class="font-semibold text-xl  text-center  my-8" > 
+        <i class="pi pi-exclamation-circle text-xl mx-2"></i>
+        No data to preview
+    </div>
+
+</ng-container>
+
+<app-loading *ngIf="loadingActivity"></app-loading>

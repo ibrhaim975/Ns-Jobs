@@ -1,0 +1,49 @@
+<app-loading *ngIf="loading" display="full"></app-loading>
+
+<app-sidebar [display]="display" (displayChange)="onHide()">
+    <div header>
+        <div class="flex justify-content-between flex-wrap ">
+            <div class="flex align-items-center justify-content-center   ">
+                <div class="flex-initial flex align-items-center justify-content-center mx-2">
+                    <button pButton (click)="display=false;onHide()" pRipple type="button" icon="pi pi-times"
+                        class="p-button-rounded p-button-secondary p-button-lg p-button-text btn-white "></button>
+                </div>
+
+
+                <div class="flex align-items-center justify-content-center border-break"></div>
+
+                <div class="flex-initial flex align-items-center justify-content-center px-3">
+                    <i class="pi pi-calendar text-100 text-3xl " [class]="'css.mr-2'|translate"></i>
+                    <entity-viewer
+                        [entity]="{type:'text',title:'CREATION DATE' | translate,value:currentModule?.createdAt?.label}"
+                        [darkMode]="true"></entity-viewer>
+                        
+                </div>
+                <div class="flex align-items-center justify-content-center border-break"></div>
+
+                <div class="flex-initial flex align-items-center justify-content-center px-3">
+                    <entity-viewer [entity]="{type:'user',title:'CREATED BY'|translate,value:currentModule?.createdBy}"
+                        [darkMode]="true"></entity-viewer>
+                </div>
+            </div>
+            <div *ngIf="currentModuleActinos?.length" class="flex align-items-center justify-content-center  " [class]="'css.pr-2'|translate">
+                <button (click)="menu.toggle($event)" pButton pRipple type="button" icon="pi pi-ellipsis-v"
+                    class="p-button-rounded p-button-secondary p-button-lg p-button-text btn-white "></button>
+                <p-menu #menu  [popup]="true" appendTo="body"
+                    [model]="currentModuleActinos"></p-menu>
+
+            </div>
+        </div>
+    </div>
+    <div body>
+        <div *ngIf="!loading" class="p-4">
+
+            <ng-container #props *ngIf="currentModule?.props?.length">
+                <app-dynamic-properties-preview [props]="currentModule?.props"
+                    [colClass]="'col-3 '"></app-dynamic-properties-preview>
+            </ng-container>
+
+        </div>
+    </div>
+
+</app-sidebar>

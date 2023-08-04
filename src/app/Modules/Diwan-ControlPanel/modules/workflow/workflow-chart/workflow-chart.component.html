@@ -1,0 +1,108 @@
+<app-loading *ngIf="loading" display="full"></app-loading>
+<p-confirmDialog appendTo="body"></p-confirmDialog>
+<p-toast position="top-right"></p-toast>
+<div class=""></div>
+<div class="header-data p-3 w-12 ">
+    <div class="flex justify-content-between flex-wrap  ">
+        <div class="flex align-items-center justify-content-center  ">
+            <span [class]="'css.mr-3'|translate" class="mt-2 cursor-pointer" (click)="backButton()">
+                <i class="pi pi-arrow-left text-500 text-lg font-bold " pTooltip="Back" tooltipPosition="bottom"></i>
+            </span>
+            <div class="content">
+                <div class="text-xl"> {{'WorkFlow'|translate}} : <label class="text-primary">{{registryName}}</label>
+                </div>
+                <label class="text-500 text-lg" translate> In total there are <label
+                        class="text-primary">{{registryActivities?.length-1}} </label> activities.
+                </label>
+            </div>
+        </div>
+        <div class="flex align-items-center justify-content-center  mx-3">
+            <div class="flex align-items-center justify-content-center m-2 ">
+                <button pButton pRipple type="button" icon="pi pi-search-plus font-medium text-lg"
+                    [pTooltip]="'Zoom In'|translate" tooltipPosition="bottom" (click)="onToolbarClick('Zoom In')"
+                    class="p-button-sm p-button-rounded p-button-outlined p-button-secondary2  "></button>
+            </div>
+            <div class="flex align-items-center justify-content-center m-2 ">
+                <button pButton pRipple type="button" icon="pi pi-search-minus font-medium text-lg"
+                    tooltipPosition="bottom" [pTooltip]="'Zoom Out'|translate" (click)="onToolbarClick('Zoom Out')"
+                    class=" p-button-sm p-button-rounded p-button-outlined p-button-secondary2 "></button>
+            </div>
+
+            <div class="flex align-items-center justify-content-center m-2 ">
+                <button pButton pRipple type="button" icon="pi pi-refresh font-medium text-lg" tooltipPosition="bottom"
+                    [pTooltip]="'Reset'|translate" (click)="onToolbarClick('Reset')"
+                    class=" p-button-sm p-button-rounded p-button-outlined p-button-secondary2 "></button>
+            </div>
+
+            <div class="flex align-items-center justify-content-center m-2 ">
+                <button pButton pRipple type="button" icon="pi pi-print font-medium text-lg" tooltipPosition="bottom"
+                    [pTooltip]="'Print'|translate" (click)="printFlowChart()"
+                    class=" p-button-sm p-button-rounded p-button-outlined p-button-secondary2 "></button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="flex align-items-center justify-content-center " style="height:calc( 82vh - 50px);margin-top: 20px;">
+    <ejs-diagram #diagram id="diagram" width="100%" height="110%" [getConnectorDefaults]='connDefaults'
+        [getNodeDefaults]='activityDefaults' [layout]='layout' [dataSourceSettings]='dataSourceSettings' [tool]='tool'
+        [snapSettings]='snapSettings'>
+
+    </ejs-diagram>
+</div>
+
+<ng-container *ngFor="let item of registryActivities;let i =index">
+    <div [id]="'activity'+item?.id" class="relative">
+        <div [style.background]="item?.color" class="p-1 border-round">
+            <ng-container *ngIf="item?.type!='Start' && item?.type!='End';else startEndTemplate">
+                <div class="flex flex-wrap justify-content-center ">
+                    <div class=" flex align-items-center justify-content-center">
+                        <div style="width: 200px;height: 65px;">
+                            <div [id]="'activityName'+item?.id" class=" text-white mb-1">{{item.type}} </div>
+                            <span class="p-input-icon-right">
+                                <i class="pi pi-angle-right"></i>
+                                <input [id]="'activityBody'+item?.id" class="cursor-pointer" type="text" pInputText
+                                    placeholder="Set Name" [(ngModel)]="item.name" />
+                            </span>
+
+                        </div>
+                    </div>
+
+                </div>
+            </ng-container>
+            <ng-template #startEndTemplate>
+                <div class=" block" style="height: 60px;">
+                    <div [id]="'activityName'+item?.id" class=" text-white py-3 text-2xl text-center ">{{item.type}}
+                        {{'Flow'|translate}}</div>
+                </div>
+
+            </ng-template>
+
+        </div>
+        <!-- "registryActivities.length-2==i" -->
+        <!-- *ngIf="item?.type!='End'&&item.type!='Condition'" -->
+        <div *ngIf="item?.type!='End'&&item.type!='Condition'" class="absolute cursor-pointer z-5"
+            style="right: 45%;top: 110%;">
+            <a class="border-circle px-1  p-button-secondary2">
+                <i [id]="'activityAdd'+item?.id" class="pi pi-plus text-sm text-primary font-semibold"></i>
+            </a>
+        </div>
+
+    </div>
+
+    <div [id]="'connectorTrue'+item?.id" *ngIf="item?.condition==true">
+        <button pButton pRipple type="button" icon="pi pi-check"
+            class="p-button-rounded p-button-success p-button-sm"></button>
+    </div>
+    <div [id]="'connectorFalse'+item?.id" *ngIf="item?.condition==false">
+        <button pButton pRipple type="button" icon="pi pi-times"
+            class="p-button-rounded p-button-danger p-button-sm"></button>
+    </div>
+
+</ng-container>
+
+<div *ngIf="displayactivityForm==true">
+    <app-workflow-form [(display)]="displayactivityForm" [registryActivities]="registryActivities" [roles]="roles"
+        [groups]="groups"></app-workflow-form>
+</div>

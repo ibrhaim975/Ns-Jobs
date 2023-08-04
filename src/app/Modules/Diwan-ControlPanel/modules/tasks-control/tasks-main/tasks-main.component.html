@@ -1,0 +1,15 @@
+<p-tabView class="tabViewCard" (onChange)="navRouter($event)" [(activeIndex)]="activeIndex">
+
+        <p-tabPanel header="{{'Tasks Attributes'|translate}}">
+                <router-outlet *ngIf="activeIndex==0"></router-outlet>
+
+
+        </p-tabPanel>
+
+        <p-tabPanel header="{{'Manage Roles'|translate}}">
+
+                <router-outlet *ngIf="activeIndex==1"></router-outlet>
+
+        </p-tabPanel>
+
+</p-tabView>

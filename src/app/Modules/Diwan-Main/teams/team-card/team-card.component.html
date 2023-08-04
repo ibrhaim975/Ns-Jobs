@@ -1,0 +1,58 @@
+<div class="card  mb-5">
+    <div class="card-header">
+        <div class="card-title flex align-items-center">
+            <entity-viewer
+                [entity]="{type:'user',title:data?.user?.department || 'Project Manger',value:data?.user,invert:true}"></entity-viewer>
+        </div>
+        <div class="flex">
+            <div>
+                <button pButton pRipple type="button" icon="pi pi-phone"
+                    class="p-button-rounded p-button-raised p-button-text p-button-sm p-0 w-2rem h-2rem"></button>
+                <div class="text-500 text-xs font-semibold mx-1  mt-1" translate>Call</div>
+            </div>
+
+            <div class="mx-3">
+                <button pButton pRipple type="button" icon="pi pi-comment"
+                    class="p-button-rounded p-button-raised p-button-text p-button-sm p-0 w-2rem h-2rem"></button>
+                <div class="text-500 text-xs font-semibold mx-1 mt-1" translate>Chat</div>
+            </div>
+
+            <div>
+                <button pButton pRipple type="button" icon="pi pi-envelope"
+                    class="p-button-rounded p-button-raised p-button-text p-button-sm p-0 w-2rem h-2rem"></button>
+                <div class="text-500 text-xs font-semibold  mt-1" translate>e-Mail</div>
+            </div>
+        </div>
+    </div>
+    <div class="card-body pt-5">
+        <div class="grid text-center">
+            <div class="col-4 py-1"  [class]="'css.border-right'|translate">
+                <div class="text-lg font-semibold text-primary">
+                    {{data?.tasks?.value}}
+                </div>
+                <div class=" font-semibold text-500 mt-1">
+                    {{data?.tasks?.name}}
+                </div>
+
+            </div>
+            <div class="col-4 py-1" [class]="'css.border-right'|translate">
+                <div class="text-lg font-semibold text-primary">
+                    {{data?.committees?.value}}
+                </div>
+                <div class=" font-semibold text-500 mt-1">
+                    {{data?.committees?.name}}
+                </div>
+            </div>
+            <div class="col-4 py-1" >
+                <div class="text-lg font-semibold text-primary">
+                    {{data?.meetings?.value}}
+                </div>
+                <div class=" font-semibold text-500 mt-1">
+                    {{data?.meetings?.name}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

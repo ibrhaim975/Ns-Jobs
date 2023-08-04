@@ -1,0 +1,22 @@
+
+    <div [style.display]="mode=='Edit'?'block':'none'">
+    <div  class="flex">
+        <div style="width:90%" class="mt-2">
+            <p-slider id="slider{{id}}" [(ngModel)]="value" (onSlideEnd)="onChange($event)"></p-slider>
+        </div>
+        <div style="width:10%;margin-top: 0.9;" class="mb-3 mx-2 font-bold">
+
+            {{value}}%</div>
+    </div>
+</div>
+<div [style.display]="mode=='NoEdit'?'block':'none'">
+    <div  class="flex">
+        <div style="width:90%" class="mt-2">
+            <p-progressBar id="progressBar{{id}}" [value]="value" [showValue]="false"></p-progressBar>
+
+        </div>
+        <div style="width:10%;margin-top: 0.9;" class=" mx-2 font-bold">{{value}}%</div>
+    </div>
+</div>
+
+

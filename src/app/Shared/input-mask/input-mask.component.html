@@ -1,0 +1,25 @@
+<div class="block">
+    <ng-container *ngIf="hideTitle!=true">
+        <div class="text-lg font-semibold mb-2">
+            {{title}}
+            <span *ngIf=" required && !value" style="color: var(--danger) !important">*</span>
+        </div>
+    </ng-container>
+
+
+    <div class="p-inputgroup">
+
+        <input *ngIf="numberInput==false" [(ngModel)]="value" [class]="class" [required]="required" [disabled]="disabled" type="text"
+            placeholder="{{'Enter'|translate}} {{title}}" [name]="title" pInputText />
+
+
+        <p-inputNumber *ngIf="numberInput==true" [(ngModel)]="value" [class]="class" [required]="required" [disabled]="disabled"
+            [useGrouping]="false" mode="decimal" placeholder="{{'Enter'|translate}} {{title}}"
+            [name]="title"></p-inputNumber>
+
+        <button type="button" (click)="clickBtn_()" pButton pRipple icon="pi pi-check"
+            styleClass="p-button-success"></button>
+
+    </div>
+
+</div>

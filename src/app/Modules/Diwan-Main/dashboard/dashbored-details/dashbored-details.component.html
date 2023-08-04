@@ -1,0 +1,14 @@
+
+
+<app-table #table [caption]="caption" [data]="data" [columns]="columns" [actionsColumns]="actionsColumns"
+ 
+[actionsTemplate]="{action:action}" [lodaing]="loadingTable">
+
+    <ng-template #action>
+        <button type="button" pButton icon="pi pi-ellipsis-h font-semibold"
+        class="p-button-rounded p-button-text p-button-secondary"
+        (click)="selectedItem=table.selectedItem;menu.toggle($event)"></button>
+    <p-menu #menu [popup]="true" [model]="actions" appendTo="body"></p-menu>
+    </ng-template>
+
+</app-table>

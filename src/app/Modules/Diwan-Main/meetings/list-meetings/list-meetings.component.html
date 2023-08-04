@@ -1,0 +1,259 @@
+<div class="grid mt-2">
+    <div class="lg:col-3 sm:col-12 p-0">
+        <div class="card p-0 pb-2 " style="height:75vh">
+            <div class="flex justify-content-between flex-wrap p-3 border-bottom">
+                <div class="flex align-items-center justify-content-center  ">
+                    <div class="flex align-items-center justify-content-center  ">
+                        <button pButton pRipple type="button" (click)="getToday()" [label]="'Today'|translate"
+                            class=" p-button-outlined p-button-secondary2 "></button>
+                    </div>
+                    <div class="flex align-items-center justify-content-center mx-3 font-semibold text-700">
+                        <span class="text-2xl">{{currentDate | date : 'EEE, MMM d'}}</span>
+                    </div>
+
+                </div>
+                <div class="flex align-items-center justify-content-center  ">
+
+
+                    <div style="direction: initial;" class="flex align-items-center justify-content-center  mt-1">
+                        <button pButton pRipple type="button" icon="pi pi-chevron-left "
+                            class=" p-button-text p-button-secondary" (click)="getPrv()"></button>
+                        <button pButton pRipple type="button" icon="pi pi-chevron-right" (click)="getNext()"
+                            class=" p-button-text p-button-secondary"></button>
+
+                    </div>
+                </div>
+            </div>
+            <div class="overflow-y-auto" style="max-height:'calc(75vh - 70px)'">
+                <div class="p-3 ">
+                    <div *ngFor="let item of Dates;let i=index" class="grid " [class.mb-6]="i != Dates.length-1"
+                        style="min-height: 25%;">
+                        <div class="col-1 mb-auto text-center">
+                            <p-badge [value]="getDay(item?.date)" size="large"
+                                [styleClass]="checkToday(item?.date)?'currentDate-badge':'date-badge'"></p-badge>
+                            <div class="text-color text-center font-semibold mt-1" [ngClass]="['css.ml-2' |translate ]">
+
+                                {{item?.date | date : 'EEE'}}
+                            </div>
+                        </div>
+                        <div class=" col-11 ">
+                            <div *ngFor="let meet of item?.meetings;let meetIndex=index"
+                                [class.meeting-card-focus]="currentMeeting?.id==meet?.id"
+                                (click)="getMeeting(meet.id,{meet:meetIndex,date:i})" class=" meeting-card p-3 mx- mb-3"
+                                [ngClass]="['css.ml-3' |translate ]">
+                                <div class="text-lg font-semibold text-color">{{meet.title}}</div>
+                                <div class="text-lg text-color">{{meet?.timeDiff}} {{meet?.day}}</div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="lg:col-9 sm:col-12">
+        <div class="card p-0" style="height:75vh">
+
+            <ng-container *ngIf="!loading&&currentMeeting?.id">
+                <div class="grid">
+
+                    <div class="lg:col-6 sm:col-12 overflow-y-auto" [class]="'css.border-right'|translate"
+                        style="height:75vh">
+
+                        <div class="flex justify-content-between flex-wrap  p-3 ">
+                            <div class="flex align-items-center justify-content-center  ">
+
+                                <div class="text-2xl font-semibold text-700 ">{{currentMeeting?.title}}</div>
+
+                            </div>
+                            <div class="flex align-items-center justify-content-center  ">
+
+                                <badge-status [status]="currentMeeting?.priority" class="mx-1"></badge-status>
+
+
+                            </div>
+                        </div>
+                        <div class="block px-2">
+                            <p-tag styleClass="tag-secondary mx-2" icon="pi pi-calendar"
+                                pTooltip="{{'Date' | translate}}" [value]="currentMeeting?.timeDiff"></p-tag>
+                            <p-tag styleClass="tag-secondary mx-2" icon="pi pi-map-marker"
+                                pTooltip="{{'Location' | translate}}" [value]="currentMeeting?.location"></p-tag>
+
+                        </div>
+
+                        <div class="flex justify-content-between flex-wrap p-3 mt-3">
+                            <div class=" flex align-items-center  ">
+                                <span [class]="'css.mr-2'|translate">
+                                    <i class="pi pi-calendar text-3xl "></i>
+                                </span>
+                                <entity-viewer
+                                    [entity]="{type:'text',title:'Creation Date'| translate,value:currentMeeting.createdAt?.label}"></entity-viewer>
+                            </div>
+
+                            <div class=" flex align-items-center ">
+
+                                <entity-viewer
+                                    [entity]="{type:'user',title:'Created By'|translate,value:currentMeeting?.createdBy}"></entity-viewer>
+
+                            </div>
+
+                            <div class=" flex align-items-center ">
+                                <span [class]="'css.mr-2'|translate">
+                                    <i class="pi pi-flag text-3xl "></i>
+                                </span>
+                                <entity-viewer
+                                    [entity]="{type:'text',title:'Status'| translate,value:currentMeeting?.status?.name}"></entity-viewer>
+                            </div>
+                        </div>
+                        <div class="flex mt-3 p-3">
+                            <div [class]="'css.mr-2'|translate">
+                                <i class="pi pi-users text-3xl "></i>
+                            </div>
+                            <div class="font-semibold text-500 text-lg" translate>
+                                Invitees
+                            </div>
+                        </div>
+                        <div class="p-2">
+                            <div class="grid overflow-y-auto" style="max-height:'calc(75vh - 300px)'">
+                                <div *ngFor="let item of currentMeeting?.invited" class="col-4 ">
+                                    <div class=" flex align-items-center ">
+                                        <entity-viewer [entity]="{
+                        type:'user',
+                        value:item?.user,
+                        invert:true,
+                        title:showInvitedTitle(item)}"></entity-viewer>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <ng-container #props *ngIf="currentMeeting?.props?.length">
+                            <div class="p-3">
+                                <app-dynamic-properties-preview
+                                    [props]="currentMeeting?.props"></app-dynamic-properties-preview>
+                            </div>
+                        </ng-container>
+
+                        <ng-container #notes *ngIf="currentMeeting?.notes">
+                            <div class=" p-3">
+                                <div class="text-lg font-semibold mb-3 border-bottom pb-2 ">
+                                    {{'Notes'|translate}}: </div>
+                                <div class="block">
+                                    {{currentMeeting?.notes}}
+
+
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <div class="lg:col-6 sm:col-12 relative" [class]="'css.pl-0'|translate">
+
+                        <div class="absolute mx-3" style="top: 5px;z-index: 1;" [class]="'css.right-0'|translate">
+
+                            <button *ngIf="meetingActinos.length" (click)="meetingActinosa.toggle($event)" pButton
+                                pRipple type="button" icon="pi pi-ellipsis-v"
+                                class="p-button-rounded p-button-lg p-button-text p-button-secondary p-0"></button>
+                            <p-menu #meetingActinosa id="meetingActinos" styleClass="meetingActinos" [popup]="true"
+                                [model]="meetingActinos" appendTo="body"></p-menu>
+                        </div>
+                        <p-tabView class="tabView-padding-0 " (onChange)="onMinutesOfMeetingClick($event)">
+                            <p-tabPanel header="{{'Agenda'|translate}}">
+                                <div class="overflow-y-auto px-3" style="max-height:calc(75vh - 66px)">
+                                    <p [innerHTML]="currentMeeting?.agenda" class="text-lg text-800 mt-2"></p>
+
+                                </div>
+                            </p-tabPanel>
+                            <p-tabPanel *ngIf="currentMeeting?.hasMom" header="{{'Minutes of Meeting'|translate}}">
+                                <div *ngIf="currentMinutesofMeeting" class="block my-2 overflow-y-auto px-3"
+                                    style="max-height:calc(75vh - 66px)">
+
+                                    <p-fieldset legend="{{'Discussions'|translate}}">
+                                        <p [innerHTML]="currentMinutesofMeeting?.discussions" class="text-lg "></p>
+                                    </p-fieldset>
+                                    <div class="mt-3">
+
+                                        <p-fieldset legend="{{'Decisions'|translate}}">
+                                            <p [innerHTML]="currentMinutesofMeeting?.decisions" class="text-lg"></p>
+                                        </p-fieldset>
+
+                                    </div>
+                                    <div class="mt-3">
+                                        <div class="text-lg font-semibold mb-3 border-bottom pb-2 ">{{'Action
+                                            Items'|translate}}: </div>
+                                        <div *ngFor="let actionItems of currentMinutesofMeeting?.actionItems"
+                                            class="flex justify-content-between flex-wrap mt-2">
+
+                                            <div class=" flex align-items-center " style="width: 70px">
+                                                <span [class]="'css.mr-2'|translate">
+                                                    <i class="icon-tasks text-600 text-3xl mt-1"></i>
+                                                </span>
+
+                                                <entity-viewer
+                                                    [entity]="{type:'link',title:'Task'| translate,value:showTask(actionItems.taskId)}"></entity-viewer>
+                                            </div>
+
+                                            <div class=" flex align-items-center " style="width: 160px">
+                                                <span [class]="'css.mr-2'|translate">
+                                                    <i class="pi pi-clock text-3xl "></i>
+                                                </span>
+                                                <entity-viewer
+                                                    [entity]="{type:'text',title:'Due Date'| translate,value:actionItems.dueDate}"></entity-viewer>
+                                            </div>
+
+                                            <div class=" flex align-items-center " style="width: 160px">
+
+                                                <entity-viewer
+                                                    [entity]="{type:'user',title:'Assigned To'|translate,value:actionItems?.assignedTo}"></entity-viewer>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="mt-6 mb-3 ">
+                                        <app-attachment hideUpload="true"
+                                            [(attachments)]="currentMinutesofMeeting.attachments"></app-attachment>
+                                    </div>
+                                </div>
+
+
+                            </p-tabPanel>
+
+                            <p-tabPanel header="{{'Discussion'|translate}}">
+
+                                <ng-template pTemplate="content">
+
+                                    <app-comments [height]="commentsHeight" [comments]="currentMeeting?.comments"
+                                        [sourse]="{module:'meeting',id:currentMeeting?.id}"></app-comments>
+                                </ng-template>
+                            </p-tabPanel>
+
+                            <p-tabPanel header="{{'Attachments'|translate}}">
+
+                                <ng-template pTemplate="content">
+
+                                    <app-attachment hideUpload="true" [hideTitle]="true"
+                                        [(attachments)]="currentMeeting.attachments"></app-attachment>
+                                </ng-template>
+                            </p-tabPanel>
+                        </p-tabView>
+
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="!loading&&!currentMeeting?.id">
+                <div class="text-center" style="padding-top: 30vh;">
+                    <i class="pi pi-times-circle text-4xl text-600 "></i>
+                    <div class="text-600 font-semibold text-xl mt-2" translate> No Meeting to View</div>
+                </div>
+
+            </ng-container>
+            <ng-container>
+                <div *ngIf="loading" style="padding-top: 25vh;">
+                    <app-loading></app-loading>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>

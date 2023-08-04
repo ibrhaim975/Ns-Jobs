@@ -1,0 +1,53 @@
+<app-modal [display]="display" (displayChange)="onHide()" [title]="header|translate" class="modal-md">
+    <div class="block" body>
+
+        <form #form="ngForm">
+            <div *ngIf="!loading" class="grid">
+                <div class=" lg:col-6  sm:col-12">
+                    <app-input [(ngModel)]="lookup.displayName.en" name="titleEn" [title]="'English Title'|translate"
+                        [required]="true"></app-input>
+                </div>
+                <div class=" lg:col-6  sm:col-12">
+                    <app-input [(ngModel)]="lookup.displayName.ar" name="titleAr" [title]="'Arabic Title'|translate"
+                        [required]="true"></app-input>
+                </div>
+            </div>
+        </form>
+
+        <app-table *ngIf="lookup?.id" #table [caption]="caption" [data]="lookup?.items" [columns]="columns"
+        [reorderableColumns]="true"
+        (reorderColumn)="updateOrderLookup($event)"
+            [actionsColumns]="actionsColumns" [actionsTemplate]="{action:action}" [lodaing]="loading">
+            <div toolBarBtns>
+                <button pButton pRipple type="button" label="{{'New Item'|translate}}" icon="pi pi-plus "
+                    (click)="initSelectedLookupItem();showAddEditLookupItem()" [class]="'css.pl-2'|translate"
+                    class="p-button-raised p-button-secondary mx-2"></button>
+            </div>
+
+            <ng-template #action>
+                <button (mouseenter)="selectedLookupItem=table.selectedItem" (click)="menu.toggle($event)" pButton
+                    pRipple type="button" icon="pi pi-ellipsis-v font-semibold"
+                    class="p-button-rounded p-button-secondary p-button-text  "></button>
+                <p-menu #menu [popup]="true" appendTo="body" [model]="itemActions"></p-menu>
+            </ng-template>
+        </app-table>
+
+
+    </div>
+
+
+    <div footer>
+        <button pButton pRipple type="button" label="{{'Cancel'|translate}}" icon='pi pi-times {{"css.mr-2"|translate}}'
+            (click)="onHide()" class="p-button-secondary p-button-outlined"></button>
+
+        <button pButton pRipple type="button" label="{{'Save'|translate}}" [disabled]="form?.invalid"
+            (click)="addEditLookup()" icon='pi pi-check {{"css.mr-2"|translate}}'></button>
+
+    </div>
+</app-modal>
+
+<div *ngIf="showAddEditItem">
+
+    <app-add-edit-lookup-item [(display)]="showAddEditItem" [LookupItem]="selectedLookupItem" [order]="lookup?.items?.length+1"
+        [lookupID]="lookup?.id"></app-add-edit-lookup-item>
+</div>
