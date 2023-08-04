@@ -1,0 +1,23 @@
+<app-table #table [paginator]="false" [rowClass]="'surface-50'" [data]="members" [columns]="columns"
+[scrollable]="true" scrollHeight="37.5vh"
+    [actionsColumns]="actionsColumns" [actionsTemplate]="{action:action}">
+
+    <ng-template #action>
+        <button (mouseenter)="setSelectedUser(table.selectedItem)" pButton pRipple type="button"
+        (click)="deleteUser()"
+            icon="pi pi-trash font-semibold" class="p-button-rounded p-button-danger p-button-text  "></button>
+    </ng-template>
+</app-table>
+
+
+<!-- <ng-container *ngIf="members">
+ <div *ngFor="let member of members;let i =index" class="px-3 py-2">
+    <div class="flex-initial flex align-items-center  ">
+        <img [src]="member?.user?.photo|| 'assets/images/user.png'" width="27" height="27"
+            style="border-radius: 50%;" [class]="'css.mr-2'|translate">
+        <div class="font-semibold text-500 mx-2">{{member?.user?.displayName}}</div>
+
+    </div>
+ </div>
+
+</ng-container> -->

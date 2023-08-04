@@ -1,77 +1,96 @@
-
-
-.p-avatar-text{
-color:  var(--surface-0) !important;
+.p-avatar-text {
+  color: var(--surface-0) !important;
 }
+
 .p-slider .p-slider-range {
   border-radius: 6px;
 }
-.p-inputtext{
-  color:var(--surface-500) !important;
+
+.p-inputtext {
+  color: var(--surface-500) !important;
 
 }
+
 .p-message-wrapper {
   direction: initial !important;
 }
+
 .p-inputtext::placeholder {
-  color:var(--surface-500) !important;
+  color: var(--surface-500) !important;
 
 }
-.p-inputgroup{
+
+.p-inputgroup {
   direction: initial !important;
 }
+
 input::placeholder {
-  color:var(--surface-500) !important;
+  color: var(--surface-500) !important;
 
 }
- .p-button-label {
+
+.p-button-label {
   color: var(--surface-0) !important;
 }
 
- .p-button-icon {
+.p-button-icon {
   color: var(--surface-0) !important;
 
 }
-.p-organizationchart-lines	{
+
+.p-organizationchart-lines {
   color: red !important;
 }
-.input-items{
+
+.input-items {
   background: #f3f3f6;
   margin: 0;
   border-radius: 7px;
   border: solid #e5e5e5 1px;
 }
+
 .p-button-danger.p-button-text .p-button-label {
   color: var(--danger) !important;
 }
-.p-treenode-label span{
+
+.p-treenode-label span {
   color: var(--surface-500) !important
 }
-.p-tree .p-tree-container .p-treenode .p-treenode-content.p-highlight span{
-  color: #fff  !important;
-}
-.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight span{
-  color: #fff  !important;
 
-}
-.p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight span {
-  color: #fff  !important;
-
-}
-.p-tag-icon, .p-tag-value, .p-tag-icon.pi{
+.p-tree .p-tree-container .p-treenode .p-treenode-content.p-highlight span {
   color: #fff !important;
 }
-.p-multiselect-token-label {
-  color:  var(--surface-a)  !important;
-  
-}
-.p-multiselect-token-icon {
-  color:  var(--surface-a)  !important;
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight span {
+  color: #fff !important;
 
 }
-.inputSwitch-sm{
+
+.p-multiselect-panel .p-multiselect-items .p-multiselect-item.p-highlight span {
+  color: #fff !important;
+
+}
+
+.p-tag-icon,
+.p-tag-value,
+.p-tag-icon.pi {
+  color: #fff !important;
+}
+
+.p-multiselect-token-label {
+  color: var(--surface-a) !important;
+
+}
+
+.p-multiselect-token-icon {
+  color: var(--surface-a) !important;
+
+}
+
+.inputSwitch-sm {
   transform: scale(0.8) !important;
 }
+
 .p-button-danger.p-button-text .p-button-icon {
   color: var(--danger) !important;
 }
@@ -79,27 +98,32 @@ input::placeholder {
 .p-button-secondary.p-button-text .p-button-icon {
 
   color: var(--text-color-secondary) !important;
-font-weight: 600 !important;
+  font-weight: 600 !important;
 }
 
 .p-button-text .p-button-icon {
   color: var(--primary-color) !important;
 }
-.p-datatable .p-sortable-column .p-sortable-column-icon{
-  
+
+.p-datatable .p-sortable-column .p-sortable-column-icon {
+
   color: var(--surface-100) !important;
 
 }
+
 .layout-topbar-light .layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions>li>ul {
   min-width: 140px
 }
+
 .p-menuitem-text {
-  color:var(--surface-500) !important;
+  color: var(--surface-500) !important;
 
 }
-.p-paginator-bottom{
+
+.p-paginator-bottom {
   direction: initial !important;
 }
+
 .dir-int {
   direction: initial !important;
 }
@@ -114,9 +138,11 @@ font-weight: 600 !important;
   min-height: 1.5rem !important;
   line-height: 1.5rem !important;
 }
-.p-dropdown-items.p-scroller{
+
+.p-dropdown-items.p-scroller {
   overflow-x: hidden !important;
 }
+
 .date-badge {
   border-radius: 50% !important;
   font-size: 1.3rem !important;
@@ -137,21 +163,25 @@ font-weight: 600 !important;
   background-color: var(--primary-color) !important;
 
 }
-.custom-header{
+
+.custom-header {
   background: var(--surface-b);
   border: 1px solid #e7e7e7;
   border-width: 1px;
   padding: 1rem 1rem;
   font-weight: 600;
 }
+
 .xl-sidbar {
   margin-top: 70px !important;
   width: calc(100% - 62px) !important
 }
+
 .md-sidbar {
   margin-top: 70px !important;
   width: 40vw !important
 }
+
 .p-sidebar .p-sidebar-header {
   padding: 0px !important;
 }
@@ -196,10 +226,12 @@ font-weight: 600 !important;
 .p-toast .p-toast-message .p-toast-message-content .p-toast-summary {
   padding: 0 7px !important;
 }
-.p-tabview-title{
+
+.p-tabview-title {
   color: var(--surface-500) !important;
   font-size: 1.125rem
 }
+
 .tabViewCard {
   padding: 1px !important;
 }
@@ -235,9 +267,11 @@ font-weight: 600 !important;
 .p-dropdown {
   width: -webkit-fill-available !important;
 }
+
 .p-dropdown-filter {
   width: 100% !important;
 }
+
 .p-dropdown-panel .p-dropdown-items .p-dropdown-item {
   padding: 0.5rem !important;
 }
@@ -386,10 +420,12 @@ p-inputnumber,
   border-bottom: solid var(--surface-100) 2px !important;
 
 }
+
 .border-top {
   border-top: solid var(--surface-100) 2px !important;
 
 }
+
 .border-left {
   border-left: solid var(--surface-100) 2px !important;
 
@@ -460,38 +496,52 @@ p-inputnumber,
   background: var(--primary-color) !important;
   border-radius: 7px;
 }
-.mat-step{
+
+.mat-step {
   background-color: var(--surface-50) !important;
 }
+
 .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
   background: #ffffff;
   border-color: var(--primary-color) !important;
   color: var(--primary-color) !important;
 }
+
 .tag-secondary {
   background: #f2f4f6 !important;
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px !important;
-  .p-tag-icon,.p-tag-value{
+
+  .p-tag-icon,
+  .p-tag-value {
     color: var(--text-color) !important;
 
-  } 
+  }
 }
 
-.mat-vertical-stepper-header .mat-step-icon{
+.mat-vertical-stepper-header .mat-step-icon {
   background-color: transparent
 }
-.tooltip-arrow-ar{
+
+.tooltip-arrow-ar {
   transform: rotate(3.142rad);
 }
-.mat-step-icon-selected .mat-step-icon-content{
+
+.mat-step-icon-selected .mat-step-icon-content {
   color: #fff !important;
 }
-.mat-vertical-stepper-header{
+
+.mat-vertical-stepper-header {
   width: 100% !important;
 }
-.mat-step-icon-content{
+
+.mat-step-icon-content {
   color: var(--surface-200) !important;
 }
+
+.table-caption {
+  display: flex;
+}
+
 @media screen and (min-width: 992px) {
   .home-Card {
     height: 91vh;
@@ -512,6 +562,13 @@ p-inputnumber,
 
   .menu-wrapper {
     display: none;
+  }
+
+  .table-caption {
+    display: block;
+  }
+  .small-mt-3{
+    margin-top: 1rem !important;
   }
 }
 

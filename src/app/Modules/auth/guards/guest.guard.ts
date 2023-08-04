@@ -15,7 +15,7 @@ authData=this.authService.getAuthData()
     state: RouterStateSnapshot): boolean {
 
     if (this.authData?.user && this.authData?.token_data) {
-      this.router.navigate(['auth/login']);
+      this.router.navigate(['']);
       return false;
     }
 

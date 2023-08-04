@@ -32,11 +32,11 @@
                     </div>
                 </div>
 
-                <div class="flex">
-                    <ng-content select="[toolBarBtns]"></ng-content>
+                <div class="table-caption pt-2">
 
+                    <ng-content select="[toolBarBtns]"></ng-content>
                     <div class="justify-content-between ">
-                        <span class="p-input-icon-left">
+                        <span class="p-input-icon-left w-12 small-mt-3">
                             <i class="pi pi-search"></i>
                             <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
                                 placeholder="{{'Search'|translate}}" />
@@ -50,8 +50,8 @@
     <ng-template pTemplate="header" let-columns>
         <tr>
             <th *ngIf="expandedTable==true" style="width: 2rem" [class]="rowClass"></th>
-            <th *ngFor="let col of columns" [style.width]="col.width ?col.width:'20%' " [pSortableColumn]="col?.field"
-                [class.hidden]="col?.display=='none'" [class]="rowClass" pReorderableColumn>
+            <th *ngFor="let col of columns" [pSortableColumn]="col?.field" [class.hidden]="col?.display=='none'"
+                [class]="rowClass">
                 {{col?.header|translate}}
                 <p-sortIcon *ngIf="col?.filter!=false" [field]="col?.field"></p-sortIcon>
             </th>
@@ -68,7 +68,8 @@
                     class="p-button-text p-button-rounded p-button-plain "
                     [icon]="expanded ? 'pi pi-chevron-down' : currentLang=='en'?'pi pi-chevron-right':'pi pi-chevron-left'"></button>
             </td>
-            <td *ngFor="let col of columns;let i =index" [class.hidden]="col?.display=='none'" [style.width]="col.width ?col.width:'70%' "  class="font-semibold text-500">
+            <td *ngFor="let col of columns;let i =index" [class.hidden]="col?.display=='none'"
+                class="font-semibold text-500 ">
                 <div class="flex">
                     <span *ngIf="i==0 && reorderableColumns==true" [class]="'css.mr-4'|translate"
                         class="pi pi-bars mt-1 text-lg text-primary font-semibold"

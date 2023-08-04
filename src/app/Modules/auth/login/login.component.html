@@ -1,6 +1,6 @@
 <app-loading *ngIf="loading" display="full"></app-loading>
 <p-toast position="top-right"></p-toast>
-<div class="flex flex-wrap justify-content-center2">
+<div class="flex flex-wrap justify-content-center">
     <div class=" w-6 h-screen bg-blue-600 flex align-items-center justify-content-center" style="overflow-y: hidden;">
         <!-- background -->
         <img style="background-position: center center;
@@ -19,15 +19,9 @@
 
                 <div class="grid ">
                     <div class="col-12 text-center">
-                        <div class=" relative logo-marign">
-                            <ng-container *ngIf="!currentLogo">
-                                <img [src]="'assets/images/diwanlogo.svg'" width="120" alt="freya-layout" />
-                                <span [style.right]="lang=='ar'?'20%':null" [style.top]="lang=='ar'?'28%':'32%'"
-                                    class="text-5xl absolute font-bold logo-text" translate>Diwan</span>
-                            </ng-container>
-                            <ng-container *ngIf="currentLogo">
-                                <img [src]="currentLogo" width="200" alt="freya-layout" />
-                            </ng-container>
+                        <div class=" relative ">
+                                <img [src]="'assets/images/logo.png'" width="250" alt="freya-layout" />
+                       
                         </div>
                     </div>
                     <div class="col-12 ">
@@ -61,7 +55,7 @@
                 </div>
 
                 <div class="login-footer py-2">
-                    <h6 translate>Diwan-footer</h6>
+                    <h6 translate>footer</h6>
                 </div>
             </div>
         </div>

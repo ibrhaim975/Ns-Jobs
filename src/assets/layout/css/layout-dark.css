@@ -301,7 +301,7 @@ a {
   height: 45px;
 }
 .layout-topbar-light .layout-topbar .layout-topbar-wrapper .layout-topbar-left .layout-topbar-logo > img {
-  height: 45px;
+  height: auto;
 }
 .layout-topbar-light .layout-topbar .layout-topbar-wrapper .layout-topbar-left .menu-button {
   padding: 6px;

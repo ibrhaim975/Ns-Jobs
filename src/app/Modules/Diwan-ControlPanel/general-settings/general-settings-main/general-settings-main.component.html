@@ -1,0 +1,18 @@
+<div class="card p-0">
+        <p-tabView class="tabViewCard" (onChange)="navRouter($event)" [(activeIndex)]="activeIndex">
+
+                <p-tabPanel header="{{'Branding'|translate}}">
+                        <div class="overflow-y-auto" style="height:calc( 82vh - 100px);">
+                                <router-outlet *ngIf="activeIndex==0"></router-outlet>
+                        </div>
+                </p-tabPanel>
+        
+                <p-tabPanel header="{{'Calendar'|translate}}">
+                        <div class="overflow-y-auto" style="height:calc( 82vh - 100px);">
+        
+                                <router-outlet *ngIf="activeIndex==1"></router-outlet>
+                        </div>
+                </p-tabPanel>
+        
+        </p-tabView>
+</div>

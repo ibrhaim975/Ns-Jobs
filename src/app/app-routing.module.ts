@@ -6,16 +6,11 @@ import { AppNotfoundComponent } from './Layout/NotFound/app.notfound.component';
 import { AuthModule } from './Modules/auth/auth.module';
 import { AuthGuard } from './Modules/auth/guards/auth.guard';
 import { GuestGuard } from './Modules/auth/guards/guest.guard';
-import { DashboardModule } from './Modules/Diwan-Main/dashboard/dashboard.module';
-import { NewsModule } from './Modules/Diwan-Main/news/news.module';
-import { CommitteesModule } from './Modules/Diwan-Main/committees/committees.module';
-import { MeetingsModule } from './Modules/Diwan-Main/meetings/meetings.module';
-import { TasksModule } from './Modules/Diwan-Main/tasks/tasks.module';
-import { HomeModule } from './Modules/Diwan-Main/home/home.module';
-import { ContorlPanelModule } from './Modules/Diwan-ControlPanel/main/contorl-panel.module';
-import { CustomModulesModule } from './Modules/Diwan-Main/custom-modules/custom-modules.module';
-import { MySpaceModule } from './Modules/Diwan-Main/my-space/my-space.module';
-import { TeamsModule } from './Modules/Diwan-Main/teams/teams.module';
+import { DashboardModule } from './Modules/Diwan-ControlPanel/dashboard/dashboard.module';
+import { CustomModulesModule } from './Modules/Diwan-ControlPanel/custom-modules/custom-modules.module';
+import { UsersGroupsModule } from './Modules/Diwan-ControlPanel/users-groups/users-groups.module';
+import { GeneralSettingsModule } from './Modules/Diwan-ControlPanel/general-settings/general-settings.module';
+import { MainModule } from './Modules/Diwan-Main/main.module';
 
 
 
@@ -25,22 +20,17 @@ import { TeamsModule } from './Modules/Diwan-Main/teams/teams.module';
     imports: [
         RouterModule.forRoot([
             {
-                path: '', component: AppMainComponent,
-                canActivate: [AuthGuard],
+                path: 'controlPanel', component: AppMainComponent,
                 children: [
-                    { path: '', loadChildren: () => HomeModule },
-                    { path: 'tasks', loadChildren: () => TasksModule },
-                    { path: 'meetings', loadChildren: () => MeetingsModule },
-                    { path: 'committees', loadChildren: () => CommitteesModule },
-                    { path: 'news', loadChildren: () => NewsModule },
-                    { path: 'dashboard', loadChildren: () => DashboardModule },
-                    { path: 'controlPanel', loadChildren: () => ContorlPanelModule },
-                    { path: 'module', loadChildren: () => CustomModulesModule },
-                    { path: 'mySpace', loadChildren: () => MySpaceModule },
-                    { path: 'teams', loadChildren: () => TeamsModule },
-
-                        
+                    { path: '', loadChildren: () => DashboardModule },
+                    { path: 'modules', loadChildren: () => CustomModulesModule },
+                    { path: 'usersgroup', loadChildren: () => UsersGroupsModule },
+                    { path: 'generalsettings', loadChildren: () => GeneralSettingsModule }
                 ]
+            },
+            {
+                path: '', loadChildren: () => MainModule,
+          
             },
             { path: 'notfound', component: AppNotfoundComponent },
             {

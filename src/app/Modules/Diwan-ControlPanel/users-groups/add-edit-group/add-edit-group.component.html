@@ -1,0 +1,35 @@
+<app-modal [display]="display" (displayChange)="onHide()" [title]="header|translate" class="modal-md">
+    <div class="block" body>
+        <form #form="ngForm" >
+            <app-loading *ngIf="loading"></app-loading>
+
+            <div *ngIf="!loading" class="grid ">
+                <div class=" lg:col-6  sm:col-12">
+                    <app-input [(ngModel)]="group.name.en" name="titleEn" [title]="'English Title'|translate"
+                        [required]="true"></app-input>
+                </div>
+                <div class=" lg:col-6  sm:col-12">
+                    <app-input [(ngModel)]="group.name.ar" name="titleAr" [title]="'Arabic Title'|translate"
+                        [required]="true"></app-input>
+                </div>
+         
+              
+               
+            </div>
+
+        </form>
+      
+    </div>
+    <div footer>
+        <button pButton pRipple type="button" label="{{'Cancel'|translate}}" icon='pi pi-times {{"css.mr-2"|translate}}'
+            (click)="onHide()" class="p-button-secondary p-button-outlined"></button>
+
+        <button pButton pRipple type="button" label="{{'Save'|translate}}" [disabled]="form?.invalid"
+            (click)="addEditGroup()" icon='pi pi-check {{"css.mr-2"|translate}}'></button>
+
+    </div>
+</app-modal>
+
+
+
+

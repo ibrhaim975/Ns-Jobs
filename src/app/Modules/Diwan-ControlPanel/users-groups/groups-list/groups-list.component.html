@@ -1,0 +1,39 @@
+<p-confirmDialog appendTo="body"></p-confirmDialog>
+<app-table #table [caption]="caption" [data]="groups" [columns]="columns" [lodaing]="loading" [expandedTable]="true"
+     (onExpanded)="onExpanded($event)" [actionsColumns]="actionsColumns" [actionsTemplate]="{action:action}">
+
+     <div toolBarBtns>
+
+
+          <button pButton pRipple type="button" label="{{'New Group'|translate}}" icon="pi pi-plus "
+               (click)="initSelectedGroup();showAddEditGroup()"
+               [ngClass]="['css.pl-3'|translate , 'css.mr-2'|translate]"
+               class="p-button-raised p-button-secondary "></button>
+
+     </div>
+
+     <ng-template #action>
+          <button (mouseenter)="setSelectedGroup(table.selectedItem)" (click)="menu.toggle($event)" pButton pRipple
+               type="button" icon="pi pi-ellipsis-v font-semibold"
+               class="p-button-rounded p-button-secondary p-button-text  "></button>
+          <p-menu #menu [popup]="true" appendTo="body" [model]="groupsActions"></p-menu>
+     </ng-template>
+
+
+     <div expandContent>
+          <div *ngIf="expanded" >
+           <app-users-group-list [members]="members" ></app-users-group-list>
+          </div>
+      </div>
+
+
+</app-table>
+
+<div *ngIf="displayAddEditGroup">
+     <app-add-edit-group [(display)]="displayAddEditGroup" [group]="selectedGroup"></app-add-edit-group>
+</div>
+
+
+<div *ngIf="displayAddEditUser">
+     <app-add-edit-user [(display)]="displayAddEditUser" [groupId]="selectedGroup?.id"></app-add-edit-user>
+</div>

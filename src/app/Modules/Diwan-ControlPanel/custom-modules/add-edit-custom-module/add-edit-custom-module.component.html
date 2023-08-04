@@ -1,0 +1,48 @@
+<app-loading *ngIf="loading" display="full"></app-loading>
+<app-sidebar [display]="display" (displayChange)="onHide()">
+    <div header>
+        <div class="flex justify-content-between flex-wrap ">
+            <div class="flex align-items-center justify-content-center   ">
+                <div class="flex-initial flex align-items-center justify-content-center mx-2">
+                    <button pButton (click)="display=false;onHide()" pRipple type="button" icon="pi pi-times"
+                        class="p-button-rounded p-button-secondary p-button-lg p-button-text btn-white "></button>
+                </div>
+                <div class="flex align-items-center justify-content-center border-break"></div>
+
+                <div class="flex-initial flex align-items-center justify-content-center px-3">
+                    <span class="text-3xl text-white ">New Entry</span>
+
+                </div>
+
+            </div>
+            <div class="flex align-items-center justify-content-center  ">
+
+                <button *ngIf="!loading" pButton pRipple type="button" (click)="addEditData()"
+                    [label]="'Save'|translate" icon="pi pi-check " [disabled]="form?.invalid "
+                    class="p-button-rounded p-button-outlined p-button-secondary2  p-button-lg text-btn text-btn"></button>
+            </div>
+        </div>
+    </div>
+
+    <form #form="ngForm" body class="px-5 pb-2">
+        <div class="grid ">
+            <div class="xl:col-6 col-12">
+                <app-input name="titleEn" [title]="'Name'|translate" [required]="true"></app-input>
+            </div>
+            <div class="xl:col-6 col-12">
+                <app-select-status [required]="true" name="priority" [title]="'Priority'|translate"
+                    [statues]="[]"></app-select-status>
+            </div>
+            <div class="xl:col-6 col-12">
+                <app-calendar [required]="true" name="dueDate" showIcon="true"
+                    [title]="'Due Date'|translate"></app-calendar>
+            </div>
+            <div class="xl:col-6 col-12">
+                <app-text-area  name="descriptionEn"
+                [title]="'English Description'|translate" [required]="true"></app-text-area>
+            </div>
+
+        </div>
+    </form>
+
+</app-sidebar>

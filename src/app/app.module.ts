@@ -27,7 +27,6 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigService } from './Layout/ThemeConfig/service/app.config.service';
 import { AppMenuitemComponent } from './Layout/Menu/app.menuitem.component';
 import { HttpsInterceptor } from './core/https/HttpsInterceptor';
-import { MasterteamWorkflowModule } from 'masterteam-workflow';
 import { ConfigEnvironmentService } from './core/config.service';
 
 
@@ -53,7 +52,7 @@ const appInitializerFn = (appConfig: ConfigEnvironmentService) => {
                 deps: [HttpClient]
             }
         }),
-        MasterteamWorkflowModule
+        
     ],
     declarations: [
         AppComponent,

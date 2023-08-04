@@ -51,36 +51,8 @@ export class LoginComponent extends BaseComponent implements OnInit {
         this.login()
       }
     });
-    this.coreService.getGenralSettings()
-    this.getGenralSettings()
   }
-  getGenralSettings() {
-    this.loading = true
 
-    this.coreService.genralSettingsEmitter.subscribe(genralSettings => {
-      if (!isSet(genralSettings)) {
-        this.loading = false
-        return
-      }
-      this.currentLogo = genralSettings?.find(item => item?.key == 'Logo').value
-      this.currentBacground = genralSettings?.find(item => item?.key == 'LoginBackground').value
-      const landPage = genralSettings?.find(item => item?.key == 'LandingPage')?.value
-      this.primaryColor = genralSettings?.find(item => item?.key == 'PrimaryColor')?.value
-      if (landPage?.isSystem == true) {
-        if (landPage?.key == 'Home') {
-          this.landingPage = ''
-        } else if (landPage?.key == 'Dashboard') {
-          this.landingPage = landPage?.key?.toLowerCase()
-        } else {
-          this.landingPage = landPage?.key?.toLowerCase() + 's'
-        }
-      } else {
-        this.landingPage = `module/${landPage?.key}`
-      }
-      this.loading = false
-
-    })
-  }
   login() {
     this.loading = true
     this.authService.login(this.user, this.password).subscribe((user: ResponseBody<UserToken>) => {
@@ -100,7 +72,7 @@ export class LoginComponent extends BaseComponent implements OnInit {
       this.authService.authData.next(authData)
       this.coreService?.getAccessibilities()
       // this.router?.navigate(['/'], { relativeTo: this.route });
-      window.location.href = '/' + this.landingPage
+      window.location.href = '/contorlPanal/' + 'dashboard'
 
 
 

@@ -1,0 +1,127 @@
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog appendTo="body"></p-confirmDialog>
+<app-loading *ngIf="loading" display="full"></app-loading>
+
+<div class="block xl:mt-2">
+    <i class="icon-statistics  text-primary text-3xl"></i>
+    <span class="mx-2 font-semibold text-3xl" translate>Dashboard</span>
+</div>
+<ng-container *ngIf="!loading">
+    <div class="grid mt-2">
+        <div *ngFor="let item of dashboard?.header" class="xl:col-3 col-12">
+            <app-card-colored [color]='item?.color' class="cursor-pointer"
+                (click)="onDataSelect({type:item?.type,filed:item?.filed},item?.id)">
+                <div body>
+                    <div style="justify-content: unset !important;" class="flex ">
+                        <div class="mt-2">
+                            <div style="max-width: 50px;max-height: 50px;" class="relative "
+                                [style.background-color]="hexToRGB(item?.color,0.1)"
+                                [style.color]="hexToRGB(item?.color,0.8)">
+                                <i class="p-2 m-1 text-3xl" [style.color]="item?.color" [class]="item?.icon"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="mx-4 text-3xl font-bold">{{item?.count}}</div>
+                            <div class="mx-4 text-lg text-500 font-bold" translate>{{item?.name}}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </app-card-colored>
+        </div>
+<div class=" xl:col-6 col-12">
+            <div #cardTask class="card ">
+                <div class="card-header">
+                    <div class="card-title flex align-items-center">
+                        <div class="text-xl font-semibold" translate>Tasks
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="dashboard?.tasksCount!=0"  >
+                        <div [class]="'css.ml-4'|translate">
+                            <div class="flex flex-wrap justify-content-center ">
+                                <div class="relative w-12">
+                                    <p-chart type="doughnut" height="300px"
+                                        (onDataSelect)="onDataSelect({type:'Tasks',filed:'statues'},dashboard?.doughnutTaskStatusID[$event.element.index])"
+                                        [options]="{plugins: { legend: {labels:{ boxWidth: 10,color:textSecondaryColor}}}}"
+                                        [data]="dashboard?.doughnutTaskStatus"></p-chart>
+                                    <div class="absolute text-center w-full " style="top:130px">
+                                        <div translate class="font-semibold  text-3xl " translate>
+                                            {{dashboard?.tasksCount}}</div>
+                                        <div translate class="font-semibold text-500 text-lg " translate>Tasks</div>
+                                    </div>
+                                    <div translate class="font-semibold text-500 text-center mt-2" translate>Status
+                                        for
+                                        all Tasks</div>
+
+
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                </div>
+                <div *ngIf="dashboard?.tasksCount==0" class="font-semibold text-xl text-center my-8" translate>
+                    <i class="pi pi-exclamation-circle text-xl mx-2"></i>
+                    No data to preview
+                </div>
+
+            </div>
+        </div>
+        
+        <div class=" xl:col-6 col-12">
+            <div #cardTask class="card ">
+                <div class="card-header">
+                    <div class="card-title flex align-items-center">
+                        <div class="text-xl font-semibold" translate>Tasks
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="dashboard?.tasksCount!=0"  >
+                        <div [class]="'css.ml-4'|translate">
+                            <div class="flex flex-wrap justify-content-center ">
+                                <div class="relative w-12">
+                                    <p-chart type="doughnut" height="300px"
+                                        (onDataSelect)="onDataSelect({type:'Tasks',filed:'statues'},dashboard?.doughnutTaskStatusID[$event.element.index])"
+                                        [options]="{plugins: { legend: {labels:{ boxWidth: 10,color:textSecondaryColor}}}}"
+                                        [data]="dashboard?.doughnutTaskStatus"></p-chart>
+                                    <div class="absolute text-center w-full " style="top:130px">
+                                        <div translate class="font-semibold  text-3xl " translate>
+                                            {{dashboard?.tasksCount}}</div>
+                                        <div translate class="font-semibold text-500 text-lg " translate>Tasks</div>
+                                    </div>
+                                    <div translate class="font-semibold text-500 text-center mt-2" translate>Status
+                                        for
+                                        all Tasks</div>
+
+
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                </div>
+                <div *ngIf="dashboard?.tasksCount==0" class="font-semibold text-xl text-center my-8" translate>
+                    <i class="pi pi-exclamation-circle text-xl mx-2"></i>
+                    No data to preview
+                </div>
+
+            </div>
+        </div>
+        </div>
+
+
+</ng-container>
+
+
+
+<app-modal [(display)]="showDetails" [footer]="false" [title]="'Chart Details'|translate" class="modal-lg">
+    <div body>
+        <app-dashbored-details *ngIf="showDetails" [dataToDisplay]="dataDetails"></app-dashbored-details>
+    </div>
+</app-modal>

@@ -27,25 +27,17 @@ export class AppMenuComponent   implements OnInit {
     customModules = []
     accessibility:any
     ngOnInit() {
-        this.getAccessibilities()
         this.initModules()
-        this.getModules()
 
     }
     initModules() {
         this.model = [
-            { label: 'Home', key: 'Home', icon: 'pi pi-home text-color', routerLink: ['/'] },
-            { label: 'Tasks', key: "Task", icon: 'icon-tasks text-color', routerLink: ['/tasks'] },
-            // { label: 'Timeline', key: "", icon: 'icon-timeline text-color', },
-            { label: 'Meetings', key: "Meeting", icon: 'icon-business-meeting text-color', routerLink: ['/meetings'] },
-            { label: 'Committees', key: "Committee", icon: 'icon-committees text-color', routerLink: ['/committees'] },
-            { label: 'News', key: "New", icon: 'icon-news text-color', routerLink: ['/news'] },
-            { label: 'Dashboard', key: "Dashboard", icon: 'icon-statistics text-color', routerLink: ['/dashboard'] },
-            { label: 'My Space', key: "My Space", icon: 'pi pi-tags text-color', routerLink: ['/mySpace'] },
-            
+            { label: 'Dashboard', key: "Dashboard", icon: 'icon-statistics text-color', routerLink: ['/controlPanel'] },
+            { label: 'Teams', key: "teams", icon: 'pi pi-users text-color', routerLink:['usersgroup/users'] },
+            { label: 'Modules', key: "modules", icon: 'pi pi-briefcase text-color', routerLink: ['modules'] },
+            { label: 'Profile', key: "profile", icon: 'pi pi pi-cog text-color', routerLink: ['generalsettings/branding'] },
         ];
         this.menuService.menuData = this.model
-
     }
     getModules() {
 
@@ -75,28 +67,7 @@ export class AppMenuComponent   implements OnInit {
         })
 
     }
-    getAccessibilities(){
-        this.coreService.getAccessibilitiesEmitter.subscribe(accessibilities=>{
-          this.accessibility= accessibilities?.find(item => item?.key == "ControlPanel")
-        })
-    
-      }	
-    navToContorlPanal() {
-        this.router?.navigateByUrl('controlPanel/generalsettings/branding')
-        this.activeControlPanel = true
-        this.activeTeamPanel = false
 
-    }
-    navToTeamPanal() {
-        this.router?.navigateByUrl('teams')
-        this.activeTeamPanel = true
-        this.activeControlPanel = false
-
-    }
-
-    // initCustomModule() {
-    //     this.model[this.model.length - 1].items = []
-    //     this.customModulesClick == true
-    // }
+  
 
 }

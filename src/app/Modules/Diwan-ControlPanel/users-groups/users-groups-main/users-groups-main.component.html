@@ -1,0 +1,39 @@
+
+<app-breadcrumb [data]="breadcrumb"></app-breadcrumb>
+<p-toast position="top-right"></p-toast>
+<p-confirmDialog appendTo="body"></p-confirmDialog>
+
+<div class="flex justify-content-between flex-wrap mb-2">
+    <div class="flex align-items-center justify-content-center  ">
+
+        <i  class="text-primary text-3xl pi pi-users"></i>
+        <span class="mx-3 font-semibold text-3xl" >Teams</span>
+    </div>
+
+  
+
+</div>
+<div class="card p-0 mt-3">
+        <p-tabView class="tabViewCard" (onChange)="navRouter($event)" [(activeIndex)]="activeIndex">
+
+                <p-tabPanel header="{{'Users List'|translate}}">
+                        <router-outlet *ngIf="activeIndex==0"></router-outlet>
+            
+            
+                </p-tabPanel>
+            
+                <p-tabPanel header="{{'Groups List'|translate}}">
+            
+                        <router-outlet *ngIf="activeIndex==1"></router-outlet>
+            
+                </p-tabPanel>
+            
+                <p-tabPanel header="{{'Accessibility'|translate}}">
+            
+                    <router-outlet *ngIf="activeIndex==2"></router-outlet>
+            
+            </p-tabPanel>
+            
+            
+            </p-tabView>
+</div>

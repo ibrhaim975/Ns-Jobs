@@ -1,0 +1,242 @@
+<app-loading *ngIf="loading"></app-loading>
+<p-toast position="top-right"></p-toast>
+
+<div class="px-3" *ngIf="!loading">
+    <div class="block pt-2 pb-4 border-bottom-0">
+        <div class="text-xl font-semibold" translate> Business Name
+            <button pButton pRipple type="button" [icon]="selected?.key!='BusinessName' ? 'pi pi-pencil':'pi pi-times' "
+                (click)="selected?selected=null:setSelected('BusinessName')"
+                class="p-button-secondary p-button-sm p-button-text p-0 mb-1"></button>
+        </div>
+        <div *ngIf="selected?.key!='BusinessName'" class=" flex align-items-center mt-2">
+            <span [class]="'css.mr-1'|translate">
+                <i class="pi pi-building text-3xl "></i>
+            </span>
+            <div class="text-lg font-semibold text-500">{{findValue('BusinessName')?.value}}</div>
+
+
+
+        </div>
+
+        <div *ngIf="selected?.key=='BusinessName'" class="mt-2 w-4">
+            <app-input-mask name="BusinessName" [(ngModel)]="selected.value"
+                (clickBtn)="updateGeneralSettings(selected)" [hideTitle]="true" [required]="true"
+                [title]="'Business Name'|translate"></app-input-mask>
+
+        </div>
+    </div>
+
+    <div class="block py-4  border-bottom-0">
+        <div class="text-xl font-semibold" translate> Business Location
+            <button pButton pRipple type="button"
+                [icon]="selected?.key!='BusinessLocation' ? 'pi pi-pencil':'pi pi-times' "
+                (click)="selected?selected=null:setSelected('BusinessLocation')"
+                class="p-button-secondary p-button-sm p-button-text p-0 mb-1"></button>
+        </div>
+        <div *ngIf="selected?.key!='BusinessLocation'" class=" flex align-items-center mt-2">
+            <span [class]="'css.mr-1'|translate">
+                <i class="pi pi-map-marker text-3xl "></i>
+            </span>
+            <div class="text-lg font-semibold text-500">{{findValue('BusinessLocation')?.value}}</div>
+        </div>
+        <div *ngIf="selected?.key=='BusinessLocation'" class="mt-2 w-4">
+            <app-input-mask name="BusinessLocation" [(ngModel)]="selected.value"
+                (clickBtn)="updateGeneralSettings(selected)" [hideTitle]="true" [required]="true"
+                [title]="'Business Location'|translate"></app-input-mask>
+
+        </div>
+    </div>
+
+    <div class="block py-4  border-bottom-0">
+        <div class="grid">
+            <div class="col-6">
+                <div class="text-xl font-semibold" translate> Time Zone
+                    <button pButton pRipple type="button"
+                        [icon]="selected?.key!='Timezone' ? 'pi pi-pencil':'pi pi-times' "
+                        (click)="selected?selected=null:setSelected('Timezone')"
+                        class="p-button-secondary p-button-sm p-button-text p-0 mb-1"></button>
+                </div>
+
+                <div *ngIf="selected?.key!='Timezone'" c class=" flex align-items-center mt-2">
+                    <span [class]="'css.mr-1'|translate">
+                        <i class="pi pi-clock text-3xl "></i>
+                    </span>
+                    <div class="text-lg font-semibold text-500">{{findValue('Timezone')?.value?.region?.displayName}}
+                    </div>
+
+                </div>
+
+                <div *ngIf="selected?.key=='Timezone'" class="mt-2 w-4">
+                    <app-select-status [(ngModel)]="selected.value.region" [statues]="timeZones" [hideTitle]="true"
+                        (ngModelChange)="updateGeneralSettings()" optionLabel="displayName"
+                        [title]="'Time Zone'|translate" [showColor]="false"></app-select-status>
+
+                </div>
+            </div>
+            <div class="col-6">
+
+                <div class="text-xl font-semibold" translate> Phone
+                    <button pButton pRipple type="button"
+                        [icon]="selected?.key!='Phone' ? 'pi pi-pencil':'pi pi-times' "
+                        (click)="selected?selected=null:setSelected('Phone')"
+                        class="p-button-secondary p-button-sm p-button-text p-0 mb-1"></button>
+                </div>
+                <div *ngIf="selected?.key!='Phone'" class=" flex align-items-center mt-2">
+                    <span [class]="'css.mr-1'|translate">
+                        <i class="pi pi-phone text-3xl "></i>
+                    </span>
+                    <div class="text-lg font-semibold text-500">{{findValue('Phone')?.value}}</div>
+                </div>
+
+                <div *ngIf="selected?.key=='Phone'" class="mt-2 w-4">
+                    <app-input-mask name="Phone" [(ngModel)]="selected.value" [numberInput]="true"
+                        (clickBtn)="updateGeneralSettings(selected)" [hideTitle]="true" [required]="true"
+                        [title]="'Phone'|translate"></app-input-mask>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <ng-container #logo>
+        <div class="block pt-4 pb-2 border-bottom-0">
+            <div class="text-xl font-semibold" translate> Branding</div>
+        </div>
+        <div class="mt-3">
+            <div class="grid">
+                <div class="col-4">
+                    <app-logo-uploader title="Logo" [(image)]="findValue('Logo').value" imgWidth="inherit"
+                        imgheight="inherit" [key]="'Logo'"> </app-logo-uploader>
+                </div>
+                <div class="col-4">
+                    <app-logo-uploader title="Icon" [(image)]="findValue('BrowserTabIcon').value" imgWidth="inherit"
+                        imgheight="inherit" [key]="'BrowserTabIcon'"> </app-logo-uploader>
+                </div>
+                <div class="col-4">
+                    <app-logo-uploader title="Login Background" imgWidth="inherit" imgheight="inherit"
+                        [(image)]="findValue('LoginBackground').value" [key]="'LoginBackground'"> </app-logo-uploader>
+                </div>
+            </div>
+        </div>
+
+    </ng-container>
+
+
+
+    <ng-container #Apperance>
+        <div class="block pt-4 pb-2  border-bottom-0">
+            <div class="text-xl font-semibold" translate>Appearance
+                <button pButton pRipple type="button" icon="pi pi-refresh" pTooltip="{{'Default Colors'|translate}}"
+                    (click)="backToDefultColors()"
+                    class="p-button-secondary p-button-sm p-button-text p-0 mb-1"></button>
+            </div>
+        </div>
+        <div class="grid">
+            <div class="col-4">
+                <div class="mt-3">
+                    <div class="text-lg mb-2 font-semibold" translate>
+
+
+                        Pick a Primary Color
+                        <button pButton pRipple type="button"
+                            [icon]="systemColors?.primaryColorEdit == null ? 'pi pi-pencil':'pi pi-times' "
+                            (click)="systemColors?.primaryColorEdit == true ? systemColors.primaryColorEdit=null: systemColors.primaryColorEdit=true"
+                            class="p-button-secondary p-button-sm p-button-text p-0 mb-1"></button>
+                    </div>
+                    <div *ngIf="!systemColors.primaryColorEdit" 
+                        class="w-5 h-3rem border-round " [style.background]="systemColors.primaryColor">
+                    </div>
+                    <app-color-input *ngIf="systemColors.primaryColorEdit ===true"
+                        [(ngModel)]="systemColors.primaryColor" (ngModelChange)="onPrimayColorChange()"
+                        (onHide)="updateGeneralSettings(selected)" name="colorPrimay"></app-color-input>
+
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="mt-3">
+                    <div class="text-lg mb-2 font-semibold" translate>Pick a Text Color
+                        <button pButton pRipple type="button"
+                        [icon]="systemColors?.textColorEdit == null ? 'pi pi-pencil':'pi pi-times' "
+                        (click)="systemColors?.textColorEdit == true ? systemColors.textColorEdit=null: systemColors.textColorEdit=true"
+                        class="p-button-secondary p-button-sm p-button-text p-0 mb-1"></button>
+                    </div>
+
+                    <div *ngIf="!systemColors.textColorEdit" 
+                    class="w-5 h-3rem border-round " [style.background]="systemColors.textColor">
+                </div>
+                <app-color-input *ngIf="systemColors.textColorEdit ===true"
+                    [(ngModel)]="systemColors.textColor" (ngModelChange)="onTextColorChange()"
+                    (onHide)="updateGeneralSettings(selected)" name="textColor"></app-color-input>
+
+
+                </div>
+            </div>
+
+            <div class="col-4">
+                <div class="mt-3">
+                    <div class="text-lg mb-2 font-semibold" translate>Pick a Secondary Text Color
+
+                        <button pButton pRipple type="button"
+                        [icon]="systemColors?.secondaryColorEdit == null ? 'pi pi-pencil':'pi pi-times' "
+                        (click)="systemColors?.secondaryColorEdit == true ? systemColors.secondaryColorEdit=null: systemColors.secondaryColorEdit=true"
+                        class="p-button-secondary p-button-sm p-button-text p-0 mb-1"></button>
+
+                    </div>
+
+                    <div *ngIf="!systemColors.secondaryColorEdit" 
+                    class="w-5 h-3rem border-round " [style.background]="systemColors.secondaryColor">
+                </div>
+                <app-color-input *ngIf="systemColors.secondaryColorEdit ===true"
+                    [(ngModel)]="systemColors.secondaryColor" (ngModelChange)="onTextSecondaryColorChange()"
+                    (onHide)="updateGeneralSettings(selected)" name="secondaryColor"></app-color-input>
+
+                    
+             
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </ng-container>
+
+    <ng-container>
+        <div class="block pt-4 pb-2  border-bottom-0">
+            <div class="text-xl font-semibold" translate> Language Pack & Landing Page</div>
+
+        </div>
+        <div class="grid">
+            <div class="col-6 mt-3">
+                <div class="w-8">
+                    <div class="text-lg font-semibold " translate> Choose Language</div>
+                    <div class="mt-2">
+                        <app-select-status [statues]="languages" [hideTitle]="true" [filter]="false"
+                            [(ngModel)]="currentLang.value" (ngModelChange)="updateGeneralSettings(currentLang)"
+                            [title]="'Languages'|translate" [showColor]="false"></app-select-status>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-6 mt-3">
+                <div class="w-8">
+                    <div class="text-lg font-semibold " translate> Default Lnading page</div>
+                    <div class="mt-2">
+
+                        <app-select-status [statues]="landingModules" [hideTitle]="true" [filter]="false"
+                            [(ngModel)]="currentLandingPage.value"
+                            (ngModelChange)="updateGeneralSettings(currentLandingPage)"
+                            [title]="'Lnading page'|translate" [showColor]="false"></app-select-status>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ng-container>
+</div>
